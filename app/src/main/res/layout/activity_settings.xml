@@ -1,0 +1,680 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_jungle_green"
+    tools:context=".SettingsActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/DescriptionBoldTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="24dp"
+                android:gravity="center"
+                android:text="@string/trade_management"
+                android:textColor="@color/mercury" />
+
+            <!-- Disable Trades Section -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/disable_trades_text_bold"
+                    style="@style/DescriptionBoldTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:drawablePadding="16dp"
+                    android:paddingTop="16dp"
+                    android:text="@string/disable_trades"
+                    android:textColor="@color/mercury"
+                    app:drawableStartCompat="@drawable/lock_security_icon_24" />
+
+                <Switch
+                    android:id="@+id/disable_trades_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:checked="false"
+                    android:padding="14dp"
+                    android:thumbTint="@color/switch_thumb_color"
+                    android:trackTint="@color/switch_track_color"
+                    tools:ignore="UseSwitchCompatOrMaterialXml"
+                    tools:targetApi="m" />
+
+                <TextView
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/disable_trades_text_bold"
+                    android:layout_alignStart="@id/disable_trades_text_bold"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_toStartOf="@id/disable_trades_switch"
+                    android:text="@string/disable_trades_desc"
+                    android:textColor="@color/mercury" />
+            </RelativeLayout>
+
+            <!-- Unknown Status Section -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/unknown_status_text_bold"
+                    style="@style/DescriptionBoldTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:drawablePadding="16dp"
+                    android:paddingTop="16dp"
+                    android:text="@string/unknown_status"
+                    android:textColor="@color/mercury"
+                    app:drawableStartCompat="@drawable/alert_triangle_icon_24" />
+
+                <Switch
+                    android:id="@+id/unknown_status_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:checked="false"
+                    android:padding="14dp"
+                    android:thumbTint="@color/switch_thumb_color"
+                    android:trackTint="@color/switch_track_color"
+                    tools:ignore="UseSwitchCompatOrMaterialXml"
+                    tools:targetApi="m" />
+
+                <TextView
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/unknown_status_text_bold"
+                    android:layout_alignStart="@id/unknown_status_text_bold"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_toStartOf="@id/unknown_status_switch"
+                    android:text="@string/unknown_status_desc"
+                    android:textColor="@color/mercury" />
+            </RelativeLayout>
+
+            <!-- Low Volume Section -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/low_volume_text_bold"
+                    style="@style/DescriptionBoldTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:drawablePadding="16dp"
+                    android:paddingTop="16dp"
+                    android:text="@string/low_volume"
+                    android:textColor="@color/mercury"
+                    app:drawableStartCompat="@drawable/database_icon" />
+
+                <Switch
+                    android:id="@+id/low_volume_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:checked="false"
+                    android:padding="14dp"
+                    android:thumbTint="@color/switch_thumb_color"
+                    android:trackTint="@color/switch_track_color"
+                    tools:ignore="UnusedAttribute,UseSwitchCompatOrMaterialXml" />
+
+                <TextView
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/low_volume_text_bold"
+                    android:layout_alignStart="@id/low_volume_text_bold"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_toStartOf="@id/low_volume_switch"
+                    android:text="@string/low_volume_desc"
+                    android:textColor="@color/mercury" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+
+                android:background="@color/gunmetal" />
+
+            <!-- Auto Refresh Section -->
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/auto_refresh_text_bold"
+                    style="@style/DescriptionBoldTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:drawablePadding="16dp"
+                    android:paddingTop="16dp"
+                    android:text="@string/auto_refresh"
+                    android:textColor="@color/mercury"
+                    app:drawableStartCompat="@drawable/refresh_ccw_icon_24" />
+
+                <Switch
+                    android:id="@+id/auto_refresh_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:checked="false"
+                    android:padding="14dp"
+                    android:thumbTint="@color/switch_thumb_color"
+                    android:trackTint="@color/switch_track_color"
+                    tools:ignore="UseSwitchCompatOrMaterialXml"
+                    tools:targetApi="m" />
+
+                <TextView
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/auto_refresh_text_bold"
+                    android:layout_alignStart="@id/auto_refresh_text_bold"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_toStartOf="@id/auto_refresh_switch"
+                    android:text="@string/auto_refresh_desc"
+                    android:textColor="@color/mercury" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+
+                android:background="@color/gunmetal" />
+
+            <TextView
+                style="@style/DescriptionBoldTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="24dp"
+                android:gravity="center"
+                android:text="@string/market_management"
+                android:textColor="@color/mercury" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/btc_text_bold"
+                    style="@style/DescriptionBoldTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:drawablePadding="16dp"
+                    android:paddingTop="16dp"
+                    android:text="@string/btc"
+                    android:textColor="@color/mercury"
+                    app:drawableStartCompat="@drawable/bitcoin_btc_logo" />
+
+                <Switch
+                    android:id="@+id/btc_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:checked="false"
+                    android:padding="14dp"
+                    android:thumbTint="@color/switch_thumb_color"
+                    android:trackTint="@color/switch_track_color"
+                    tools:ignore="UseSwitchCompatOrMaterialXml"
+                    tools:targetApi="m" />
+
+                <TextView
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/btc_text_bold"
+                    android:layout_alignStart="@id/btc_text_bold"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_toStartOf="@id/btc_switch"
+                    android:text="@string/btc_desc"
+                    android:textColor="@color/mercury" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/eth_text_bold"
+                    style="@style/DescriptionBoldTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:drawablePadding="16dp"
+                    android:paddingTop="16dp"
+                    android:text="@string/eth"
+                    android:textColor="@color/mercury"
+                    app:drawableStartCompat="@drawable/ethereum_eth_logo" />
+
+                <Switch
+                    android:id="@+id/eth_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:checked="false"
+                    android:padding="14dp"
+                    android:thumbTint="@color/switch_thumb_color"
+                    android:trackTint="@color/switch_track_color"
+                    tools:ignore="UseSwitchCompatOrMaterialXml"
+                    tools:targetApi="m" />
+
+                <TextView
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/eth_text_bold"
+                    android:layout_alignStart="@id/eth_text_bold"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_toStartOf="@id/eth_switch"
+                    android:text="@string/eth_desc"
+                    android:textColor="@color/mercury" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/usdt_text_bold"
+                    style="@style/DescriptionBoldTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:drawablePadding="16dp"
+                    android:paddingTop="16dp"
+                    android:text="@string/usdt"
+                    android:textColor="@color/mercury"
+                    app:drawableStartCompat="@drawable/tether_usdt_logo" />
+
+                <Switch
+                    android:id="@+id/usdt_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:checked="false"
+                    android:padding="14dp"
+                    android:thumbTint="@color/switch_thumb_color"
+                    android:trackTint="@color/switch_track_color"
+                    tools:ignore="UseSwitchCompatOrMaterialXml"
+                    tools:targetApi="m" />
+
+                <TextView
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/usdt_text_bold"
+                    android:layout_alignStart="@id/usdt_text_bold"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_toStartOf="@id/usdt_switch"
+                    android:text="@string/usdt_desc"
+                    android:textColor="@color/mercury" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+
+                android:background="@color/gunmetal" />
+
+            <TextView
+                style="@style/DescriptionBoldTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="24dp"
+                android:gravity="center"
+                android:text="@string/exchange_management"
+                android:textColor="@color/mercury" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/binance_text_bold"
+                    style="@style/DescriptionBoldTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:drawablePadding="16dp"
+                    android:paddingTop="16dp"
+                    android:text="@string/binance"
+                    android:textColor="@color/mercury"
+                    app:drawableStartCompat="@drawable/binance_logo_24" />
+
+                <Switch
+                    android:id="@+id/binance_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:checked="false"
+                    android:padding="14dp"
+                    android:thumbTint="@color/switch_thumb_color"
+                    android:trackTint="@color/switch_track_color"
+                    tools:ignore="UseSwitchCompatOrMaterialXml"
+                    tools:targetApi="m" />
+
+                <TextView
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/binance_text_bold"
+                    android:layout_alignStart="@id/binance_text_bold"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_toStartOf="@id/binance_switch"
+                    android:text="@string/binance_desc"
+                    android:textColor="@color/mercury" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/bitfinex_text_bold"
+                    style="@style/DescriptionBoldTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:drawablePadding="16dp"
+                    android:paddingTop="16dp"
+                    android:text="@string/bitfinex"
+                    android:textColor="@color/mercury"
+                    app:drawableStartCompat="@drawable/bitfinex_leaf_24" />
+
+                <Switch
+                    android:id="@+id/bitfinex_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:checked="false"
+                    android:padding="14dp"
+                    android:thumbTint="@color/switch_thumb_color"
+                    android:trackTint="@color/switch_track_color"
+                    tools:ignore="UseSwitchCompatOrMaterialXml"
+                    tools:targetApi="m" />
+
+                <TextView
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/bitfinex_text_bold"
+                    android:layout_alignStart="@id/bitfinex_text_bold"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_toStartOf="@id/bitfinex_switch"
+                    android:text="@string/bitfinex_desc"
+                    android:textColor="@color/mercury" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/bitflyer_text_bold"
+                    style="@style/DescriptionBoldTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:drawablePadding="16dp"
+                    android:paddingTop="16dp"
+                    android:text="@string/bitflyer"
+                    android:textColor="@color/mercury"
+                    app:drawableStartCompat="@drawable/bitflyer_logo_24" />
+
+                <Switch
+                    android:id="@+id/bitflyer_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:checked="false"
+                    android:padding="14dp"
+                    android:thumbTint="@color/switch_thumb_color"
+                    android:trackTint="@color/switch_track_color"
+                    tools:ignore="UseSwitchCompatOrMaterialXml"
+                    tools:targetApi="m" />
+
+                <TextView
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/bitflyer_text_bold"
+                    android:layout_alignStart="@id/bitflyer_text_bold"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_toStartOf="@id/bitflyer_switch"
+                    android:text="@string/bitflyer_desc"
+                    android:textColor="@color/mercury" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/hitbtc_text_bold"
+                    style="@style/DescriptionBoldTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:drawablePadding="16dp"
+                    android:paddingTop="16dp"
+                    android:text="@string/hitbtc"
+                    android:textColor="@color/mercury"
+                    app:drawableStartCompat="@drawable/hitbtc_logo_24" />
+
+                <Switch
+                    android:id="@+id/hitbtc_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:checked="false"
+                    android:padding="14dp"
+                    android:thumbTint="@color/switch_thumb_color"
+                    android:trackTint="@color/switch_track_color"
+                    tools:ignore="UseSwitchCompatOrMaterialXml"
+                    tools:targetApi="m" />
+
+                <TextView
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/hitbtc_text_bold"
+                    android:layout_alignStart="@id/hitbtc_text_bold"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_toStartOf="@id/hitbtc_switch"
+                    android:text="@string/hitbtc_desc"
+                    android:textColor="@color/mercury" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:id="@+id/indodax_text_bold"
+                    style="@style/DescriptionBoldTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:drawablePadding="16dp"
+                    android:paddingTop="16dp"
+                    android:text="@string/indodax"
+                    android:textColor="@color/mercury"
+                    app:drawableStartCompat="@drawable/indodax_logo_24" />
+
+                <Switch
+                    android:id="@+id/indodax_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:checked="false"
+                    android:padding="14dp"
+                    android:thumbTint="@color/switch_thumb_color"
+                    android:trackTint="@color/switch_track_color"
+                    tools:ignore="UseSwitchCompatOrMaterialXml"
+                    tools:targetApi="m" />
+
+                <TextView
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/indodax_text_bold"
+                    android:layout_alignStart="@id/indodax_text_bold"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_toStartOf="@id/indodax_switch"
+                    android:text="@string/indodax_desc"
+                    android:textColor="@color/mercury" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="150dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/bottom_background"
+        android:paddingTop="16dp"
+        app:itemIconSize="35dp"
+        app:itemIconTint="@drawable/item_selector"
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/bottom_menu" />
+
+</RelativeLayout>

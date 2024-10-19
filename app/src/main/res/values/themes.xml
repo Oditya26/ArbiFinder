@@ -1,0 +1,41 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme using AppCompat -->
+    <style name="Base.Theme.Arbitrade" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your AppCompat theme here -->
+        <item name="colorPrimary">@color/bright_sun</item>
+        <item name="colorOnPrimary">@color/mercury</item>
+        <item name="colorSecondary">@color/dark_jungle_green</item>
+        <item name="colorOnSecondary">@color/mercury</item>
+    </style>
+
+    <style name="Theme.Arbitrade" parent="Base.Theme.Arbitrade" />
+    <!-- Font Family -->
+    <style name="SlideActivityAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
+    </style>
+
+    <style name="HeaderTextStyle">
+        <item name="android:fontFamily">@font/montserrat_semibold</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">56sp</item> <!-- Sesuaikan ukuran -->
+    </style>
+
+    <!-- Title Style (Montserrat Medium) -->
+    <style name="TitleTextStyle">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+        <item name="android:textSize">28sp</item> <!-- Sesuaikan ukuran -->
+    </style>
+
+    <!-- Description Bold (Montserrat Semibold) -->
+    <style name="DescriptionBoldTextStyle">
+        <item name="android:fontFamily">@font/montserrat_semibold</item>
+        <item name="android:textSize">14sp</item> <!-- Sesuaikan ukuran -->
+    </style>
+
+    <!-- Description Regular (Montserrat Regular) -->
+    <style name="DescriptionRegularTextStyle">
+        <item name="android:fontFamily">@font/montserrat_regular</item>
+        <item name="android:textSize">14sp</item> <!-- Sesuaikan ukuran -->
+    </style>
+</resources>

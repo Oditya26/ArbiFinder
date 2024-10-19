@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Track saat switch di-check -->
+    <item android:color="@color/bright_sun" android:state_checked="true" />
+    <!-- Track saat switch tidak di-check -->
+    <item android:color="@color/mercury" android:state_checked="false" />
+</selector>

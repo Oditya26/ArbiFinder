@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="dark_jungle_green">#1A1D22</color>
+    <color name="dark">#20242A</color>
+    <color name="gunmetal">#2B3038</color>
+    <color name="mercury">#E7E7E8</color>
+    <color name="bright_sun">#FED32C</color>
+    <color name="green">#43E327</color>
+    <color name="red">#D62626</color>
+
+</resources>
