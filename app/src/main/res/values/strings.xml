@@ -73,4 +73,6 @@
     <string name="sell_at_value">0.04871000</string>
     <string name="vol_sell_at_value">40.6042</string>
 
+    <string name="val_low_volume">0.0</string>
+    <string name="val_auto_refresh">10s</string>
 </resources>

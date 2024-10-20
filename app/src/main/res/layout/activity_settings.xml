@@ -216,6 +216,7 @@
 
                     <TextView
                         style="@style/DescriptionRegularTextStyle"
+                        android:id="@+id/low_volume_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/low_volume_text_bold"
@@ -225,6 +226,38 @@
                         android:layout_toStartOf="@id/low_volume_switch"
                         android:text="@string/low_volume_desc"
                         android:textColor="@color/mercury" />
+                    <!-- TextView to display the selected value in multiples of 10 -->
+                    <TextView
+                        style="@style/DescriptionRegularTextStyle"
+                        android:id="@+id/volume_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/low_volume_desc"
+                        android:layout_alignStart="@+id/low_volume_text_bold"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_toStartOf="@+id/low_volume_switch"
+                        android:text="@string/val_low_volume"
+                        android:textColor="@color/bright_sun"
+                        android:textSize="16sp"
+                        app:drawableStartCompat="@drawable/icon_bitcoin_sun_bright_18" />
+                    <!-- Seekbar for volume selection -->
+                    <SeekBar
+                        android:id="@+id/volume_seekbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/low_volume_desc"
+                        android:layout_alignStart="@+id/low_volume_text_bold"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginStart="85dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_toStartOf="@+id/low_volume_switch"
+                        android:max="20"
+                        android:progressTint="@color/bright_sun"
+                        android:thumbTint="@color/bright_sun"/>
+
+
                 </RelativeLayout>
 
                 <View
@@ -273,15 +306,47 @@
 
                     <TextView
                         style="@style/DescriptionRegularTextStyle"
+                        android:id="@+id/auto_refresh_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/auto_refresh_text_bold"
-                        android:layout_alignStart="@id/auto_refresh_text_bold"
+                        android:layout_below="@+id/auto_refresh_text_bold"
+                        android:layout_alignStart="@+id/auto_refresh_text_bold"
                         android:layout_marginStart="40dp"
                         android:layout_marginEnd="16dp"
-                        android:layout_toStartOf="@id/auto_refresh_switch"
+                        android:layout_toStartOf="@+id/auto_refresh_switch"
                         android:text="@string/auto_refresh_desc"
                         android:textColor="@color/mercury" />
+
+                    <!-- TextView to display the selected value in multiples of 10 -->
+                    <TextView
+                        style="@style/DescriptionRegularTextStyle"
+                        android:id="@+id/auto_refresh_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/auto_refresh_desc"
+                        android:layout_alignStart="@+id/auto_refresh_text_bold"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_toStartOf="@+id/auto_refresh_switch"
+                        android:text="@string/val_auto_refresh"
+                        android:textColor="@color/bright_sun"
+                        android:textSize="16sp" />
+                    <!-- Seekbar for volume selection -->
+                    <SeekBar
+                        android:id="@+id/auto_refresh_seekbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/auto_refresh_desc"
+                        android:layout_alignStart="@+id/auto_refresh_text_bold"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginStart="85dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_toStartOf="@+id/auto_refresh_switch"
+                        android:max="10"
+                        android:progressTint="@color/bright_sun"
+                        android:thumbTint="@color/bright_sun"/>
+
                 </RelativeLayout>
 
                 <View

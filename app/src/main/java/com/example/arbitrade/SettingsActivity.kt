@@ -1,10 +1,12 @@
 package com.example.arbitrade
 
+import android.annotation.SuppressLint
 import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.SeekBar
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -36,6 +38,30 @@ class SettingsActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedLi
 
         // Set listener for clicks
         binding.bottomNavigationView.setOnClickListener(this)
+
+        binding.volumeSeekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                // Menghitung nilai kelipatan 5
+                val volumeValue = progress * 5.0f  // Kelipatan 5
+                binding.volumeValue.text = String.format("%.1f", volumeValue).replace('.', ',')  // Format ke 1 desimal dan ganti . dengan ,
+
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+        binding.autoRefreshSeekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                // Menghitung nilai kelipatan 5 dari 10 hingga 60
+                val autoRefreshValue = 10 + (progress * 5)  // Kelipatan 5 mulai dari 10
+                binding.autoRefreshValue.text = "$autoRefreshValue s"  // Menampilkan nilai dengan 's' di belakang
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
     }
 
     override fun onClick(v: View?) {
