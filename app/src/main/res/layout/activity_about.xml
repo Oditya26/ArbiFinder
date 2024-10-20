@@ -8,170 +8,201 @@
     android:background="@color/dark_jungle_green"
     tools:context=".AboutActivity">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="200dp"
-                android:layout_height="80dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="24dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/arbitrade_logo"
-                tools:ignore="ContentDescription" />
-
-            <TextView
-                style="@style/DescriptionBoldTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="32dp"
-                android:gravity="center"
-                android:text="@string/app_version"
-                android:textColor="@color/mercury" />
-
-            <TextView
-                style="@style/DescriptionRegularTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="32dp"
-                android:gravity="center"
-                android:text="@string/app_desc"
-                android:textColor="@color/mercury" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/gunmetal"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                android:layout_marginBottom="32dp" />
-
-            <TextView
-                style="@style/DescriptionBoldTextStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                android:layout_marginBottom="16dp"
-                android:gravity="center"
-                android:text="@string/flags"
-                android:textColor="@color/mercury" />
-
-            <TextView
-                style="@style/DescriptionBoldTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/transfer"
-                android:textColor="@color/mercury"
-                android:layout_marginStart="50dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="left"
-                tools:ignore="RtlHardcoded"/>
-            <TextView
-                style="@style/DescriptionRegularTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                android:layout_marginBottom="8dp"
-                android:drawableStart="@drawable/green_circle"
-                android:drawablePadding="16dp"
-                android:gravity="left"
-                android:text="@string/green_transfer"
-                android:textColor="@color/mercury"
-                tools:ignore="RtlHardcoded,UseCompatTextViewDrawableXml" />
-            <TextView
-                style="@style/DescriptionRegularTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                android:layout_marginBottom="8dp"
-                android:drawableStart="@drawable/yellow_circle"
-                android:drawablePadding="16dp"
-                android:gravity="left"
-                android:text="@string/yellow_transfer"
-                android:textColor="@color/mercury"
-                tools:ignore="RtlHardcoded,UseCompatTextViewDrawableXml" />
-            <TextView
-                style="@style/DescriptionRegularTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                android:layout_marginBottom="24dp"
-                android:drawableStart="@drawable/red_circle"
-                android:drawablePadding="16dp"
-                android:gravity="left"
-                android:text="@string/red_transfer"
-                android:textColor="@color/mercury"
-                tools:ignore="RtlHardcoded,UseCompatTextViewDrawableXml" />
-
-            <TextView
-                style="@style/DescriptionBoldTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/exchanges"
-                android:textColor="@color/mercury"
-                android:layout_marginStart="50dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="left"
-                tools:ignore="RtlHardcoded"/>
-            <TextView
-                style="@style/DescriptionRegularTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                android:layout_marginBottom="8dp"
-                android:drawableStart="@drawable/lock_security_icon"
-                android:drawablePadding="16dp"
-                android:gravity="left"
-                android:text="@string/exchanges_lock"
-                android:textColor="@color/mercury"
-                tools:ignore="RtlHardcoded,UseCompatTextViewDrawableXml" />
-            <TextView
-                style="@style/DescriptionRegularTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                android:layout_marginBottom="8dp"
-                android:drawableStart="@drawable/alert_triangle_icon"
-                android:drawablePadding="16dp"
-                android:gravity="left"
-                android:text="@string/exchanges_warn"
-                android:textColor="@color/mercury"
-                tools:ignore="RtlHardcoded,UseCompatTextViewDrawableXml" />
-            <TextView
-                style="@style/DescriptionRegularTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                android:layout_marginBottom="200dp"
-                android:drawableStart="@drawable/x_square_icon"
-                android:drawablePadding="16dp"
-                android:gravity="left"
-                android:text="@string/exchanges_maintenance"
-                android:textColor="@color/mercury"
-                tools:ignore="RtlHardcoded,UseCompatTextViewDrawableXml" />
+            android:layout_height="80dp"
+            android:padding="16dp"
+            android:background="@drawable/rounded_corners"
+            android:orientation="horizontal"
+            android:layout_margin="8dp"
+            tools:ignore="RtlHardcoded">
+                <TextView
+                    style="@style/TitleTextStyle"
+                    android:textColor="@color/mercury"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/about"
+                    android:gravity="center"
+                    android:layout_gravity="center"/>
         </LinearLayout>
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    </ScrollView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <ImageView
+                    android:layout_width="200dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/arbitrade_logo"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    style="@style/DescriptionBoldTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="32dp"
+                    android:gravity="center"
+                    android:text="@string/app_version"
+                    android:textColor="@color/mercury" />
+
+                <TextView
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="32dp"
+                    android:gravity="center"
+                    android:text="@string/app_desc"
+                    android:textColor="@color/mercury" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginBottom="32dp"
+                    android:background="@color/gunmetal" />
+
+                <TextView
+                    style="@style/DescriptionBoldTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center"
+                    android:text="@string/flags"
+                    android:textColor="@color/mercury" />
+
+                <TextView
+                    style="@style/DescriptionBoldTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="left"
+                    android:text="@string/transfer"
+                    android:textColor="@color/mercury"
+                    tools:ignore="RtlHardcoded" />
+
+                <TextView
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginBottom="8dp"
+                    android:drawableStart="@drawable/green_circle"
+                    android:drawablePadding="16dp"
+                    android:gravity="left"
+                    android:text="@string/green_transfer"
+                    android:textColor="@color/mercury"
+                    tools:ignore="RtlHardcoded,UseCompatTextViewDrawableXml" />
+
+                <TextView
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginBottom="8dp"
+                    android:drawableStart="@drawable/yellow_circle"
+                    android:drawablePadding="16dp"
+                    android:gravity="left"
+                    android:text="@string/yellow_transfer"
+                    android:textColor="@color/mercury"
+                    tools:ignore="RtlHardcoded,UseCompatTextViewDrawableXml" />
+
+                <TextView
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginBottom="24dp"
+                    android:drawableStart="@drawable/red_circle"
+                    android:drawablePadding="16dp"
+                    android:gravity="left"
+                    android:text="@string/red_transfer"
+                    android:textColor="@color/mercury"
+                    tools:ignore="RtlHardcoded,UseCompatTextViewDrawableXml" />
+
+                <TextView
+                    style="@style/DescriptionBoldTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="left"
+                    android:text="@string/exchanges"
+                    android:textColor="@color/mercury"
+                    tools:ignore="RtlHardcoded" />
+
+                <TextView
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginBottom="8dp"
+                    android:drawableStart="@drawable/lock_security_icon"
+                    android:drawablePadding="16dp"
+                    android:gravity="left"
+                    android:text="@string/exchanges_lock"
+                    android:textColor="@color/mercury"
+                    tools:ignore="RtlHardcoded,UseCompatTextViewDrawableXml" />
+
+                <TextView
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginBottom="8dp"
+                    android:drawableStart="@drawable/alert_triangle_icon"
+                    android:drawablePadding="16dp"
+                    android:gravity="left"
+                    android:text="@string/exchanges_warn"
+                    android:textColor="@color/mercury"
+                    tools:ignore="RtlHardcoded,UseCompatTextViewDrawableXml" />
+
+                <TextView
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginBottom="200dp"
+                    android:drawableStart="@drawable/x_square_icon"
+                    android:drawablePadding="16dp"
+                    android:gravity="left"
+                    android:text="@string/exchanges_maintenance"
+                    android:textColor="@color/mercury"
+                    tools:ignore="RtlHardcoded,UseCompatTextViewDrawableXml" />
+            </LinearLayout>
+
+
+        </ScrollView>
+    </LinearLayout>
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
