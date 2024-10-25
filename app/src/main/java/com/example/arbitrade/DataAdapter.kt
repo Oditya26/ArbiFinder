@@ -2,6 +2,8 @@ package com.example.arbitrade
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arbitrade.databinding.ItemRowDataBinding
 
@@ -38,6 +40,10 @@ class DataAdapter(
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
         // Bind the data to the ViewHolder
         holder.bind(dataList[position])
+
+        // Apply scale-in animation to each item
+        val animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.slide_in_left)
+        holder.itemView.startAnimation(animation)
     }
 
     override fun getItemCount(): Int = dataList.size
