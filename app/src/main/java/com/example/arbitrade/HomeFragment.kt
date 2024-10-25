@@ -17,6 +17,10 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var dataAdapter: DataAdapter
     private lateinit var dataList: MutableList<DataModel>
+    private var isAscendingDifference: Boolean = false // Status sorting untuk difference
+    private var isAscendingBuyFrom: Boolean = false // Status sorting untuk buy from
+    private var isAscendingSellAt: Boolean = false // Status sorting untuk sell at
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,8 +57,11 @@ class HomeFragment : Fragment() {
             DataModel("%0.03", "UNI/USDT", "Bittrex", "Huobi", 30.00f, 30.50f, 6000.00f, 5500.00f)
         )
 
-        // Initialize the adapter
-        dataAdapter = DataAdapter(dataList)
+        // Sort data by difference descending at the start
+        val sortedList = dataList.sortedByDescending { it.difference }
+
+        // Initialize the adapter with sorted data
+        dataAdapter = DataAdapter(sortedList)
 
         // Set up the RecyclerView
         binding.rvData.apply {
@@ -65,6 +72,15 @@ class HomeFragment : Fragment() {
         // Set the search button listener
         binding.btnSearch.setOnClickListener { performSearch() }
 
+        // Set listener untuk tombol sorting
+        binding.btnDifference.setOnClickListener { toggleSortDifference() }
+        binding.btnBuyFrom.setOnClickListener { toggleSortBuyFrom() }
+        binding.btnSellAt.setOnClickListener { toggleSortSellAt() }
+
+        // Initialize the drawable for the difference button to indicate sorting
+        isAscendingDifference = false // Set this to false since we are starting with descending
+        binding.btnDifference.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_keyboard_arrow_down_17, 0)
+
         binding.searchEditText.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH || event?.keyCode == KeyEvent.KEYCODE_ENTER) {
                 performSearch()
@@ -74,6 +90,63 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
+    private fun resetDrawables(except: View) {
+        // Reset drawable pada tombol lainnya
+        if (except != binding.btnDifference) {
+            binding.btnDifference.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+        }
+        if (except != binding.btnBuyFrom) {
+            binding.btnBuyFrom.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+        }
+        if (except != binding.btnSellAt) {
+            binding.btnSellAt.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+        }
+    }
+
+    private fun toggleSortDifference() {
+        resetDrawables(binding.btnDifference) // Reset drawable dari tombol lain
+        isAscendingDifference = !isAscendingDifference // Toggle status sorting
+
+        val sortedList = if (isAscendingDifference) {
+            dataList.sortedBy { it.difference } // Sort ascending
+        } else {
+            dataList.sortedByDescending { it.difference } // Sort descending
+        }
+
+        dataAdapter.updateData(sortedList)
+        binding.btnDifference.setCompoundDrawablesWithIntrinsicBounds(0, 0, if (isAscendingDifference) R.drawable.baseline_keyboard_arrow_up_17 else R.drawable.baseline_keyboard_arrow_down_17, 0)
+    }
+
+    private fun toggleSortBuyFrom() {
+        resetDrawables(binding.btnBuyFrom) // Reset drawable dari tombol lain
+        isAscendingBuyFrom = !isAscendingBuyFrom // Toggle status sorting
+
+        val sortedList = if (isAscendingBuyFrom) {
+            dataList.sortedBy { it.buyValue } // Sort ascending
+        } else {
+            dataList.sortedByDescending { it.buyValue } // Sort descending
+        }
+
+        dataAdapter.updateData(sortedList)
+        binding.btnBuyFrom.setCompoundDrawablesWithIntrinsicBounds(0, 0, if (isAscendingBuyFrom) R.drawable.baseline_keyboard_arrow_up_17 else R.drawable.baseline_keyboard_arrow_down_17, 0)
+    }
+
+    private fun toggleSortSellAt() {
+        resetDrawables(binding.btnSellAt) // Reset drawable dari tombol lain
+        isAscendingSellAt = !isAscendingSellAt // Toggle status sorting
+
+        val sortedList = if (isAscendingSellAt) {
+            dataList.sortedBy { it.sellValue } // Sort ascending
+        } else {
+            dataList.sortedByDescending { it.sellValue } // Sort descending
+        }
+
+        dataAdapter.updateData(sortedList)
+        binding.btnSellAt.setCompoundDrawablesWithIntrinsicBounds(0, 0, if (isAscendingSellAt) R.drawable.baseline_keyboard_arrow_up_17 else R.drawable.baseline_keyboard_arrow_down_17, 0)
+    }
+
+
 
     private fun performSearch() {
         val query = binding.searchEditText.text.toString().trim()

@@ -307,7 +307,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/refresh/baseline_refresh_24.xml" />
+                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/keyboard_arrow_down/baseline_keyboard_arrow_down_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -318,7 +318,7 @@
                         <option name="values">
                           <map>
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="baseline_refresh_24" />
+                            <entry key="outputName" value="baseline_keyboard_arrow_down_24" />
                             <entry key="sourceFile" value="D:\TUGAS BINUS\SEM.5\Mobile Application Programming\Project Arbitrade\Asset\search-icon.svg" />
                           </map>
                         </option>

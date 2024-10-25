@@ -1,5 +1,6 @@
 package com.example.arbitrade
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.animation.Animation
@@ -55,6 +56,7 @@ class DataAdapter(
         notifyDataSetChanged() // Notify adapter to refresh the view
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun resetData() {
         dataList.clear() // Clear current list
         dataList.addAll(originalDataList) // Restore original data
