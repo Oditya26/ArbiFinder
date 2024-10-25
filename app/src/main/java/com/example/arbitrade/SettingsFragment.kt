@@ -83,9 +83,9 @@ class SettingsFragment : Fragment() {
 
     private fun updateLowVolumeDescription(isChecked: Boolean) {
         val description = if (isChecked) {
-            "<u>Warn</u> Low Volume Trades if volume is less than :"
+            "<u><b>Warn</b></u> Low Volume Trades if volume is less than :"
         } else {
-            "<u>Hide</u> Low Volume Trades if volume is less than :"
+            "<u><b>Hide</b></u> Low Volume Trades if volume is less than :"
         }
 
         // Use Html.fromHtml for formatting if needed

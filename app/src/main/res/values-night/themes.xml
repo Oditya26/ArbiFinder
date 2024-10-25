@@ -22,13 +22,13 @@
 
     <!-- Description Bold (Montserrat Semibold) -->
     <style name="DescriptionBoldTextStyle">
-        <item name="android:fontFamily">@font/montserrat_semibold</item>
+        <item name="android:fontFamily">@font/opensans_bold</item>
         <item name="android:textSize">14sp</item> <!-- Sesuaikan ukuran -->
     </style>
 
     <!-- Description Regular (Montserrat Regular) -->
     <style name="DescriptionRegularTextStyle">
-        <item name="android:fontFamily">@font/montserrat_regular</item>
+        <item name="android:fontFamily">@font/opensans_regular</item>
         <item name="android:textSize">14sp</item> <!-- Sesuaikan ukuran -->
     </style>
 </resources>

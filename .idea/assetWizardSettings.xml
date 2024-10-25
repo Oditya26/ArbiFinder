@@ -317,9 +317,10 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="baseline_keyboard_arrow_down_24" />
-                            <entry key="sourceFile" value="D:\TUGAS BINUS\SEM.5\Mobile Application Programming\Project Arbitrade\Asset\search-icon.svg" />
+                            <entry key="outputName" value="arbitrade_logo" />
+                            <entry key="sourceFile" value="D:\TUGAS BINUS\SEM.5\Mobile Application Programming\Project Arbitrade\Asset\Logo.svg" />
                           </map>
                         </option>
                       </PersistentState>
