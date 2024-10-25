@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.example.arbitrade.databinding.ActivityMainBinding
@@ -18,12 +19,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        // Disable the decor fitting system windows to allow full-screen content
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        // Apply system window insets (for status bar and navigation bar)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            // No padding here if you want a full-screen view
+            v.setPadding(0, 0, 0, 0)
             insets
         }
 
@@ -33,12 +39,12 @@ class MainActivity : AppCompatActivity() {
             .load(dataImage)
             .into(binding.imageWelcomePage)
 
-        binding.btnNext.setOnClickListener() {
-            val moveIntent = Intent(this@MainActivity, HomeActivity::class.java)
+        binding.btnNext.setOnClickListener {
+            val moveIntent = Intent(this@MainActivity, NavigationActivity::class.java)
             val options = ActivityOptions.makeCustomAnimation(
                 this,
-                R.anim.slide_in_right,  // Animasi saat masuk
-                R.anim.slide_out_left    // Animasi saat keluar
+                R.anim.slide_in_right,  // Slide-in animation
+                R.anim.slide_out_left   // Slide-out animation
             )
             startActivity(moveIntent, options.toBundle())
             finish()

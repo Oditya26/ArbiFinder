@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Arbitrade"
         tools:targetApi="35">
         <activity
+            android:name=".NavigationActivity"
+            android:exported="false" />
+        <activity
             android:name=".AboutActivity"
             android:exported="false" />
         <activity

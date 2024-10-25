@@ -84,8 +84,8 @@ class AboutActivity : AppCompatActivity(), NavigationBarView.OnItemSelectedListe
                 val moveIntent = Intent(this@AboutActivity, SettingsActivity::class.java)
                 val options = ActivityOptions.makeCustomAnimation(
                     this,
-                    R.anim.slide_in_left,  // Animasi saat masuk
-                    R.anim.slide_out_right    // Animasi saat keluar
+                    R.anim.slide_in_left,
+                    R.anim.slide_out_right
                 )
                 startActivity(moveIntent, options.toBundle())
                 finish()

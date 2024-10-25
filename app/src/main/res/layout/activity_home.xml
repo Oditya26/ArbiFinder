@@ -22,6 +22,16 @@
             android:orientation="horizontal"
             tools:ignore="RtlHardcoded">
 
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/arbitrade_logo_2"
+                tools:ignore="ContentDescription,RtlHardcoded" />
+
             <EditText
                 style="@style/DescriptionRegularTextStyle"
                 android:id="@+id/searchEditText"
@@ -40,6 +50,7 @@
                 android:textColorHint="@color/mercury"
                 android:backgroundTint="@color/dark_jungle_green"
                 tools:ignore="Autofill,TextFields" />
+
 
             <FrameLayout
                 android:layout_width="50dp"
@@ -61,15 +72,7 @@
                     tools:ignore="ContentDescription" />
             </FrameLayout>
 
-            <ImageView
-                android:layout_width="70dp"
-                android:layout_height="35dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/arbitrade_logo_2"
-                tools:ignore="ContentDescription,RtlHardcoded" />
+
 
         </LinearLayout>
 
