@@ -152,7 +152,6 @@ class NavigationActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
                 exitAnim
             )
             .replace(R.id.nav_host_fragment, fragment)
-            .addToBackStack(null)  // Optional: Add fragment to backstack
             .commit()
     }
 }

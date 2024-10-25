@@ -1,6 +1,8 @@
 package com.example.arbitrade
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +22,13 @@ class HomeFragment : Fragment() {
     private var isAscendingDifference: Boolean = false // Status sorting untuk difference
     private var isAscendingBuyFrom: Boolean = false // Status sorting untuk buy from
     private var isAscendingSellAt: Boolean = false // Status sorting untuk sell at
+    private val handler = Handler(Looper.getMainLooper())
+    private val animationRunnable = object : Runnable {
+        override fun run() {
+            binding.emptyDataAnim.playAnimation()
+            handler.postDelayed(this, 10000) // Ulangi setiap 10 detik
+        }
+    }
 
 
     override fun onCreateView(
@@ -32,6 +41,9 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Mulai loop animasi
+        handler.post(animationRunnable)
 
         // Apply window insets for full-screen mode
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
@@ -69,6 +81,8 @@ class HomeFragment : Fragment() {
             adapter = dataAdapter
         }
 
+        updateEmptyDataView()
+
         // Set the search button listener
         binding.btnSearch.setOnClickListener { performSearch() }
 
@@ -88,6 +102,15 @@ class HomeFragment : Fragment() {
             } else {
                 false
             }
+        }
+    }
+    private fun updateEmptyDataView() {
+        if (dataAdapter.itemCount == 0) {
+            binding.emptyDataAnim.visibility = View.VISIBLE
+            binding.rvData.visibility = View.GONE
+        } else {
+            binding.emptyDataAnim.visibility = View.GONE
+            binding.rvData.visibility = View.VISIBLE
         }
     }
 
@@ -152,6 +175,7 @@ class HomeFragment : Fragment() {
         val query = binding.searchEditText.text.toString().trim()
         val filteredDataList = if (query.isEmpty()) {
             dataAdapter.resetData()
+            updateEmptyDataView() // Periksa tampilan kosong setelah reset
             return
         } else {
             dataList.filter { dataModel ->
@@ -161,6 +185,22 @@ class HomeFragment : Fragment() {
             }
         }
 
+        // Update data di adapter dan periksa jika hasil pencarian kosong
         dataAdapter.updateData(filteredDataList)
+        if (filteredDataList.isEmpty()) {
+            // Jika hasil pencarian kosong, tampilkan animasi kosong
+            binding.emptyDataAnim.visibility = View.VISIBLE
+            binding.rvData.visibility = View.GONE
+        } else {
+            // Jika ada hasil, tampilkan RecyclerView dan sembunyikan animasi
+            binding.emptyDataAnim.visibility = View.GONE
+            binding.rvData.visibility = View.VISIBLE
+        }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        handler.removeCallbacks(animationRunnable) // Hentikan loop ketika view dihancurkan
+    }
+
 }

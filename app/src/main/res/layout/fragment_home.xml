@@ -145,6 +145,15 @@
             android:background="@color/dark_jungle_green"
             tools:ignore="ContentDescription" />
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/empty_data_anim"
+            android:layout_width="350dp"
+            android:layout_height="350dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"
+            app:lottie_autoPlay="false"
+            app:lottie_rawRes="@raw/anim" />
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
