@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Arbitrade</string>
+    <string name="app_name">ArbiFinder</string>
 
     <string name="welcome_header">Welcome to Arbitrade !</string>
     <string name="welcome_title">Let\'s start take a look inside the application.</string>
