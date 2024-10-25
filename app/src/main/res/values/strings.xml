@@ -17,7 +17,8 @@
     <string name="unknown_status">Unknown Status</string>
     <string name="unknown_status_desc">Show Exchange which doesn\'t have status information.</string>
     <string name="low_volume">Low Volume</string>
-    <string name="low_volume_desc">Warn Low Volume Trades if volume is less than :</string>
+    <string name="low_volume_desc_warn">_Warn_ Low Volume Trades if volume is less than :</string>
+    <string name="low_volume_desc_hide">_Hide_ Low Volume Trades if volume is less than :</string>
     <string name="auto_refresh">Auto Refresh</string>
     <string name="auto_refresh_desc">Start / Stop Auto Refresh</string>
     <string name="market_management">Market Management</string>
@@ -75,6 +76,5 @@
 
     <string name="val_low_volume">0.0</string>
     <string name="val_auto_refresh">10s</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
