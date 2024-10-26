@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "21355296854",
+    "firebase_url": "https://arbifinder-fd011-default-rtdb.firebaseio.com",
+    "project_id": "arbifinder-fd011",
+    "storage_bucket": "arbifinder-fd011.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:21355296854:android:2a495fd9f73201d0aaa3f7",
+        "android_client_info": {
+          "package_name": "com.example.arbitrade"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvh3Ph8wrw76cMpKWAHnLKm5wSUSX22CQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

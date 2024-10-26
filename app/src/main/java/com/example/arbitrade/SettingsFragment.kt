@@ -1,7 +1,9 @@
 package com.example.arbitrade
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
+import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
@@ -9,7 +11,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
-import android.widget.Toast
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
@@ -18,67 +19,114 @@ import com.example.arbitrade.databinding.FragmentSettingsBinding
 class SettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        sharedPreferences = requireContext().getSharedPreferences("user_settings", Context.MODE_PRIVATE)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Apply window insets
+        loadSettings()
+
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            // Remove padding for full-screen
             v.setPadding(0, 0, 0, 0)
             insets
         }
 
-        // Volume SeekBar listener
         binding.volumeSeekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                val volumeValue = progress * 5.0f // Kelipatan 5
-                binding.volumeValue.text = String.format("%.1f", volumeValue).replace('.', ',') // Format ke 1 desimal dan ganti . dengan ,
+                val volumeValue = progress * 5.0f
+                binding.volumeValue.text = String.format("%.1f", volumeValue).replace('.', ',')
+                saveSettings("volume", volumeValue)
             }
-
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
-        // Auto Refresh SeekBar listener
         binding.autoRefreshSeekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                val autoRefreshValue = 10 + (progress * 5) // Kelipatan 5 mulai dari 10
-                binding.autoRefreshValue.text = "$autoRefreshValue s" // Menampilkan nilai dengan 's' di belakang
+                val autoRefreshValue = 10 + (progress * 5)
+                binding.autoRefreshValue.text = "$autoRefreshValue s"
+                saveSettings("autoRefresh", autoRefreshValue)
             }
-
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
 
-        // Listener untuk switch "Auto Refresh"
         binding.autoRefreshSwitch.setOnCheckedChangeListener { _, isChecked ->
             binding.autoRefreshSeekbar.visibility = if (isChecked) View.VISIBLE else View.GONE
             binding.autoRefreshValue.visibility = if (isChecked) View.VISIBLE else View.GONE
+            saveSettings("autoRefreshSwitch", isChecked)
         }
 
-        // Listener untuk switch "Low Volume"
         binding.lowVolumeSwitch.setOnCheckedChangeListener { _, isChecked ->
             updateLowVolumeDescription(isChecked)
+            saveSettings("lowVolumeSwitch", isChecked)
         }
 
-        // Set initial description for low volume and visibility for auto refresh elements
-        updateLowVolumeDescription(binding.lowVolumeSwitch.isChecked)
+        binding.disableTradesSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("disableTradesSwitch", isChecked) }
+        binding.unknownStatusSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("unknownStatusSwitch", isChecked) }
+        binding.btcSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("btcSwitch", isChecked) }
+        binding.ethSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("ethSwitch", isChecked) }
+        binding.usdtSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("usdtSwitch", isChecked) }
+        binding.binanceSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("binanceSwitch", isChecked) }
+        binding.bitfinexSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("bitfinexSwitch", isChecked) }
+        binding.bitflyerSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("bitflyerSwitch", isChecked) }
+        binding.hitbtcSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("hitbtcSwitch", isChecked) }
+        binding.indodaxSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("indodaxSwitch", isChecked) }
 
+        updateLowVolumeDescription(binding.lowVolumeSwitch.isChecked)
         binding.autoRefreshSeekbar.visibility = if (binding.autoRefreshSwitch.isChecked) View.VISIBLE else View.GONE
         binding.autoRefreshValue.visibility = if (binding.autoRefreshSwitch.isChecked) View.VISIBLE else View.GONE
 
-        // Tambahkan listener untuk btn_reset_setting
         binding.btnResetSetting.setOnClickListener { showResetSettingsDialog() }
+    }
+
+    private fun loadSettings() {
+        with(sharedPreferences) {
+            binding.disableTradesSwitch.isChecked = getBoolean("disableTradesSwitch", true)
+            binding.unknownStatusSwitch.isChecked = getBoolean("unknownStatusSwitch", true)
+            binding.lowVolumeSwitch.isChecked = getBoolean("lowVolumeSwitch", true)
+
+            val volume = getFloat("volume", 0f)
+            binding.volumeValue.text = String.format("%.1f", volume).replace('.', ',')
+            binding.volumeSeekbar.progress = volume.toInt().div(5)
+
+            binding.autoRefreshSwitch.isChecked = getBoolean("autoRefreshSwitch", true)
+
+            val autoRefresh = getInt("autoRefresh", 10)
+            binding.autoRefreshValue.text = "$autoRefresh s"
+            binding.autoRefreshSeekbar.progress = (autoRefresh - 10).div(5)
+
+            binding.btcSwitch.isChecked = getBoolean("btcSwitch", true)
+            binding.ethSwitch.isChecked = getBoolean("ethSwitch", true)
+            binding.usdtSwitch.isChecked = getBoolean("usdtSwitch", true)
+            binding.binanceSwitch.isChecked = getBoolean("binanceSwitch", true)
+            binding.bitfinexSwitch.isChecked = getBoolean("bitfinexSwitch", true)
+            binding.bitflyerSwitch.isChecked = getBoolean("bitflyerSwitch", true)
+            binding.hitbtcSwitch.isChecked = getBoolean("hitbtcSwitch", true)
+            binding.indodaxSwitch.isChecked = getBoolean("indodaxSwitch", true)
+        }
+    }
+
+    private fun saveSettings(key: String, value: Any) {
+        with(sharedPreferences.edit()) {
+            when (value) {
+                is Boolean -> putBoolean(key, value)
+                is Float -> putFloat(key, value)
+                is Int -> putInt(key, value)
+                else -> throw IllegalArgumentException("Unsupported data type")
+            }
+            apply()
+        }
     }
 
     private fun updateLowVolumeDescription(isChecked: Boolean) {
@@ -87,8 +135,6 @@ class SettingsFragment : Fragment() {
         } else {
             "<u><b>Hide</b></u> Low Volume Trades if volume is less than :"
         }
-
-        // Use Html.fromHtml for formatting if needed
         binding.lowVolumeDesc.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             Html.fromHtml(description, Html.FROM_HTML_MODE_COMPACT)
         } else {
@@ -101,37 +147,48 @@ class SettingsFragment : Fragment() {
         builder.setTitle("Reset Settings")
         builder.setMessage("Are you sure you want to reset settings?")
 
-        builder.setPositiveButton("Yes") { dialog: DialogInterface, which: Int ->
-            resetSettings() // Panggil fungsi untuk reset pengaturan
-            dialog.dismiss() // Tutup dialog
+        builder.setPositiveButton("Yes") { dialog: DialogInterface, _ ->
+            resetSettings()
+            dialog.dismiss()
         }
-
-        builder.setNegativeButton("No") { dialog: DialogInterface, which: Int ->
-            dialog.dismiss() // Tutup dialog tanpa melakukan apa-apa
+        builder.setNegativeButton("No") { dialog: DialogInterface, _ ->
+            dialog.dismiss()
         }
-
-        val dialog: AlertDialog = builder.create()
-        dialog.show() // Tampilkan dialog
+        builder.create().show()
     }
 
     private fun resetSettings() {
-        // Mengatur semua switch menjadi ON
-        binding.disableTradesSwitch.isChecked = true
-        binding.unknownStatusSwitch.isChecked = true
-        binding.lowVolumeSwitch.isChecked = true
-        binding.autoRefreshSwitch.isChecked = true
+        // Set default values for each setting
+        val defaultSettings = mapOf(
+            "disableTradesSwitch" to true,
+            "unknownStatusSwitch" to true,
+            "lowVolumeSwitch" to true,
+            "autoRefreshSwitch" to true,
+            "volume" to 0f,
+            "autoRefresh" to 10,
+            "btcSwitch" to true,
+            "ethSwitch" to true,
+            "usdtSwitch" to true,
+            "binanceSwitch" to true,
+            "bitfinexSwitch" to true,
+            "bitflyerSwitch" to true,
+            "hitbtcSwitch" to true,
+            "indodaxSwitch" to true
+        )
 
-        binding.btcSwitch.isChecked = true
-        binding.ethSwitch.isChecked = true
-        binding.usdtSwitch.isChecked = true
+        // Update UI elements to reflect reset values and save to SharedPreferences
+        with(sharedPreferences.edit()) {
+            for ((key, value) in defaultSettings) {
+                when (value) {
+                    is Boolean -> putBoolean(key, value)
+                    is Float -> putFloat(key, value)
+                    is Int -> putInt(key, value)
+                }
+            }
+            apply()
+        }
 
-        binding.binanceSwitch.isChecked = true
-        binding.bitfinexSwitch.isChecked = true
-        binding.bitflyerSwitch.isChecked = true
-        binding.hitbtcSwitch.isChecked = true
-        binding.indodaxSwitch.isChecked = true
-
-        // Opsional: Tampilkan pesan toast untuk mengonfirmasi reset
-        Toast.makeText(requireContext(), "Settings have been reset", Toast.LENGTH_SHORT).show()
+        // Load settings to update UI
+        loadSettings()
     }
 }

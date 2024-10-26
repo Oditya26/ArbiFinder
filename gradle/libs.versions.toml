@@ -15,6 +15,9 @@ constraintlayout = "2.1.4"
 fragment = "1.8.4"
 navigationUiKtx = "2.8.3"
 navigationFragmentKtx = "2.8.3"
+googleServices = "4.4.2"
+firebaseDatabase = "21.0.0"
+firebaseFirestore = "25.1.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -31,6 +34,9 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }
+google-services = { group = "com.google.gms", name = "google-services", version.ref = "googleServices" }
+firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
