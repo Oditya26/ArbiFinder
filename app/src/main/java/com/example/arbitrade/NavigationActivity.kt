@@ -46,17 +46,17 @@ class NavigationActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
         when (v?.id) {
             R.id.bottom_home -> {
                 if (currentItemId != R.id.bottom_home) {
-                    startActivityWithAnimation(HomeActivity::class.java, currentItemId)
+                    startActivityWithAnimation(HomeFragment::class.java, currentItemId)
                 }
             }
             R.id.bottom_settings -> {
                 if (currentItemId != R.id.bottom_settings) {
-                    startActivityWithAnimation(SettingsActivity::class.java, currentItemId)
+                    startActivityWithAnimation(SettingsFragment::class.java, currentItemId)
                 }
             }
             R.id.bottom_about -> {
                 if (currentItemId != R.id.bottom_about) {
-                    startActivityWithAnimation(AboutActivity::class.java, currentItemId)
+                    startActivityWithAnimation(AboutFragment::class.java, currentItemId)
                 }
             }
         }
@@ -72,7 +72,7 @@ class NavigationActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
                 R.anim.slide_in_right to R.anim.slide_out_left
             }
             R.id.bottom_settings -> {
-                if (targetActivity == HomeActivity::class.java) {
+                if (targetActivity == HomeFragment::class.java) {
                     // Settings ke Home: Animasi dari kiri ke kanan
                     R.anim.slide_in_left to R.anim.slide_out_right
                 } else {
