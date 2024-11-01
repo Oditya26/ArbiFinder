@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.arbitrade.databinding.FragmentHomeBinding
@@ -18,7 +17,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var dataAdapter: DataAdapter
-    private lateinit var dataList: MutableList<DataModel>
+    private var dataList: MutableList<DataModel> = mutableListOf() // Initialize here
     private var isAscendingDifference: Boolean = false // Status sorting untuk difference
     private var isAscendingBuyFrom: Boolean = false // Status sorting untuk buy from
     private var isAscendingSellAt: Boolean = false // Status sorting untuk sell at
@@ -30,11 +29,10 @@ class HomeFragment : Fragment() {
         }
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -42,13 +40,14 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Inisialisasi dan setup RecyclerView, Adapter, animasi, serta listeners lainnya
+        setupRecyclerViewAndListeners()
+
         // Mulai loop animasi
         handler.post(animationRunnable)
 
         // Apply window insets for full-screen mode
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            // Remove padding for full-screen
             v.setPadding(0, 0, 0, 0)
             insets
         }
@@ -95,7 +94,7 @@ class HomeFragment : Fragment() {
         isAscendingDifference = false // Set this to false since we are starting with descending
         binding.btnDifference.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_keyboard_arrow_down_17, 0)
 
-        binding.searchEditText.setOnEditorActionListener { v, actionId, event ->
+        binding.searchEditText.setOnEditorActionListener { _, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH || event?.keyCode == KeyEvent.KEYCODE_ENTER) {
                 performSearch()
                 true
@@ -202,5 +201,35 @@ class HomeFragment : Fragment() {
         super.onDestroyView()
         handler.removeCallbacks(animationRunnable) // Hentikan loop ketika view dihancurkan
     }
+
+    private fun setupRecyclerViewAndListeners() {
+        dataAdapter = DataAdapter(dataList)
+
+        binding.rvData.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = dataAdapter
+        }
+
+        // Mulai loop animasi
+        handler.post(animationRunnable)
+
+        updateEmptyDataView()
+
+        // Inisialisasi listeners untuk sorting dan searching
+        binding.btnSearch.setOnClickListener { performSearch() }
+        binding.btnDifference.setOnClickListener { toggleSortDifference() }
+        binding.btnBuyFrom.setOnClickListener { toggleSortBuyFrom() }
+        binding.btnSellAt.setOnClickListener { toggleSortSellAt() }
+
+        binding.searchEditText.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH || event?.keyCode == KeyEvent.KEYCODE_ENTER) {
+                performSearch()
+                true
+            } else {
+                false
+            }
+        }
+    }
+
 
 }

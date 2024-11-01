@@ -20,6 +20,7 @@ navigationFragmentKtx = "2.8.3"
 googleServices = "4.4.2"
 firebaseDatabase = "21.0.0"
 firebaseFirestore = "25.1.1"
+okhttp = "4.9.3"
 retrofit = "2.9.0"
 
 [libraries]
@@ -42,6 +43,7 @@ androidx-fragment = { group = "androidx.fragment", name = "fragment", version.re
 google-services = { group = "com.google.gms", name = "google-services", version.ref = "googleServices" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 
 [plugins]

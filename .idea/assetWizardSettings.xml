@@ -67,6 +67,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
+                                                <entry key="color" value="000000" />
                                                 <entry key="imagePath" value="C:\Users\oditr.ODIT.000\AppData\Local\Temp\ic_android_black_24dp.xml" />
                                               </map>
                                             </option>
@@ -79,8 +80,9 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="D:\TUGAS BINUS\SEM.5\Mobile Application Programming\Project Arbitrade\Asset\UI\arbitrade-logo-2.png" />
-                                                <entry key="scalingPercent" value="65" />
+                                                <entry key="imagePath" value="D:\TUGAS BINUS\SEM.5\Mobile Application Programming\Project Arbitrade\Asset\UI\arbitrade-logo-2.svg" />
+                                                <entry key="scalingPercent" value="77" />
+                                                <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -319,8 +321,8 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="arbitrade_logo" />
-                            <entry key="sourceFile" value="D:\TUGAS BINUS\SEM.5\Mobile Application Programming\Project Arbitrade\Asset\Logo.svg" />
+                            <entry key="outputName" value="teter" />
+                            <entry key="sourceFile" value="D:\TUGAS BINUS\SEM.5\Mobile Application Programming\Project Arbitrade\Asset\tether-usdt-logo.svg" />
                           </map>
                         </option>
                       </PersistentState>
