@@ -145,9 +145,9 @@ class HomeFragment : Fragment() {
         isAscendingBuyFrom = !isAscendingBuyFrom // Toggle status sorting
 
         val sortedList = if (isAscendingBuyFrom) {
-            dataList.sortedBy { it.buyValue } // Sort ascending
+            dataList.sortedBy { it.buyVolume } // Sort ascending
         } else {
-            dataList.sortedByDescending { it.buyValue } // Sort descending
+            dataList.sortedByDescending { it.buyVolume } // Sort descending
         }
 
         dataAdapter.updateData(sortedList)
@@ -159,9 +159,9 @@ class HomeFragment : Fragment() {
         isAscendingSellAt = !isAscendingSellAt // Toggle status sorting
 
         val sortedList = if (isAscendingSellAt) {
-            dataList.sortedBy { it.sellValue } // Sort ascending
+            dataList.sortedBy { it.sellVolume } // Sort ascending
         } else {
-            dataList.sortedByDescending { it.sellValue } // Sort descending
+            dataList.sortedByDescending { it.sellVolume } // Sort descending
         }
 
         dataAdapter.updateData(sortedList)
