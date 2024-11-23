@@ -9,6 +9,7 @@ data class Ticker(
     val low: Float,
     val vol_btc: Float,
     val vol_usdt: Float,
+    val vol_idr: Float,
     val last: Float,
     val buy: Float,
     val sell: Float,

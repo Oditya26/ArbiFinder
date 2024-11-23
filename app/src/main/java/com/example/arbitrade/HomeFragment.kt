@@ -15,6 +15,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.arbitrade.binance.BinanceApi
 import com.example.arbitrade.binance.TickerResponseBinance
+import com.example.arbitrade.convertprice.CryptoApiService
+import com.example.arbitrade.convertprice.CryptoResponse
 import com.example.arbitrade.databinding.FragmentHomeBinding
 import com.example.arbitrade.indodax.IndodaxApi
 import com.example.arbitrade.indodax.TickerResponseIndodax
@@ -33,9 +35,11 @@ class HomeFragment : Fragment() {
         const val BASE_URL_INDODAX = "https://indodax.com/api/ticker/"
         const val BASE_URL_BINANCE = "https://api.binance.com/api/v3/ticker/"
         const val BASE_URL_KUCOIN = "https://api.kucoin.com/api/v1/market/"
+        const val BASE_URL_BINANCE_CHECK_PRICE = "https://api.binance.com/api/v3/"
         const val TAG: String = "CHECK_RESPONSE"
     }
 
+    private var conversionRate: Float? = null // Menyimpan nilai 1 USDT dalam IDR
     private lateinit var binding: FragmentHomeBinding
     private lateinit var dataAdapter: DataAdapter
     private var dataList: MutableList<DataModel> = mutableListOf() // Initialize here
@@ -88,6 +92,8 @@ class HomeFragment : Fragment() {
 
         updateEmptyDataView()
 
+        getConvertPrice()
+
         // Set the search button listener
         binding.btnSearch.setOnClickListener { performSearch() }
 
@@ -118,11 +124,29 @@ class HomeFragment : Fragment() {
 
     private fun processGroupedData() {
         val symbols = listOf("BTCUSDT", "ETHUSDT", "BONKUSDT", "FLOKIUSDT", "LUNCUSDT", "PUNDIXUSDT", "SHIBUSDT")
+        val symbols2 = listOf("ADAUSDT", "ZRXUSDT", "AEVOUSDT","BNBUSDT")
         val groupedData = mutableMapOf<String, MutableList<DataModel>>()
         var remainingCalls = symbols.size * 3 // Total API calls
 
         symbols.forEach { symbol ->
             getAllTickersIndodax(symbol.lowercase()) { data ->
+                groupedData.getOrPut(symbol) { mutableListOf() }.add(data)
+                checkAndUpdateData(groupedData, --remainingCalls)
+            }
+            getAllTickersBinance(symbol) { data ->
+                groupedData.getOrPut(symbol) { mutableListOf() }.add(data)
+                checkAndUpdateData(groupedData, --remainingCalls)
+            }
+            getAllTickersKucoin(symbol.replace("USDT", "-USDT")) { data ->
+                groupedData.getOrPut(symbol) { mutableListOf() }.add(data)
+                checkAndUpdateData(groupedData, --remainingCalls)
+            }
+        }
+
+        // Proses symbols2 dengan logika khusus
+        symbols2.forEach { symbol ->
+            val indodaxSymbol = symbol.replace("USDT", "IDR").lowercase() // Ganti "USDT" menjadi "IDR" lalu lowercase
+            getAllTickersIndodax(indodaxSymbol) { data ->
                 groupedData.getOrPut(symbol) { mutableListOf() }.add(data)
                 checkAndUpdateData(groupedData, --remainingCalls)
             }
@@ -188,6 +212,38 @@ class HomeFragment : Fragment() {
         updateEmptyDataView() // Update tampilan setelah data di-sortir
     }
 
+    private fun getConvertPrice() {
+        val api = Retrofit.Builder()
+            .baseUrl(BASE_URL_BINANCE_CHECK_PRICE)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(CryptoApiService::class.java)
+
+        api.getPrice(symbol = "USDTIDRT").enqueue(object : Callback<CryptoResponse> {
+            override fun onResponse(
+                call: Call<CryptoResponse>,
+                response: Response<CryptoResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val usdtPrice = response.body()?.price?.toFloatOrNull()
+                    if (usdtPrice != null) {
+                        conversionRate = usdtPrice
+                        Log.d("USDT_PRICE", "1 USDT = $usdtPrice IDRT")
+                    } else {
+                        Log.e("USDT_PRICE", "Failed to parse price")
+                    }
+                } else {
+                    Log.e("USDT_PRICE", "Failed to fetch price: ${response.errorBody()?.string()}")
+                }
+            }
+
+            override fun onFailure(call: Call<CryptoResponse>, t: Throwable) {
+                Log.e("USDT_PRICE", "Error: ${t.message}")
+            }
+        })
+    }
+
+
     // Modify API calls to accept a callback
     private fun getAllTickersIndodax(symbol: String, callback: (DataModel) -> Unit) {
         val api = Retrofit.Builder()
@@ -204,19 +260,51 @@ class HomeFragment : Fragment() {
                 if (response.isSuccessful) {
                     response.body()?.let { tickerResponse ->
                         val ticker = tickerResponse.ticker
-                        val data = DataModel(
-                            difference = 0f, // Use Float here
-                            differenceItem = symbol,
-                            buyFrom = "Indodax",
-                            sellAt = "Indodax",
-                            buyValue = ticker.buy,
-                            sellValue = ticker.sell,
-                            buyVolume = ticker.vol_usdt,
-                            sellVolume = ticker.vol_usdt
-                        )
 
-                        callback(data)
+                        if (symbol.endsWith("idr", ignoreCase = true)) {
+                            // Jika simbol IDR, lakukan konversi
+                            if (conversionRate != null) {
+                                val rate = conversionRate!!
+
+                                // Konversi harga beli dan jual IDR ke USDT
+                                val buyInUSDT = ticker.buy / rate
+                                val sellInUSDT = ticker.sell / rate
+
+                                // Konversi volume IDR ke volume dalam USDT
+                                // Menggunakan buy price sebagai acuan
+                                val volumeInUSDT = ticker.vol_idr / rate
+
+                                val data = DataModel(
+                                    difference = 0f, // Placeholder, hitung sesuai kebutuhan
+                                    differenceItem = symbol,
+                                    buyFrom = "Indodax",
+                                    sellAt = "Indodax",
+                                    buyValue = buyInUSDT,
+                                    sellValue = sellInUSDT,
+                                    buyVolume = volumeInUSDT,
+                                    sellVolume = volumeInUSDT
+                                )
+                                callback(data)
+                            } else {
+                                Log.e(TAG, "Conversion rate not available")
+                            }
+                        } else {
+                            // Jika simbol bukan IDR, gunakan nilai asli
+                            val data = DataModel(
+                                difference = 0f, // Placeholder, hitung sesuai kebutuhan
+                                differenceItem = symbol,
+                                buyFrom = "Indodax",
+                                sellAt = "Indodax",
+                                buyValue = ticker.buy,
+                                sellValue = ticker.sell,
+                                buyVolume = ticker.vol_usdt,
+                                sellVolume = ticker.vol_usdt
+                            )
+                            callback(data)
+                        }
                     }
+                } else {
+                    Log.e(TAG, "Failed to fetch tickers: ${response.errorBody()?.string()}")
                 }
             }
 
@@ -225,6 +313,8 @@ class HomeFragment : Fragment() {
             }
         })
     }
+
+
 
     // Similar modification for Binance
     private fun getAllTickersBinance(symbol: String, callback: (DataModel) -> Unit) {
