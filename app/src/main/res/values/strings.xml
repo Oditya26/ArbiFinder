@@ -64,7 +64,7 @@
     <string name="indodax">Indodax</string>
     <string name="indodax_desc">Show Indodax Trade Data</string>
 
-    <string name="persen">%0.02</string>
+    <string name="persen">0.02</string>
     <string name="eth_btc">ETH/BTC</string>
 
     <string name="buy_from_value">0.04870000</string>

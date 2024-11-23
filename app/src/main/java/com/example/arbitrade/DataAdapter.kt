@@ -3,7 +3,6 @@ package com.example.arbitrade
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arbitrade.databinding.ItemRowDataBinding
@@ -20,14 +19,14 @@ class DataAdapter(
         fun bind(data: DataModel) {
             with(binding) {
                 // Set the text for each TextView
-                tvDifference.text = data.difference
+                tvDifference.text = data.difference.toString() // Convert Float to String
                 tvDifferenceItem.text = data.differenceItem
                 tvBuyFrom.text = data.buyFrom
                 tvSellAt.text = data.sellAt
-                tvBuyValue.text = data.buyValue.toString()
-                tvSellValue.text = data.sellValue.toString()
-                tvBuyVolume.text = data.buyVolume.toString()
-                tvSellVolume.text = data.sellVolume.toString()
+                tvBuyValue.text = data.buyValue.toString() // Convert Float to String
+                tvSellValue.text = data.sellValue.toString() // Convert Float to String
+                tvBuyVolume.text = data.buyVolume.toString() // Convert Float to String
+                tvSellVolume.text = data.sellVolume.toString() // Convert Float to String
             }
         }
     }
@@ -49,6 +48,7 @@ class DataAdapter(
 
     override fun getItemCount(): Int = dataList.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateData(newData: List<DataModel>) {
         // Clear and add new data to the current list
         dataList.clear()

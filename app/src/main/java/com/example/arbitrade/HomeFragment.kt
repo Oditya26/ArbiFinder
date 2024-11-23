@@ -1,8 +1,10 @@
 package com.example.arbitrade
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +13,28 @@ import android.view.inputmethod.EditorInfo
 import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.arbitrade.binance.BinanceApi
+import com.example.arbitrade.binance.TickerResponseBinance
 import com.example.arbitrade.databinding.FragmentHomeBinding
+import com.example.arbitrade.indodax.IndodaxApi
+import com.example.arbitrade.indodax.TickerResponseIndodax
+import com.example.arbitrade.kucoin.KucoinApi
+import com.example.arbitrade.kucoin.TickerResponseKucoin
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.Locale
 
 class HomeFragment : Fragment() {
+
+    companion object {
+        const val BASE_URL_INDODAX = "https://indodax.com/api/ticker/"
+        const val BASE_URL_BINANCE = "https://api.binance.com/api/v3/ticker/"
+        const val BASE_URL_KUCOIN = "https://api.kucoin.com/api/v1/market/"
+        const val TAG: String = "CHECK_RESPONSE"
+    }
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var dataAdapter: DataAdapter
@@ -40,10 +61,10 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Inisialisasi dan setup RecyclerView, Adapter, animasi, serta listeners lainnya
+        // Initialize and setup RecyclerView, Adapter, animations, and other listeners
         setupRecyclerViewAndListeners()
 
-        // Mulai loop animasi
+        // Start animation loop
         handler.post(animationRunnable)
 
         // Apply window insets for full-screen mode
@@ -52,47 +73,37 @@ class HomeFragment : Fragment() {
             insets
         }
 
-        // Sample Data
-        dataList = mutableListOf(
-            DataModel("%0.02", "ETH/BTC", "Bitfinex", "HitBTC", 0.03894f, 0.03896f, 13460.42f, 10856.4f),
-            DataModel("%0.03", "BTC/USDT", "Binance", "Indodax", 50340.00f, 50350.00f, 24000.00f, 20000.00f),
-            DataModel("%0.04", "ETH/USDT", "Coinbase", "Kraken", 1800.50f, 1810.00f, 15000.00f, 12000.00f),
-            DataModel("%0.01", "XRP/BTC", "Bitstamp", "Poloniex", 0.000021f, 0.000022f, 50000.00f, 45000.00f),
-            DataModel("%0.05", "LTC/USDT", "Bittrex", "KuCoin", 120.00f, 121.00f, 3000.00f, 2800.00f),
-            DataModel("%0.03", "DOGE/USDT", "Binance", "Coinbase", 0.06f, 0.061f, 250000.00f, 200000.00f),
-            DataModel("%0.02", "ADA/BTC", "Kraken", "Bittrex", 0.00045f, 0.00046f, 10000.00f, 8000.00f),
-            DataModel("%0.04", "DOT/USDT", "Huobi", "Binance", 45.00f, 46.00f, 1500.00f, 1200.00f),
-            DataModel("%0.01", "LINK/BTC", "Bitfinex", "Indodax", 0.00075f, 0.00076f, 3000.00f, 2500.00f),
-            DataModel("%0.06", "SOL/USDT", "FTX", "Kraken", 25.00f, 25.50f, 4000.00f, 3500.00f),
-            DataModel("%0.02", "MATIC/ETH", "Binance", "Poloniex", 0.005f, 0.0051f, 15000.00f, 12000.00f),
-            DataModel("%0.03", "UNI/USDT", "Bittrex", "Huobi", 30.00f, 30.50f, 6000.00f, 5500.00f)
-        )
-
-        // Sort data by difference descending at the start
-        val sortedList = dataList.sortedByDescending { it.difference }
-
-        // Initialize the adapter with sorted data
-        dataAdapter = DataAdapter(sortedList)
+        // Initialize empty dataList
+        dataList = mutableListOf()
 
         // Set up the RecyclerView
         binding.rvData.apply {
             layoutManager = LinearLayoutManager(requireContext())
+            dataAdapter = DataAdapter(dataList) // Adapter initialized with empty data
             adapter = dataAdapter
         }
+
+        // Start API calls to fetch data
+        processGroupedData() // No callback needed here
 
         updateEmptyDataView()
 
         // Set the search button listener
         binding.btnSearch.setOnClickListener { performSearch() }
 
-        // Set listener untuk tombol sorting
+        // Set listener for sort buttons
         binding.btnDifference.setOnClickListener { toggleSortDifference() }
         binding.btnBuyFrom.setOnClickListener { toggleSortBuyFrom() }
         binding.btnSellAt.setOnClickListener { toggleSortSellAt() }
 
         // Initialize the drawable for the difference button to indicate sorting
-        isAscendingDifference = false // Set this to false since we are starting with descending
-        binding.btnDifference.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.baseline_keyboard_arrow_down_17, 0)
+        isAscendingDifference = false // Start with descending
+        binding.btnDifference.setCompoundDrawablesWithIntrinsicBounds(
+            0,
+            0,
+            R.drawable.baseline_keyboard_arrow_down_17,
+            0
+        )
 
         binding.searchEditText.setOnEditorActionListener { _, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH || event?.keyCode == KeyEvent.KEYCODE_ENTER) {
@@ -103,8 +114,207 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
+
+    private fun processGroupedData() {
+        val symbols = listOf("BTCUSDT", "ETHUSDT", "BONKUSDT", "FLOKIUSDT", "LUNCUSDT", "PUNDIXUSDT", "SHIBUSDT")
+        val groupedData = mutableMapOf<String, MutableList<DataModel>>()
+        var remainingCalls = symbols.size * 3 // Total API calls
+
+        symbols.forEach { symbol ->
+            getAllTickersIndodax(symbol.lowercase()) { data ->
+                groupedData.getOrPut(symbol) { mutableListOf() }.add(data)
+                checkAndUpdateData(groupedData, --remainingCalls)
+            }
+            getAllTickersBinance(symbol) { data ->
+                groupedData.getOrPut(symbol) { mutableListOf() }.add(data)
+                checkAndUpdateData(groupedData, --remainingCalls)
+            }
+            getAllTickersKucoin(symbol.replace("USDT", "-USDT")) { data ->
+                groupedData.getOrPut(symbol) { mutableListOf() }.add(data)
+                checkAndUpdateData(groupedData, --remainingCalls)
+            }
+        }
+    }
+
+    private fun checkAndUpdateData(groupedData: Map<String, List<DataModel>>, remainingCalls: Int) {
+        // Cek apakah semua API sudah selesai dipanggil
+        if (remainingCalls == 0) {
+            calculateAndDisplayGroupedData(groupedData)
+            // Setelah semua data diproses, lakukan sorting dan update adapter
+            sortAndUpdateAdapter()
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun calculateAndDisplayGroupedData(groupedData: Map<String, List<DataModel>>) {
+        dataList.clear() // Hapus data lama
+        groupedData.forEach { (symbol, dataListGrouped) ->
+            if (dataListGrouped.size >= 2) { // Pastikan ada minimal 2 data
+                val bestBuy = dataListGrouped.minByOrNull { it.buyValue }
+                val bestSell = dataListGrouped.maxByOrNull { it.sellValue }
+
+                if (bestBuy != null && bestSell != null) {
+
+                    val groupedModel = DataModel(
+                        difference = calculateDifference(bestSell.sellValue, bestBuy.buyValue), // Pass as Float
+                        differenceItem = symbol,
+                        buyFrom = bestBuy.buyFrom,
+                        sellAt = bestSell.sellAt,
+                        buyValue = bestBuy.buyValue,
+                        sellValue = bestSell.sellValue,
+                        buyVolume = bestBuy.buyVolume,
+                        sellVolume = bestSell.sellVolume
+                    )
+
+
+                    // Tambahkan ke dataList utama
+                    dataList.add(groupedModel)
+
+                    // Log hasil grouping
+                    Log.i(TAG, "Grouped Data: $groupedModel")
+                }
+            }
+        }
+
+        // Perbarui RecyclerView setelah data ditambahkan
+        dataAdapter.notifyDataSetChanged()
+        updateEmptyDataView()
+    }
+
+    private fun sortAndUpdateAdapter() {
+        val sortedList = dataList.sortedByDescending { it.difference }
+        dataAdapter.updateData(sortedList)
+        updateEmptyDataView() // Update tampilan setelah data di-sortir
+    }
+
+    // Modify API calls to accept a callback
+    private fun getAllTickersIndodax(symbol: String, callback: (DataModel) -> Unit) {
+        val api = Retrofit.Builder()
+            .baseUrl(BASE_URL_INDODAX)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(IndodaxApi::class.java)
+
+        api.getTickers(symbol).enqueue(object : Callback<TickerResponseIndodax> {
+            override fun onResponse(
+                call: Call<TickerResponseIndodax>,
+                response: Response<TickerResponseIndodax>
+            ) {
+                if (response.isSuccessful) {
+                    response.body()?.let { tickerResponse ->
+                        val ticker = tickerResponse.ticker
+                        val data = DataModel(
+                            difference = 0f, // Use Float here
+                            differenceItem = symbol,
+                            buyFrom = "Indodax",
+                            sellAt = "Indodax",
+                            buyValue = ticker.buy,
+                            sellValue = ticker.sell,
+                            buyVolume = ticker.vol_usdt,
+                            sellVolume = ticker.vol_usdt
+                        )
+
+                        callback(data)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<TickerResponseIndodax>, t: Throwable) {
+                Log.e(TAG, "Indodax API Failure: ${t.message}")
+            }
+        })
+    }
+
+    // Similar modification for Binance
+    private fun getAllTickersBinance(symbol: String, callback: (DataModel) -> Unit) {
+        val api = Retrofit.Builder()
+            .baseUrl(BASE_URL_BINANCE)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(BinanceApi::class.java)
+
+        api.getTickers(symbol).enqueue(object : Callback<TickerResponseBinance> {
+            override fun onResponse(
+                call: Call<TickerResponseBinance>,
+                response: Response<TickerResponseBinance>
+            ) {
+                if (response.isSuccessful) {
+                    response.body()?.let { tickerResponse ->
+                        val data = DataModel(
+                            difference = 0f, // Placeholder
+                            differenceItem = tickerResponse.symbol,
+                            buyFrom = "Binance",
+                            sellAt = "Binance",
+                            buyValue = tickerResponse.askPrice,
+                            sellValue = tickerResponse.bidPrice,
+                            buyVolume = tickerResponse.volume,
+                            sellVolume = tickerResponse.volume
+                        )
+                        callback(data)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<TickerResponseBinance>, t: Throwable) {
+                Log.e(TAG, "Binance API Failure: ${t.message}")
+            }
+        })
+    }
+
+    // Similar modification for Kucoin
+    private fun getAllTickersKucoin(symbol: String, callback: (DataModel) -> Unit) {
+        val api = Retrofit.Builder()
+            .baseUrl(BASE_URL_KUCOIN)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(KucoinApi::class.java)
+
+        api.getTickers(symbol).enqueue(object : Callback<TickerResponseKucoin> {
+            override fun onResponse(
+                call: Call<TickerResponseKucoin>,
+                response: Response<TickerResponseKucoin>
+            ) {
+                if (response.isSuccessful) {
+                    response.body()?.let { tickerResponse ->
+                        val ticker = tickerResponse.data
+                        val data = DataModel(
+                            difference = 0f, // Placeholder
+                            differenceItem = ticker.symbol,
+                            buyFrom = "Kucoin",
+                            sellAt = "Kucoin",
+                            buyValue = ticker.buy,
+                            sellValue = ticker.sell,
+                            buyVolume = ticker.vol,
+                            sellVolume = ticker.vol
+                        )
+                        callback(data)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<TickerResponseKucoin>, t: Throwable) {
+                Log.e(TAG, "Kucoin API Failure: ${t.message}")
+            }
+        })
+    }
+
+    // Method to calculate the difference
+    private fun calculateDifference(sellValue: Float, buyValue: Float): Float {
+        val differenceValue = ((sellValue - buyValue) / buyValue) * 100
+        // Format to 2 decimal places and replace comma with dot (for locales that use comma)
+        val formatted = String.format(Locale.US, "%.2f", differenceValue)
+        return formatted.toFloat()
+    }
+
+
+
+
+
+
+
     private fun updateEmptyDataView() {
-        if (dataAdapter.itemCount == 0) {
+        if (dataList.isEmpty()) {
             binding.emptyDataAnim.visibility = View.VISIBLE
             binding.rvData.visibility = View.GONE
         } else {
@@ -112,6 +322,7 @@ class HomeFragment : Fragment() {
             binding.rvData.visibility = View.VISIBLE
         }
     }
+
 
     private fun resetDrawables(except: View) {
         // Reset drawable pada tombol lainnya
@@ -137,7 +348,12 @@ class HomeFragment : Fragment() {
         }
 
         dataAdapter.updateData(sortedList)
-        binding.btnDifference.setCompoundDrawablesWithIntrinsicBounds(0, 0, if (isAscendingDifference) R.drawable.baseline_keyboard_arrow_up_17 else R.drawable.baseline_keyboard_arrow_down_17, 0)
+        binding.btnDifference.setCompoundDrawablesWithIntrinsicBounds(
+            0,
+            0,
+            if (isAscendingDifference) R.drawable.baseline_keyboard_arrow_up_17 else R.drawable.baseline_keyboard_arrow_down_17,
+            0
+        )
     }
 
     private fun toggleSortBuyFrom() {
@@ -151,7 +367,12 @@ class HomeFragment : Fragment() {
         }
 
         dataAdapter.updateData(sortedList)
-        binding.btnBuyFrom.setCompoundDrawablesWithIntrinsicBounds(0, 0, if (isAscendingBuyFrom) R.drawable.baseline_keyboard_arrow_up_17 else R.drawable.baseline_keyboard_arrow_down_17, 0)
+        binding.btnBuyFrom.setCompoundDrawablesWithIntrinsicBounds(
+            0,
+            0,
+            if (isAscendingBuyFrom) R.drawable.baseline_keyboard_arrow_up_17 else R.drawable.baseline_keyboard_arrow_down_17,
+            0
+        )
     }
 
     private fun toggleSortSellAt() {
@@ -165,9 +386,13 @@ class HomeFragment : Fragment() {
         }
 
         dataAdapter.updateData(sortedList)
-        binding.btnSellAt.setCompoundDrawablesWithIntrinsicBounds(0, 0, if (isAscendingSellAt) R.drawable.baseline_keyboard_arrow_up_17 else R.drawable.baseline_keyboard_arrow_down_17, 0)
+        binding.btnSellAt.setCompoundDrawablesWithIntrinsicBounds(
+            0,
+            0,
+            if (isAscendingSellAt) R.drawable.baseline_keyboard_arrow_up_17 else R.drawable.baseline_keyboard_arrow_down_17,
+            0
+        )
     }
-
 
 
     private fun performSearch() {

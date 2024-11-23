@@ -5,7 +5,7 @@ import android.os.Parcelable
 
 @Parcelize
 data class DataModel(
-    val difference: String,
+    val difference: Float,
     val differenceItem: String,
     val buyFrom: String,
     val sellAt: String,
