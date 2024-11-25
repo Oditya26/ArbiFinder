@@ -588,150 +588,6 @@
                     android:layout_marginBottom="16dp">
 
                     <TextView
-                        android:id="@+id/bitfinex_text_bold"
-                        style="@style/DescriptionBoldTextStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginRight="16dp"
-                        android:layout_marginBottom="8dp"
-                        android:drawablePadding="16dp"
-                        android:paddingTop="16dp"
-                        android:text="@string/bitfinex"
-                        android:textColor="@color/mercury"
-                        app:drawableStartCompat="@drawable/bitfinex_leaf_24" />
-
-                    <Switch
-                        android:id="@+id/bitfinex_switch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="16dp"
-                        android:checked="false"
-                        android:padding="14dp"
-                        android:thumbTint="@color/switch_thumb_color"
-                        android:trackTint="@color/switch_track_color"
-                        tools:ignore="UseSwitchCompatOrMaterialXml"
-                        tools:targetApi="m" />
-
-                    <TextView
-                        style="@style/DescriptionRegularTextStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/bitfinex_text_bold"
-                        android:layout_alignStart="@id/bitfinex_text_bold"
-                        android:layout_marginStart="40dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_toStartOf="@id/bitfinex_switch"
-                        android:text="@string/bitfinex_desc"
-                        android:textColor="@color/mercury" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginBottom="16dp">
-
-                    <TextView
-                        android:id="@+id/bitflyer_text_bold"
-                        style="@style/DescriptionBoldTextStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginRight="16dp"
-                        android:layout_marginBottom="8dp"
-                        android:drawablePadding="16dp"
-                        android:paddingTop="16dp"
-                        android:text="@string/bitflyer"
-                        android:textColor="@color/mercury"
-                        app:drawableStartCompat="@drawable/bitflyer_logo_24" />
-
-                    <Switch
-                        android:id="@+id/bitflyer_switch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="16dp"
-                        android:checked="false"
-                        android:padding="14dp"
-                        android:thumbTint="@color/switch_thumb_color"
-                        android:trackTint="@color/switch_track_color"
-                        tools:ignore="UseSwitchCompatOrMaterialXml"
-                        tools:targetApi="m" />
-
-                    <TextView
-                        style="@style/DescriptionRegularTextStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/bitflyer_text_bold"
-                        android:layout_alignStart="@id/bitflyer_text_bold"
-                        android:layout_marginStart="40dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_toStartOf="@id/bitflyer_switch"
-                        android:text="@string/bitflyer_desc"
-                        android:textColor="@color/mercury" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginBottom="16dp">
-
-                    <TextView
-                        android:id="@+id/hitbtc_text_bold"
-                        style="@style/DescriptionBoldTextStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginRight="16dp"
-                        android:layout_marginBottom="8dp"
-                        android:drawablePadding="16dp"
-                        android:paddingTop="16dp"
-                        android:text="@string/hitbtc"
-                        android:textColor="@color/mercury"
-                        app:drawableStartCompat="@drawable/hitbtc_logo_24" />
-
-                    <Switch
-                        android:id="@+id/hitbtc_switch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="16dp"
-                        android:checked="false"
-                        android:padding="14dp"
-                        android:thumbTint="@color/switch_thumb_color"
-                        android:trackTint="@color/switch_track_color"
-                        tools:ignore="UseSwitchCompatOrMaterialXml"
-                        tools:targetApi="m" />
-
-                    <TextView
-                        style="@style/DescriptionRegularTextStyle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/hitbtc_text_bold"
-                        android:layout_alignStart="@id/hitbtc_text_bold"
-                        android:layout_marginStart="40dp"
-                        android:layout_marginEnd="16dp"
-                        android:layout_toStartOf="@id/hitbtc_switch"
-                        android:text="@string/hitbtc_desc"
-                        android:textColor="@color/mercury" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginBottom="16dp">
-
-                    <TextView
                         android:id="@+id/indodax_text_bold"
                         style="@style/DescriptionBoldTextStyle"
                         android:layout_width="wrap_content"
@@ -770,6 +626,54 @@
                         android:layout_marginEnd="16dp"
                         android:layout_toStartOf="@id/indodax_switch"
                         android:text="@string/indodax_desc"
+                        android:textColor="@color/mercury" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="16dp">
+
+                    <TextView
+                        android:id="@+id/kucoin_text_bold"
+                        style="@style/DescriptionBoldTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:drawablePadding="16dp"
+                        android:paddingTop="16dp"
+                        android:text="@string/kucoin"
+                        android:textColor="@color/mercury"
+                        app:drawableStartCompat="@drawable/kucoin" />
+
+                    <Switch
+                        android:id="@+id/kucoin_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="16dp"
+                        android:checked="false"
+                        android:padding="14dp"
+                        android:thumbTint="@color/switch_thumb_color"
+                        android:trackTint="@color/switch_track_color"
+                        tools:ignore="UseSwitchCompatOrMaterialXml"
+                        tools:targetApi="m" />
+
+                    <TextView
+                        style="@style/DescriptionRegularTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/kucoin_text_bold"
+                        android:layout_alignStart="@id/kucoin_text_bold"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_toStartOf="@id/kucoin_switch"
+                        android:text="@string/kucoin_desc"
                         android:textColor="@color/mercury" />
                 </RelativeLayout>
 

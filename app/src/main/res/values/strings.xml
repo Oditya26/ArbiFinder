@@ -64,6 +64,9 @@
     <string name="indodax">Indodax</string>
     <string name="indodax_desc">Show Indodax Trade Data</string>
 
+    <string name="kucoin">Kucoin</string>
+    <string name="kucoin_desc">Show Kucoin Trade Data</string>
+
     <string name="persen">0.02</string>
     <string name="eth_btc">ETH/BTC</string>
 

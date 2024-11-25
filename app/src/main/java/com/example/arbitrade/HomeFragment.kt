@@ -35,7 +35,7 @@ class HomeFragment : Fragment() {
         const val BASE_URL_INDODAX = "https://indodax.com/api/ticker/"
         const val BASE_URL_BINANCE = "https://api.binance.com/api/v3/ticker/"
         const val BASE_URL_KUCOIN = "https://api.kucoin.com/api/v1/market/"
-        const val BASE_URL_BINANCE_CHECK_PRICE = "https://api.binance.com/api/v3/"
+        const val BASE_URL_BINANCE_CHECK_PRICE = "https://api.binance.com/api/v3/ticker/"
         const val TAG: String = "CHECK_RESPONSE"
     }
 
@@ -179,24 +179,27 @@ class HomeFragment : Fragment() {
                 val bestSell = dataListGrouped.maxByOrNull { it.sellValue }
 
                 if (bestBuy != null && bestSell != null) {
+                    // Periksa apakah BuyFrom dan SellAt berbeda
+                    if (bestBuy.buyFrom != bestSell.sellAt) {
+                        val groupedModel = DataModel(
+                            difference = calculateDifference(bestSell.sellValue, bestBuy.buyValue), // Pass as Float
+                            differenceItem = symbol,
+                            buyFrom = bestBuy.buyFrom,
+                            sellAt = bestSell.sellAt,
+                            buyValue = bestBuy.buyValue,
+                            sellValue = bestSell.sellValue,
+                            buyVolume = bestBuy.buyVolume,
+                            sellVolume = bestSell.sellVolume
+                        )
 
-                    val groupedModel = DataModel(
-                        difference = calculateDifference(bestSell.sellValue, bestBuy.buyValue), // Pass as Float
-                        differenceItem = symbol,
-                        buyFrom = bestBuy.buyFrom,
-                        sellAt = bestSell.sellAt,
-                        buyValue = bestBuy.buyValue,
-                        sellValue = bestSell.sellValue,
-                        buyVolume = bestBuy.buyVolume,
-                        sellVolume = bestSell.sellVolume
-                    )
+                        // Tambahkan ke dataList utama
+                        dataList.add(groupedModel)
 
-
-                    // Tambahkan ke dataList utama
-                    dataList.add(groupedModel)
-
-                    // Log hasil grouping
-                    Log.i(TAG, "Grouped Data: $groupedModel")
+                        // Log hasil grouping
+                        Log.i(TAG, "Grouped Data: $groupedModel")
+                    } else {
+                        Log.i(TAG, "Filtered out data with same BuyFrom and SellAt: BuyFrom=${bestBuy.buyFrom}, SellAt=${bestSell.sellAt}")
+                    }
                 }
             }
         }
@@ -205,6 +208,7 @@ class HomeFragment : Fragment() {
         dataAdapter.notifyDataSetChanged()
         updateEmptyDataView()
     }
+
 
     private fun sortAndUpdateAdapter() {
         val sortedList = dataList.sortedByDescending { it.difference }

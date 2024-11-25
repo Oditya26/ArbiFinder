@@ -5,6 +5,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface CryptoApiService {
-    @GET("ticker/price")
+    @GET("price")
     fun getPrice(@Query("symbol") symbol: String): Call<CryptoResponse>
 }

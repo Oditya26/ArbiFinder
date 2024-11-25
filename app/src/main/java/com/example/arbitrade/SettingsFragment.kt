@@ -78,10 +78,8 @@ class SettingsFragment : Fragment() {
         binding.ethSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("ethSwitch", isChecked) }
         binding.usdtSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("usdtSwitch", isChecked) }
         binding.binanceSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("binanceSwitch", isChecked) }
-        binding.bitfinexSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("bitfinexSwitch", isChecked) }
-        binding.bitflyerSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("bitflyerSwitch", isChecked) }
-        binding.hitbtcSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("hitbtcSwitch", isChecked) }
-        binding.indodaxSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("indodaxSwitch", isChecked) }
+        binding.indodaxSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("bitfinexSwitch", isChecked) }
+        binding.kucoinSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("bitflyerSwitch", isChecked) }
 
         updateLowVolumeDescription(binding.lowVolumeSwitch.isChecked)
         binding.autoRefreshSeekbar.visibility = if (binding.autoRefreshSwitch.isChecked) View.VISIBLE else View.GONE
@@ -110,10 +108,8 @@ class SettingsFragment : Fragment() {
             binding.ethSwitch.isChecked = getBoolean("ethSwitch", true)
             binding.usdtSwitch.isChecked = getBoolean("usdtSwitch", true)
             binding.binanceSwitch.isChecked = getBoolean("binanceSwitch", true)
-            binding.bitfinexSwitch.isChecked = getBoolean("bitfinexSwitch", true)
-            binding.bitflyerSwitch.isChecked = getBoolean("bitflyerSwitch", true)
-            binding.hitbtcSwitch.isChecked = getBoolean("hitbtcSwitch", true)
             binding.indodaxSwitch.isChecked = getBoolean("indodaxSwitch", true)
+            binding.kucoinSwitch.isChecked = getBoolean("kucoinSwitch", true)
         }
     }
 
