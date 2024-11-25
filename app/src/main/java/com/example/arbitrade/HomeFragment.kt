@@ -124,7 +124,7 @@ class HomeFragment : Fragment() {
 
     private fun processGroupedData() {
         val symbols = listOf("BTCUSDT", "ETHUSDT", "BONKUSDT", "FLOKIUSDT", "LUNCUSDT", "PUNDIXUSDT", "SHIBUSDT")
-        val symbols2 = listOf("ADAUSDT", "ZRXUSDT", "AEVOUSDT","BNBUSDT")
+        val symbols2 = listOf("ADAUSDT", "ZRXUSDT", "AEVOUSDT","BNBUSDT", "PYTHUSDT", "TURBOUSDT")
         val groupedData = mutableMapOf<String, MutableList<DataModel>>()
         var remainingCalls = symbols.size * 3 // Total API calls
 
