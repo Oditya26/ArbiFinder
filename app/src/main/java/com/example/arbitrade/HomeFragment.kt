@@ -124,9 +124,9 @@ class HomeFragment : Fragment() {
 
     private fun processGroupedData() {
         val symbols = listOf("BTCUSDT", "ETHUSDT", "BONKUSDT", "FLOKIUSDT", "LUNCUSDT", "PUNDIXUSDT", "SHIBUSDT")
-        val symbols2 = listOf("ADAUSDT", "ZRXUSDT", "AEVOUSDT","BNBUSDT", "PYTHUSDT", "TURBOUSDT")
+        val symbols2 = listOf("ADAUSDT", "ZRXUSDT", "AEVOUSDT", "BNBUSDT", "PYTHUSDT", "TURBOUSDT")
         val groupedData = mutableMapOf<String, MutableList<DataModel>>()
-        var remainingCalls = symbols.size * 3 // Total API calls
+        var remainingCalls = symbols.size * 3 + symbols2.size * 3 // Total API calls
 
         symbols.forEach { symbol ->
             getAllTickersIndodax(symbol.lowercase()) { data ->
@@ -143,9 +143,8 @@ class HomeFragment : Fragment() {
             }
         }
 
-        // Proses symbols2 dengan logika khusus
         symbols2.forEach { symbol ->
-            val indodaxSymbol = symbol.replace("USDT", "IDR").lowercase() // Ganti "USDT" menjadi "IDR" lalu lowercase
+            val indodaxSymbol = symbol.replace("USDT", "IDR").lowercase()
             getAllTickersIndodax(indodaxSymbol) { data ->
                 groupedData.getOrPut(symbol) { mutableListOf() }.add(data)
                 checkAndUpdateData(groupedData, --remainingCalls)
@@ -162,10 +161,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun checkAndUpdateData(groupedData: Map<String, List<DataModel>>, remainingCalls: Int) {
-        // Cek apakah semua API sudah selesai dipanggil
         if (remainingCalls == 0) {
             calculateAndDisplayGroupedData(groupedData)
-            // Setelah semua data diproses, lakukan sorting dan update adapter
             sortAndUpdateAdapter()
         }
     }
