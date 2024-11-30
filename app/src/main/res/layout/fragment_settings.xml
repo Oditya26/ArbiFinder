@@ -241,7 +241,8 @@
                         android:text="@string/val_low_volume"
                         android:textColor="@color/bright_sun"
                         android:textSize="16sp"
-                        app:drawableStartCompat="@drawable/icon_bitcoin_sun_bright_18" />
+                        android:drawablePadding="2dp"
+                        app:drawableStartCompat="@drawable/usdt" />
                     <!-- Seekbar for volume selection -->
                     <SeekBar
                         android:id="@+id/volume_seekbar"
@@ -250,7 +251,7 @@
                         android:layout_below="@+id/low_volume_desc"
                         android:layout_alignStart="@+id/low_volume_text_bold"
                         android:layout_marginTop="8dp"
-                        android:layout_marginStart="85dp"
+                        android:layout_marginStart="100dp"
                         android:layout_marginEnd="16dp"
                         android:layout_toStartOf="@+id/low_volume_switch"
                         android:max="20"
@@ -340,7 +341,7 @@
                         android:layout_below="@+id/auto_refresh_desc"
                         android:layout_alignStart="@+id/auto_refresh_text_bold"
                         android:layout_marginTop="8dp"
-                        android:layout_marginStart="85dp"
+                        android:layout_marginStart="100dp"
                         android:layout_marginEnd="16dp"
                         android:layout_toStartOf="@+id/auto_refresh_switch"
                         android:max="10"

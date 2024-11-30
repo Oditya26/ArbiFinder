@@ -43,8 +43,8 @@ class SettingsFragment : Fragment() {
 
         binding.volumeSeekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                val volumeValue = progress * 5.0f
-                binding.volumeValue.text = String.format("%.1f", volumeValue).replace('.', ',')
+                val volumeValue = progress * 50.0f
+                binding.volumeValue.text = String.format("%.1f", volumeValue).replace(',', '.')
                 saveSettings("volume", volumeValue)
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -95,8 +95,8 @@ class SettingsFragment : Fragment() {
             binding.lowVolumeSwitch.isChecked = getBoolean("lowVolumeSwitch", true)
 
             val volume = getFloat("volume", 0f)
-            binding.volumeValue.text = String.format("%.1f", volume).replace('.', ',')
-            binding.volumeSeekbar.progress = volume.toInt().div(5)
+            binding.volumeValue.text = String.format("%.1f", volume).replace(',', '.')
+            binding.volumeSeekbar.progress = volume.toInt().div(50)
 
             binding.autoRefreshSwitch.isChecked = getBoolean("autoRefreshSwitch", true)
 
