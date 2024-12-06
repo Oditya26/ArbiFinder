@@ -81,7 +81,7 @@ class SettingsFragment : Fragment() {
         binding.ethSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("ethSwitch", isChecked) }
         binding.usdtSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("usdtSwitch", isChecked) }
         binding.binanceSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("binanceSwitch", isChecked) }
-        binding.indodaxSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("bitfinexSwitch", isChecked) }
+        binding.indodaxSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("indodaxSwitch", isChecked) }
 
         updateLowVolumeDescription(binding.lowVolumeSwitch.isChecked)
         binding.autoRefreshSeekbar.visibility = if (binding.autoRefreshSwitch.isChecked) View.VISIBLE else View.GONE
