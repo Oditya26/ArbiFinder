@@ -32,7 +32,7 @@ class HomeFragment : Fragment() {
     companion object {
         const val BASE_URL_INDODAX = "https://indodax.com/api/ticker/"
         const val BASE_URL_BINANCE = "https://testnet.binance.vision/api/v3/ticker/"
-//        const val BASE_URL_KUCOIN = "https://api.kucoin.com/api/v1/market/"
+        //        const val BASE_URL_KUCOIN = "https://api.kucoin.com/api/v1/market/"
         const val TAG: String = "CHECK_RESPONSE"
     }
 
