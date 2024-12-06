@@ -15,13 +15,11 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.arbitrade.binance.BinanceApi
 import com.example.arbitrade.binance.TickerResponseBinance
-import com.example.arbitrade.convertprice.CryptoApiService
-import com.example.arbitrade.convertprice.CryptoResponse
 import com.example.arbitrade.databinding.FragmentHomeBinding
 import com.example.arbitrade.indodax.IndodaxApi
 import com.example.arbitrade.indodax.TickerResponseIndodax
-import com.example.arbitrade.kucoin.KucoinApi
-import com.example.arbitrade.kucoin.TickerResponseKucoin
+//import com.example.arbitrade.kucoin.KucoinApi
+//import com.example.arbitrade.kucoin.TickerResponseKucoin
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -33,9 +31,8 @@ class HomeFragment : Fragment() {
 
     companion object {
         const val BASE_URL_INDODAX = "https://indodax.com/api/ticker/"
-        const val BASE_URL_BINANCE = "https://api.binance.com/api/v3/ticker/"
-        const val BASE_URL_KUCOIN = "https://api.kucoin.com/api/v1/market/"
-        const val BASE_URL_BINANCE_CHECK_PRICE = "https://api.binance.com/api/v3/ticker/"
+        const val BASE_URL_BINANCE = "https://testnet.binance.vision/api/v3/ticker/"
+//        const val BASE_URL_KUCOIN = "https://api.kucoin.com/api/v1/market/"
         const val TAG: String = "CHECK_RESPONSE"
     }
 
@@ -86,13 +83,11 @@ class HomeFragment : Fragment() {
             dataAdapter = DataAdapter(dataList) // Adapter initialized with empty data
             adapter = dataAdapter
         }
-
-        // Start API calls to fetch data
-        processGroupedData() // No callback needed here
+        getConvertPrice {
+            processGroupedData()
+        }
 
         updateEmptyDataView()
-
-        getConvertPrice()
 
         // Set the search button listener
         binding.btnSearch.setOnClickListener { performSearch() }
@@ -123,10 +118,10 @@ class HomeFragment : Fragment() {
 
 
     private fun processGroupedData() {
-        val symbols = listOf("BTCUSDT", "ETHUSDT", "BONKUSDT", "FLOKIUSDT", "LUNCUSDT", "PUNDIXUSDT", "SHIBUSDT")
+        val symbols = listOf("BTCUSDT", "ETHUSDT", "BONKUSDT", "FLOKIUSDT", "LUNCUSDT", "PEPEUSDT", "PUNDIXUSDT", "SHIBUSDT", "XECUSDT")
         val symbols2 = listOf("ADAUSDT", "ZRXUSDT", "AEVOUSDT", "BNBUSDT", "PYTHUSDT", "TURBOUSDT")
         val groupedData = mutableMapOf<String, MutableList<DataModel>>()
-        var remainingCalls = symbols.size * 3 + symbols2.size * 3 // Total API calls
+        var remainingCalls = symbols.size * 2 + symbols2.size * 2 // Total API calls
 
         symbols.forEach { symbol ->
             getAllTickersIndodax(symbol.lowercase()) { data ->
@@ -137,10 +132,10 @@ class HomeFragment : Fragment() {
                 groupedData.getOrPut(symbol) { mutableListOf() }.add(data)
                 checkAndUpdateData(groupedData, --remainingCalls)
             }
-            getAllTickersKucoin(symbol.replace("USDT", "-USDT")) { data ->
-                groupedData.getOrPut(symbol) { mutableListOf() }.add(data)
-                checkAndUpdateData(groupedData, --remainingCalls)
-            }
+//            getAllTickersKucoin(symbol.replace("USDT", "-USDT")) { data ->
+//                groupedData.getOrPut(symbol) { mutableListOf() }.add(data)
+//                checkAndUpdateData(groupedData, --remainingCalls)
+//            }
         }
 
         symbols2.forEach { symbol ->
@@ -153,10 +148,10 @@ class HomeFragment : Fragment() {
                 groupedData.getOrPut(symbol) { mutableListOf() }.add(data)
                 checkAndUpdateData(groupedData, --remainingCalls)
             }
-            getAllTickersKucoin(symbol.replace("USDT", "-USDT")) { data ->
-                groupedData.getOrPut(symbol) { mutableListOf() }.add(data)
-                checkAndUpdateData(groupedData, --remainingCalls)
-            }
+//            getAllTickersKucoin(symbol.replace("USDT", "-USDT")) { data ->
+//                groupedData.getOrPut(symbol) { mutableListOf() }.add(data)
+//                checkAndUpdateData(groupedData, --remainingCalls)
+//            }
         }
     }
 
@@ -213,36 +208,42 @@ class HomeFragment : Fragment() {
         updateEmptyDataView() // Update tampilan setelah data di-sortir
     }
 
-    private fun getConvertPrice() {
+    private fun getConvertPrice(onComplete: () -> Unit) {
         val api = Retrofit.Builder()
-            .baseUrl(BASE_URL_BINANCE_CHECK_PRICE)
+            .baseUrl(BASE_URL_INDODAX)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(CryptoApiService::class.java)
+            .create(IndodaxApi::class.java)
 
-        api.getPrice(symbol = "USDTIDRT").enqueue(object : Callback<CryptoResponse> {
+        api.getTickers(symbol = "usdtidr").enqueue(object : Callback<TickerResponseIndodax> {
             override fun onResponse(
-                call: Call<CryptoResponse>,
-                response: Response<CryptoResponse>
+                call: Call<TickerResponseIndodax>,
+                response: Response<TickerResponseIndodax>
             ) {
                 if (response.isSuccessful) {
-                    val usdtPrice = response.body()?.price?.toFloatOrNull()
-                    if (usdtPrice != null) {
-                        conversionRate = usdtPrice
-                        Log.d("USDT_PRICE", "1 USDT = $usdtPrice IDRT")
-                    } else {
-                        Log.e("USDT_PRICE", "Failed to parse price")
+                    response.body()?.let { tickerResponse ->
+                        val ticker = tickerResponse.ticker
+                        val usdtPrice = ticker.last
+                        Log.d("USDT_PRICE", "Response: $ticker")
+
+                        run {
+                            conversionRate = usdtPrice
+                            Log.d("USDT_PRICE", "1 USDT = $usdtPrice IDRT")
+                        }
                     }
                 } else {
                     Log.e("USDT_PRICE", "Failed to fetch price: ${response.errorBody()?.string()}")
                 }
+                onComplete() // Continue after response
             }
 
-            override fun onFailure(call: Call<CryptoResponse>, t: Throwable) {
+            override fun onFailure(call: Call<TickerResponseIndodax>, t: Throwable) {
                 Log.e("USDT_PRICE", "Error: ${t.message}")
+                onComplete() // Continue even if there is an error
             }
         })
     }
+
 
 
     // Modify API calls to accept a callback
@@ -354,41 +355,41 @@ class HomeFragment : Fragment() {
     }
 
     // Similar modification for Kucoin
-    private fun getAllTickersKucoin(symbol: String, callback: (DataModel) -> Unit) {
-        val api = Retrofit.Builder()
-            .baseUrl(BASE_URL_KUCOIN)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(KucoinApi::class.java)
-
-        api.getTickers(symbol).enqueue(object : Callback<TickerResponseKucoin> {
-            override fun onResponse(
-                call: Call<TickerResponseKucoin>,
-                response: Response<TickerResponseKucoin>
-            ) {
-                if (response.isSuccessful) {
-                    response.body()?.let { tickerResponse ->
-                        val ticker = tickerResponse.data
-                        val data = DataModel(
-                            difference = 0f, // Placeholder
-                            differenceItem = ticker.symbol,
-                            buyFrom = "Kucoin",
-                            sellAt = "Kucoin",
-                            buyValue = ticker.buy,
-                            sellValue = ticker.sell,
-                            buyVolume = ticker.vol,
-                            sellVolume = ticker.vol
-                        )
-                        callback(data)
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<TickerResponseKucoin>, t: Throwable) {
-                Log.e(TAG, "Kucoin API Failure: ${t.message}")
-            }
-        })
-    }
+//    private fun getAllTickersKucoin(symbol: String, callback: (DataModel) -> Unit) {
+//        val api = Retrofit.Builder()
+//            .baseUrl(BASE_URL_KUCOIN)
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .build()
+//            .create(KucoinApi::class.java)
+//
+//        api.getTickers(symbol).enqueue(object : Callback<TickerResponseKucoin> {
+//            override fun onResponse(
+//                call: Call<TickerResponseKucoin>,
+//                response: Response<TickerResponseKucoin>
+//            ) {
+//                if (response.isSuccessful) {
+//                    response.body()?.let { tickerResponse ->
+//                        val ticker = tickerResponse.data
+//                        val data = DataModel(
+//                            difference = 0f, // Placeholder
+//                            differenceItem = ticker.symbol,
+//                            buyFrom = "Kucoin",
+//                            sellAt = "Kucoin",
+//                            buyValue = ticker.buy,
+//                            sellValue = ticker.sell,
+//                            buyVolume = ticker.vol,
+//                            sellVolume = ticker.vol
+//                        )
+//                        callback(data)
+//                    }
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<TickerResponseKucoin>, t: Throwable) {
+//                Log.e(TAG, "Kucoin API Failure: ${t.message}")
+//            }
+//        })
+//    }
 
     // Method to calculate the difference
     private fun calculateDifference(sellValue: Float, buyValue: Float): Float {
