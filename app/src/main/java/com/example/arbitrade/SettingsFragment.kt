@@ -168,9 +168,6 @@ class SettingsFragment : Fragment() {
             "ethSwitch" to true,
             "usdtSwitch" to true,
             "binanceSwitch" to true,
-            "bitfinexSwitch" to true,
-            "bitflyerSwitch" to true,
-            "hitbtcSwitch" to true,
             "indodaxSwitch" to true
         )
 

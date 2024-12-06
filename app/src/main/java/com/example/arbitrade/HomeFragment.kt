@@ -32,7 +32,6 @@ class HomeFragment : Fragment() {
     companion object {
         const val BASE_URL_INDODAX = "https://indodax.com/api/ticker/"
         const val BASE_URL_BINANCE = "https://testnet.binance.vision/api/v3/ticker/"
-        //        const val BASE_URL_KUCOIN = "https://api.kucoin.com/api/v1/market/"
         const val TAG: String = "CHECK_RESPONSE"
     }
 
@@ -116,7 +115,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-
     private fun processGroupedData() {
         val symbols = listOf("BTCUSDT", "ETHUSDT", "BONKUSDT", "FLOKIUSDT", "LUNCUSDT", "PEPEUSDT", "PUNDIXUSDT", "SHIBUSDT", "XECUSDT")
         val symbols2 = listOf("ADAUSDT", "ZRXUSDT", "AEVOUSDT", "BNBUSDT", "PYTHUSDT", "TURBOUSDT")
@@ -132,10 +130,6 @@ class HomeFragment : Fragment() {
                 groupedData.getOrPut(symbol) { mutableListOf() }.add(data)
                 checkAndUpdateData(groupedData, --remainingCalls)
             }
-//            getAllTickersKucoin(symbol.replace("USDT", "-USDT")) { data ->
-//                groupedData.getOrPut(symbol) { mutableListOf() }.add(data)
-//                checkAndUpdateData(groupedData, --remainingCalls)
-//            }
         }
 
         symbols2.forEach { symbol ->
@@ -148,10 +142,6 @@ class HomeFragment : Fragment() {
                 groupedData.getOrPut(symbol) { mutableListOf() }.add(data)
                 checkAndUpdateData(groupedData, --remainingCalls)
             }
-//            getAllTickersKucoin(symbol.replace("USDT", "-USDT")) { data ->
-//                groupedData.getOrPut(symbol) { mutableListOf() }.add(data)
-//                checkAndUpdateData(groupedData, --remainingCalls)
-//            }
         }
     }
 
@@ -201,7 +191,6 @@ class HomeFragment : Fragment() {
         updateEmptyDataView()
     }
 
-
     private fun sortAndUpdateAdapter() {
         val sortedList = dataList.sortedByDescending { it.difference }
         dataAdapter.updateData(sortedList)
@@ -243,8 +232,6 @@ class HomeFragment : Fragment() {
             }
         })
     }
-
-
 
     // Modify API calls to accept a callback
     private fun getAllTickersIndodax(symbol: String, callback: (DataModel) -> Unit) {
@@ -316,8 +303,6 @@ class HomeFragment : Fragment() {
         })
     }
 
-
-
     // Similar modification for Binance
     private fun getAllTickersBinance(symbol: String, callback: (DataModel) -> Unit) {
         val api = Retrofit.Builder()
@@ -354,43 +339,6 @@ class HomeFragment : Fragment() {
         })
     }
 
-    // Similar modification for Kucoin
-//    private fun getAllTickersKucoin(symbol: String, callback: (DataModel) -> Unit) {
-//        val api = Retrofit.Builder()
-//            .baseUrl(BASE_URL_KUCOIN)
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
-//            .create(KucoinApi::class.java)
-//
-//        api.getTickers(symbol).enqueue(object : Callback<TickerResponseKucoin> {
-//            override fun onResponse(
-//                call: Call<TickerResponseKucoin>,
-//                response: Response<TickerResponseKucoin>
-//            ) {
-//                if (response.isSuccessful) {
-//                    response.body()?.let { tickerResponse ->
-//                        val ticker = tickerResponse.data
-//                        val data = DataModel(
-//                            difference = 0f, // Placeholder
-//                            differenceItem = ticker.symbol,
-//                            buyFrom = "Kucoin",
-//                            sellAt = "Kucoin",
-//                            buyValue = ticker.buy,
-//                            sellValue = ticker.sell,
-//                            buyVolume = ticker.vol,
-//                            sellVolume = ticker.vol
-//                        )
-//                        callback(data)
-//                    }
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<TickerResponseKucoin>, t: Throwable) {
-//                Log.e(TAG, "Kucoin API Failure: ${t.message}")
-//            }
-//        })
-//    }
-
     // Method to calculate the difference
     private fun calculateDifference(sellValue: Float, buyValue: Float): Float {
         val differenceValue = ((sellValue - buyValue) / buyValue) * 100
@@ -398,12 +346,6 @@ class HomeFragment : Fragment() {
         val formatted = String.format(Locale.US, "%.2f", differenceValue)
         return formatted.toFloat()
     }
-
-
-
-
-
-
 
     private fun updateEmptyDataView() {
         if (dataList.isEmpty()) {
