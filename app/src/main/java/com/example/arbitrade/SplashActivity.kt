@@ -27,10 +27,6 @@ class SplashActivity : AppCompatActivity() {
             insets
         }
 
-//        val animation = AnimationUtils.loadAnimation(this, R.anim.scale_anim)
-//
-//        binding.arbitrade.startAnimation(animation)
-
         Handler().postDelayed({
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
