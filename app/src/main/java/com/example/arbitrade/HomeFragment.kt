@@ -18,6 +18,7 @@ import com.example.arbitrade.binance.TickerResponseBinance
 import com.example.arbitrade.databinding.FragmentHomeBinding
 import com.example.arbitrade.indodax.IndodaxApi
 import com.example.arbitrade.indodax.TickerResponseIndodax
+import okhttp3.OkHttpClient
 //import com.example.arbitrade.kucoin.KucoinApi
 //import com.example.arbitrade.kucoin.TickerResponseKucoin
 import retrofit2.Call
@@ -26,6 +27,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 class HomeFragment : Fragment() {
 
@@ -235,8 +237,14 @@ class HomeFragment : Fragment() {
 
     // Modify API calls to accept a callback
     private fun getAllTickersIndodax(symbol: String, callback: (DataModel) -> Unit) {
+        val okHttpClient = OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS) // Connection timeout
+            .writeTimeout(30, TimeUnit.SECONDS)   // Write timeout
+            .readTimeout(30, TimeUnit.SECONDS)    // Read timeout
+            .build()
         val api = Retrofit.Builder()
             .baseUrl(BASE_URL_INDODAX)
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(IndodaxApi::class.java)
@@ -305,8 +313,15 @@ class HomeFragment : Fragment() {
 
     // Similar modification for Binance
     private fun getAllTickersBinance(symbol: String, callback: (DataModel) -> Unit) {
+        val okHttpClient = OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS) // Connection timeout
+            .writeTimeout(30, TimeUnit.SECONDS)   // Write timeout
+            .readTimeout(30, TimeUnit.SECONDS)    // Read timeout
+            .build()
+
         val api = Retrofit.Builder()
             .baseUrl(BASE_URL_BINANCE)
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(BinanceApi::class.java)
