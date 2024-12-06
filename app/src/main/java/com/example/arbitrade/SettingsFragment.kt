@@ -1,5 +1,6 @@
 package com.example.arbitrade
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
@@ -16,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.arbitrade.databinding.FragmentSettingsBinding
 
+@Suppress("DEPRECATION")
 class SettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding
@@ -24,7 +26,7 @@ class SettingsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentSettingsBinding.inflate(inflater, container, false)
         sharedPreferences = requireContext().getSharedPreferences("user_settings", Context.MODE_PRIVATE)
         return binding.root
@@ -36,7 +38,7 @@ class SettingsFragment : Fragment() {
         loadSettings()
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(0, 0, 0, 0)
             insets
         }
@@ -52,6 +54,7 @@ class SettingsFragment : Fragment() {
         })
 
         binding.autoRefreshSeekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            @SuppressLint("SetTextI18n")
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 val autoRefreshValue = 10 + (progress * 5)
                 binding.autoRefreshValue.text = "$autoRefreshValue s"
@@ -79,7 +82,6 @@ class SettingsFragment : Fragment() {
         binding.usdtSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("usdtSwitch", isChecked) }
         binding.binanceSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("binanceSwitch", isChecked) }
         binding.indodaxSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("bitfinexSwitch", isChecked) }
-        binding.kucoinSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("bitflyerSwitch", isChecked) }
 
         updateLowVolumeDescription(binding.lowVolumeSwitch.isChecked)
         binding.autoRefreshSeekbar.visibility = if (binding.autoRefreshSwitch.isChecked) View.VISIBLE else View.GONE
@@ -88,6 +90,7 @@ class SettingsFragment : Fragment() {
         binding.btnResetSetting.setOnClickListener { showResetSettingsDialog() }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun loadSettings() {
         with(sharedPreferences) {
             binding.disableTradesSwitch.isChecked = getBoolean("disableTradesSwitch", true)
@@ -109,7 +112,6 @@ class SettingsFragment : Fragment() {
             binding.usdtSwitch.isChecked = getBoolean("usdtSwitch", true)
             binding.binanceSwitch.isChecked = getBoolean("binanceSwitch", true)
             binding.indodaxSwitch.isChecked = getBoolean("indodaxSwitch", true)
-            binding.kucoinSwitch.isChecked = getBoolean("kucoinSwitch", true)
         }
     }
 
