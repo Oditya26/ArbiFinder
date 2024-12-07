@@ -1,6 +1,8 @@
 package com.example.arbitrade
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -37,6 +39,25 @@ class HomeFragment : Fragment() {
         const val TAG: String = "CHECK_RESPONSE"
     }
 
+    private val autoRefreshHandler = Handler(Looper.getMainLooper())
+    private val autoRefreshRunnable = object : Runnable {
+        override fun run() {
+            if (sharedPreferences.getBoolean(
+                    "autoRefreshSwitch",
+                    true
+                )
+            ) { // Check if auto-refresh is enabled
+                processGroupedData() // Refresh data
+                val interval = sharedPreferences.getInt(
+                    "autoRefresh",
+                    10
+                ) * 1000L // Convert seconds to milliseconds
+                autoRefreshHandler.postDelayed(this, interval) // Schedule the next refresh
+            }
+        }
+    }
+
+    private lateinit var sharedPreferences: SharedPreferences
     private var conversionRate: Float? = null // Menyimpan nilai 1 USDT dalam IDR
     private lateinit var binding: FragmentHomeBinding
     private lateinit var dataAdapter: DataAdapter
@@ -62,12 +83,20 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        sharedPreferences =
+            requireContext().getSharedPreferences("user_settings", Context.MODE_PRIVATE)
+        val volumeValue = sharedPreferences.getFloat("volume", 0f)
+        val disableTrades = sharedPreferences.getBoolean("disableTradesSwitch", true)
+//        loadSettings()
 
         // Initialize and setup RecyclerView, Adapter, animations, and other listeners
         setupRecyclerViewAndListeners()
 
         // Start animation loop
         handler.post(animationRunnable)
+
+        // Start auto-refresh
+        startAutoRefresh()
 
         // Apply window insets for full-screen mode
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
@@ -81,9 +110,18 @@ class HomeFragment : Fragment() {
         // Set up the RecyclerView
         binding.rvData.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            dataAdapter = DataAdapter(dataList) // Adapter initialized with empty data
+            dataAdapter = DataAdapter(dataList, volumeValue) // Adapter initialized with empty data
             adapter = dataAdapter
         }
+
+        // Listener jika ada perubahan di SharedPreferences (opsional)
+        sharedPreferences.registerOnSharedPreferenceChangeListener { _, key ->
+            if (key == "volume") {
+                val updatedVolumeValue = sharedPreferences.getFloat("volume", 0f)
+                dataAdapter.updateVolumeValue(updatedVolumeValue) // Update Adapter
+            }
+        }
+
         getConvertPrice {
             processGroupedData()
         }
@@ -117,8 +155,52 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun startAutoRefresh() {
+        val interval =
+            sharedPreferences.getInt("autoRefresh", 10) * 1000L // Interval in milliseconds
+        autoRefreshHandler.postDelayed(autoRefreshRunnable, interval) // Start auto-refresh
+    }
+
+    private fun stopAutoRefresh() {
+        autoRefreshHandler.removeCallbacks(autoRefreshRunnable) // Stop auto-refresh
+    }
+
+//    private fun loadSettings() {
+//        with(sharedPreferences) {
+//            val disableTrades = getBoolean("disableTradesSwitch", true)
+//            val unknownStatus = getBoolean("unknownStatusSwitch", true)
+//            val volume = getFloat("volume", 0f)
+//            val autoRefresh = getInt("autoRefresh", 10)
+//            val autoRefreshSwitch = getBoolean("autoRefreshSwitch", true)
+//            val lowVolumeSwitch = getBoolean("lowVolumeSwitch", true)
+//
+//            // Contoh: Update UI berdasarkan data SharedPreferences
+//            binding.disableTradesSwitch.text =
+//                if (disableTrades) "Disable Trades Enabled" else "Disable Trades Disabled"
+//            binding.unknownStatusSwitch.text =
+//                if (unknownStatus) "Unknown Status Enabled" else "Unknown Status Disabled"
+//            binding.volumeText.text = "Volume: %.1f".format(volume)
+//            binding.refreshText.text = "Auto Refresh: $autoRefresh s"
+//            binding.volumeSwitch.text =
+//                if (lowVolumeSwitch) "Low Volume Enabled" else "Low Volume Disabled"
+//            binding.refreshSwitch.text =
+//                if (autoRefreshSwitch) "Auto Refresh ON" else "Auto Refresh OFF"
+//        }
+//    }
+
+
     private fun processGroupedData() {
-        val symbols = listOf("BTCUSDT", "ETHUSDT", "BONKUSDT", "FLOKIUSDT", "LUNCUSDT", "PEPEUSDT", "PUNDIXUSDT", "SHIBUSDT", "XECUSDT")
+        val symbols = listOf(
+            "BTCUSDT",
+            "ETHUSDT",
+            "BONKUSDT",
+            "FLOKIUSDT",
+            "LUNCUSDT",
+            "PEPEUSDT",
+            "PUNDIXUSDT",
+            "SHIBUSDT",
+            "XECUSDT"
+        )
         val symbols2 = listOf("ADAUSDT", "ZRXUSDT", "AEVOUSDT", "BNBUSDT", "PYTHUSDT", "TURBOUSDT")
         val groupedData = mutableMapOf<String, MutableList<DataModel>>()
         var remainingCalls = symbols.size * 2 + symbols2.size * 2 // Total API calls
@@ -154,9 +236,16 @@ class HomeFragment : Fragment() {
         }
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun calculateAndDisplayGroupedData(groupedData: Map<String, List<DataModel>>) {
         dataList.clear() // Hapus data lama
+
+        // Ambil nilai disableTradesSwitch, unknownStatusSwitch, dan lowVolumeSwitch dari SharedPreferences
+        val disableTradesSwitch = sharedPreferences.getBoolean("disableTradesSwitch", true)
+        val unknownStatusSwitch = sharedPreferences.getBoolean("unknownStatusSwitch", true)
+        val lowVolumeSwitch =
+            sharedPreferences.getBoolean("lowVolumeSwitch", true) // Ambil nilai lowVolumeSwitch
+        val volume = sharedPreferences.getFloat("volume", 0f)
+
         groupedData.forEach { (symbol, dataListGrouped) ->
             if (dataListGrouped.size >= 2) { // Pastikan ada minimal 2 data
                 val bestBuy = dataListGrouped.minByOrNull { it.buyValue }
@@ -165,24 +254,39 @@ class HomeFragment : Fragment() {
                 if (bestBuy != null && bestSell != null) {
                     // Periksa apakah BuyFrom dan SellAt berbeda
                     if (bestBuy.buyFrom != bestSell.sellAt) {
-                        val groupedModel = DataModel(
-                            difference = calculateDifference(bestSell.sellValue, bestBuy.buyValue), // Pass as Float
-                            differenceItem = symbol,
-                            buyFrom = bestBuy.buyFrom,
-                            sellAt = bestSell.sellAt,
-                            buyValue = bestBuy.buyValue,
-                            sellValue = bestSell.sellValue,
-                            buyVolume = bestBuy.buyVolume,
-                            sellVolume = bestSell.sellVolume
-                        )
+                        val differenceValue =
+                            calculateDifference(bestSell.sellValue, bestBuy.buyValue)
 
-                        // Tambahkan ke dataList utama
-                        dataList.add(groupedModel)
+                        // Filter berdasarkan nilai difference jika disableTradesSwitch false
+                        if (disableTradesSwitch || differenceValue >= 0.5) {
+                            // Jika unknownStatusSwitch false, pastikan buyValue dan sellValue bukan 0
+                            if (unknownStatusSwitch || (bestBuy.buyValue > 0 && bestSell.sellValue > 0)) {
+                                // Filter berdasarkan lowVolumeSwitch jika false
+                                if (lowVolumeSwitch || (bestBuy.buyVolume >= volume && bestSell.sellVolume >= volume)) {
+                                    val groupedModel = DataModel(
+                                        difference = differenceValue,
+                                        differenceItem = symbol,
+                                        buyFrom = bestBuy.buyFrom,
+                                        sellAt = bestSell.sellAt,
+                                        buyValue = bestBuy.buyValue,
+                                        sellValue = bestSell.sellValue,
+                                        buyVolume = bestBuy.buyVolume,
+                                        sellVolume = bestSell.sellVolume
+                                    )
 
-                        // Log hasil grouping
-                        Log.i(TAG, "Grouped Data: $groupedModel")
+                                    // Tambahkan ke dataList utama
+                                    dataList.add(groupedModel)
+
+                                    // Log hasil grouping
+                                    Log.i(TAG, "Grouped Data: $groupedModel")
+                                }
+                            }
+                        }
                     } else {
-                        Log.i(TAG, "Filtered out data with same BuyFrom and SellAt: BuyFrom=${bestBuy.buyFrom}, SellAt=${bestSell.sellAt}")
+                        Log.i(
+                            TAG,
+                            "Filtered out data with same BuyFrom and SellAt: BuyFrom=${bestBuy.buyFrom}, SellAt=${bestSell.sellAt}"
+                        )
                     }
                 }
             }
@@ -192,6 +296,7 @@ class HomeFragment : Fragment() {
         dataAdapter.notifyDataSetChanged()
         updateEmptyDataView()
     }
+
 
     private fun sortAndUpdateAdapter() {
         val sortedList = dataList.sortedByDescending { it.difference }
@@ -474,6 +579,7 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         handler.removeCallbacks(animationRunnable) // Hentikan loop ketika view dihancurkan
+        stopAutoRefresh() // Hentikan auto-refresh saat fragment dihancurkan
     }
 
     private fun setupRecyclerViewAndListeners() {

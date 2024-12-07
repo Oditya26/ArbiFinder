@@ -159,7 +159,7 @@ class SettingsFragment : Fragment() {
         // Set default values for each setting
         val defaultSettings = mapOf(
             "disableTradesSwitch" to true,
-            "unknownStatusSwitch" to true,
+            "unknownStatusSwitch" to false,
             "lowVolumeSwitch" to true,
             "autoRefreshSwitch" to true,
             "volume" to 0f,
