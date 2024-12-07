@@ -61,16 +61,6 @@
                     tools:ignore="ContentDescription" />
             </FrameLayout>
 
-<!--            <ImageView-->
-<!--                android:layout_width="70dp"-->
-<!--                android:layout_height="35dp"-->
-<!--                android:layout_marginLeft="8dp"-->
-<!--                android:layout_marginBottom="8dp"-->
-<!--                android:layout_marginTop="8dp"-->
-<!--                android:scaleType="centerCrop"-->
-<!--                android:src="@drawable/arbitrade_logo_2"-->
-<!--                tools:ignore="ContentDescription,RtlHardcoded" />-->
-
         </LinearLayout>
 
         <LinearLayout
@@ -153,46 +143,6 @@
             android:layout_marginTop="24dp"
             app:lottie_autoPlay="false"
             app:lottie_rawRes="@raw/anim" />
-
-<!--        <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:id="@+id/disableTradesSwitch"-->
-<!--            style="@style/DescriptionBoldTextStyle"-->
-<!--            android:textColor="@color/mercury"/>-->
-<!--        <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:id="@+id/unknownStatusSwitch"-->
-<!--            style="@style/DescriptionBoldTextStyle"-->
-<!--            android:textColor="@color/mercury"/>-->
-<!--        <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:id="@+id/volumeSwitch"-->
-<!--            style="@style/DescriptionBoldTextStyle"-->
-<!--            android:textColor="@color/mercury"/>-->
-
-<!--        <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:id="@+id/volumeText"-->
-<!--            style="@style/DescriptionBoldTextStyle"-->
-<!--            android:textColor="@color/mercury"/>-->
-
-<!--        <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:id="@+id/refreshSwitch"-->
-<!--            style="@style/DescriptionBoldTextStyle"-->
-<!--            android:textColor="@color/mercury"/>-->
-
-<!--        <TextView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:id="@+id/refreshText"-->
-<!--            style="@style/DescriptionBoldTextStyle"-->
-<!--            android:textColor="@color/mercury"/>-->
 
         <ScrollView
             android:layout_width="match_parent"

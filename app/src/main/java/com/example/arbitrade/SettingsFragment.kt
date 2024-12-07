@@ -77,11 +77,6 @@ class SettingsFragment : Fragment() {
 
         binding.disableTradesSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("disableTradesSwitch", isChecked) }
         binding.unknownStatusSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("unknownStatusSwitch", isChecked) }
-        binding.btcSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("btcSwitch", isChecked) }
-        binding.ethSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("ethSwitch", isChecked) }
-        binding.usdtSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("usdtSwitch", isChecked) }
-        binding.binanceSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("binanceSwitch", isChecked) }
-        binding.indodaxSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("indodaxSwitch", isChecked) }
 
         updateLowVolumeDescription(binding.lowVolumeSwitch.isChecked)
         binding.autoRefreshSeekbar.visibility = if (binding.autoRefreshSwitch.isChecked) View.VISIBLE else View.GONE
@@ -106,12 +101,6 @@ class SettingsFragment : Fragment() {
             val autoRefresh = getInt("autoRefresh", 10)
             binding.autoRefreshValue.text = "$autoRefresh s"
             binding.autoRefreshSeekbar.progress = (autoRefresh - 10).div(5)
-
-            binding.btcSwitch.isChecked = getBoolean("btcSwitch", true)
-            binding.ethSwitch.isChecked = getBoolean("ethSwitch", true)
-            binding.usdtSwitch.isChecked = getBoolean("usdtSwitch", true)
-            binding.binanceSwitch.isChecked = getBoolean("binanceSwitch", true)
-            binding.indodaxSwitch.isChecked = getBoolean("indodaxSwitch", true)
         }
     }
 
@@ -163,12 +152,7 @@ class SettingsFragment : Fragment() {
             "lowVolumeSwitch" to true,
             "autoRefreshSwitch" to true,
             "volume" to 0f,
-            "autoRefresh" to 10,
-            "btcSwitch" to true,
-            "ethSwitch" to true,
-            "usdtSwitch" to true,
-            "binanceSwitch" to true,
-            "indodaxSwitch" to true
+            "autoRefresh" to 10
         )
 
         // Update UI elements to reflect reset values and save to SharedPreferences

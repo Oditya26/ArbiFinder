@@ -80,4 +80,6 @@
     <string name="val_low_volume">0.0</string>
     <string name="val_auto_refresh">10s</string>
 
+    <string name="auto_refresh_data">Auto Refresh Data</string>
+
 </resources>
