@@ -30,5 +30,10 @@ class AboutFragment : Fragment() {
             v.setPadding(0, 0, 0, 0)
             insets
         }
+
+        // Set onClickListener for tutorial button
+        binding.tutorialBtn.setOnClickListener {
+            ImageViewerDialogFragment().show(parentFragmentManager, "ImageViewerDialog")
+        }
     }
 }

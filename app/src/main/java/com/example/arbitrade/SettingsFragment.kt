@@ -11,6 +11,7 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.SeekBar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -22,6 +23,7 @@ class SettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding
     private lateinit var sharedPreferences: SharedPreferences
+    private var isManualChange = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +44,36 @@ class SettingsFragment : Fragment() {
             v.setPadding(0, 0, 0, 0)
             insets
         }
+
+        // Add listener for the risk profile spinner
+        binding.userProfileRiskSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (isManualChange) {
+                    isManualChange = false
+                    return
+                }
+                when (position) {
+                    1 -> {
+                        applyRiskSettings("low") // Low Risk
+                        saveSettings("riskProfile", "low")  // Simpan pilihan
+                    }
+                    2 -> {
+                        applyRiskSettings("high") // High Risk
+                        saveSettings("riskProfile", "high")  // Simpan pilihan
+                    }
+                    else -> {
+                        applyRiskSettings("custom") // Custom
+                        saveSettings("riskProfile", "custom")  // Simpan pilihan
+                    }
+                }
+            }
+
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        // Monitor changes in settings
+        monitorSettingChanges()
 
         binding.volumeSeekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -85,6 +117,81 @@ class SettingsFragment : Fragment() {
         binding.btnResetSetting.setOnClickListener { showResetSettingsDialog() }
     }
 
+    private fun applyRiskSettings(riskLevel: String) {
+        when (riskLevel) {
+            "low" -> {
+                saveSettings("disableTradesSwitch", false)
+                saveSettings("unknownStatusSwitch", false)
+                saveSettings("lowVolumeSwitch", false)
+                saveSettings("volume", 1000f)
+                saveSettings("autoRefreshSwitch", true)
+                saveSettings("autoRefresh", 10)
+                saveSettings("riskProfile", "low")  // Save the risk profile as low
+                loadSettings() // Update UI with these settings
+                binding.userProfileRiskSpinner.setSelection(1) // Set to "Low Risk"
+            }
+            "high" -> {
+                saveSettings("disableTradesSwitch", true)
+                saveSettings("unknownStatusSwitch", false)
+                saveSettings("lowVolumeSwitch", true)
+                saveSettings("volume", 500f)
+                saveSettings("autoRefreshSwitch", true)
+                saveSettings("autoRefresh", 10)
+                saveSettings("riskProfile", "high")  // Save the risk profile as high
+                loadSettings() // Update UI with these settings
+                binding.userProfileRiskSpinner.setSelection(2) // Set to "High Risk"
+            }
+            "custom" -> {
+                saveSettings("riskProfile", "custom")  // For custom, save the risk profile as "custom"
+                loadSettings() // Update UI with these settings
+                binding.userProfileRiskSpinner.setSelection(0) // Set to "Custom"
+            }
+            else -> {
+                // For custom, save the risk profile as "custom"
+                saveSettings("riskProfile", "custom")
+                loadSettings() // Update UI with these settings
+                binding.userProfileRiskSpinner.setSelection(0) // Set to "Custom"
+            }
+        }
+    }
+
+
+
+
+    private fun monitorSettingChanges() {
+        // Listeners for manual changes
+        binding.volumeSeekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (fromUser) setSpinnerToCustom()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+        binding.autoRefreshSeekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (fromUser) setSpinnerToCustom()
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
+        // Switch change listeners
+        binding.autoRefreshSwitch.setOnCheckedChangeListener { _, _ -> setSpinnerToCustom() }
+        binding.lowVolumeSwitch.setOnCheckedChangeListener { _, _ -> setSpinnerToCustom() }
+        binding.disableTradesSwitch.setOnCheckedChangeListener { _, _ -> setSpinnerToCustom() }
+        binding.unknownStatusSwitch.setOnCheckedChangeListener { _, _ -> setSpinnerToCustom() }
+    }
+
+    private fun setSpinnerToCustom() {
+        if (!isManualChange) {
+            isManualChange = true
+            binding.userProfileRiskSpinner.setSelection(0) // Custom
+        }
+    }
+
     @SuppressLint("SetTextI18n")
     private fun loadSettings() {
         with(sharedPreferences) {
@@ -101,8 +208,17 @@ class SettingsFragment : Fragment() {
             val autoRefresh = getInt("autoRefresh", 10)
             binding.autoRefreshValue.text = "$autoRefresh s"
             binding.autoRefreshSeekbar.progress = (autoRefresh - 10).div(5)
+
+            // Load the user profile risk spinner setting
+            val riskProfile = getString("riskProfile", "custom")
+            when (riskProfile) {
+                "low" -> binding.userProfileRiskSpinner.setSelection(1)
+                "high" -> binding.userProfileRiskSpinner.setSelection(2)
+                else -> binding.userProfileRiskSpinner.setSelection(0) // Custom
+            }
         }
     }
+
 
     private fun saveSettings(key: String, value: Any) {
         with(sharedPreferences.edit()) {
@@ -110,6 +226,7 @@ class SettingsFragment : Fragment() {
                 is Boolean -> putBoolean(key, value)
                 is Float -> putFloat(key, value)
                 is Int -> putInt(key, value)
+                is String -> putString(key, value)
                 else -> throw IllegalArgumentException("Unsupported data type")
             }
             apply()
@@ -145,29 +262,31 @@ class SettingsFragment : Fragment() {
     }
 
     private fun resetSettings() {
-        // Set default values for each setting
+        // Reset to default values
         val defaultSettings = mapOf(
             "disableTradesSwitch" to true,
             "unknownStatusSwitch" to false,
             "lowVolumeSwitch" to true,
             "autoRefreshSwitch" to true,
             "volume" to 0f,
-            "autoRefresh" to 10
+            "autoRefresh" to 10,
+            "riskProfile" to "custom"
         )
 
-        // Update UI elements to reflect reset values and save to SharedPreferences
+        // Save and load the settings to update the UI
         with(sharedPreferences.edit()) {
             for ((key, value) in defaultSettings) {
                 when (value) {
                     is Boolean -> putBoolean(key, value)
                     is Float -> putFloat(key, value)
                     is Int -> putInt(key, value)
+                    is String -> putString(key, value)
                 }
             }
             apply()
         }
 
-        // Load settings to update UI
+        // Reload settings to update UI
         loadSettings()
     }
 }

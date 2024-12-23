@@ -172,7 +172,7 @@
                     android:paddingTop="3dp"
                     android:paddingBottom="12dp"
                     android:text="@string/vol"
-                    android:textColor="@color/bright_sun"/>
+                    android:textColor="@color/mercury"/>
                 <TextView
                     style="@style/DescriptionRegularTextStyle"
                     android:id="@+id/tvSellVolume"
@@ -183,7 +183,7 @@
                     android:paddingTop="3dp"
                     android:paddingBottom="12dp"
                     android:text="@string/vol_sell_at_value"
-                    android:textColor="@color/bright_sun"
+                    android:textColor="@color/mercury"
                     app:drawableStartCompat="@drawable/usdt" />
             </LinearLayout>
         </LinearLayout>

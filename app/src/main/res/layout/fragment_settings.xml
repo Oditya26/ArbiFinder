@@ -78,6 +78,78 @@
                     android:layout_marginRight="16dp"
                     android:layout_marginBottom="24dp"
                     android:gravity="center"
+                    android:text="@string/profile_risk"
+                    android:textColor="@color/mercury" />
+
+                <!-- User Profile Risk Section -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="16dp">
+
+                    <TextView
+                        android:id="@+id/user_profile_risk_text_bold"
+                        style="@style/DescriptionBoldTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginBottom="4dp"
+                        android:drawablePadding="9dp"
+                        android:paddingTop="16dp"
+                        android:text="@string/user_profile_risk"
+                        android:textColor="@color/mercury"
+                        app:drawableStartCompat="@drawable/baseline_manage_accounts_24" />
+
+                    <Spinner
+                        style="@style/DescriptionRegularTextStyle"
+                        android:gravity="center"
+                        android:id="@+id/user_profile_risk_spinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="24dp"
+                        android:padding="8dp"
+                        android:spinnerMode="dropdown"
+                        android:background="@drawable/rounded_corners"
+                        android:entries="@array/user_profile_risk_options"
+                        android:drawableEnd="@drawable/baseline_keyboard_arrow_down_17"/>
+
+                    <TextView
+                        style="@style/DescriptionRegularTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/user_profile_risk_text_bold"
+                        android:layout_alignStart="@+id/user_profile_risk_text_bold"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_toStartOf="@+id/user_profile_risk_spinner"
+                        android:text="@string/user_profile_risk_desc"
+                        android:textColor="@color/mercury" />
+                </RelativeLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
+
+                    android:background="@color/gunmetal" />
+
+                <TextView
+                    style="@style/DescriptionBoldTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="24dp"
+                    android:gravity="center"
                     android:text="@string/trade_management"
                     android:textColor="@color/mercury" />
 

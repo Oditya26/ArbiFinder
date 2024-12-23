@@ -82,4 +82,35 @@
 
     <string name="auto_refresh_data">Auto Refresh Data</string>
 
+    <string name="how_to_use_app">More Informations</string>
+    <string name="tutorial">Info App</string>
+
+    <string name="next">Next</string>
+    <string name="prev">Prev</string>
+    <string name="close">Close</string>
+
+    <style name="TransparentDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+    
+    <string name="profile_risk">Profile Risk</string>
+    <string name="user_profile_risk">User Profile Risk</string>
+    <string name="user_profile_risk_desc">Choose Your Profile Risk</string>
+    <string name="custom">Custom</string>
+    <string name="high_risk">High Risk</string>
+    <string name="low_risk">Low Risk</string>
+
+    <string-array name="user_profile_risk_options">
+        <item>Custom</item>
+        <item>Low Risk</item>
+        <item>High Risk</item>
+    </string-array>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
