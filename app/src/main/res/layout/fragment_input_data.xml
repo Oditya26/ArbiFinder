@@ -141,24 +141,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
-                    android:text="@string/pnl_profit_and_loss"
-                    android:textColor="@color/mercury" />
-
-                <EditText
-                    android:id="@+id/pnl"
-                    style="@style/DescriptionRegularTextStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:inputType="numberDecimal"
-                    android:textColor="@color/mercury"
-                    android:backgroundTint="@color/mercury"/>
-
-                <TextView
-                    style="@style/DescriptionBoldTextStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
                     android:text="@string/comment2"
                     android:textColor="@color/mercury" />
 

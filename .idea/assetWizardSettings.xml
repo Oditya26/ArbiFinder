@@ -321,8 +321,8 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="garbage_icon" />
-                            <entry key="sourceFile" value="D:\TUGAS BINUS\SEM.5\Mobile Application Programming\Project Arbitrade\Asset\garbage_icon.svg" />
+                            <entry key="outputName" value="minus_icon" />
+                            <entry key="sourceFile" value="D:\TUGAS BINUS\SEM.5\Mobile Application Programming\Project Arbitrade\Asset\minus_icon.svg" />
                           </map>
                         </option>
                       </PersistentState>
