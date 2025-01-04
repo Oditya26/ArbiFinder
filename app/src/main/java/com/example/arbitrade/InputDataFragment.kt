@@ -1,5 +1,6 @@
 package com.example.arbitrade
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.arbitrade.databinding.FragmentInputDataBinding
+import java.util.Calendar
 
 class InputDataFragment : Fragment() {
     private lateinit var binding: FragmentInputDataBinding
@@ -26,6 +28,11 @@ class InputDataFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Set up the DatePicker for the EditText
+        binding.datePicker.setOnClickListener {
+            showDatePickerDialog()
+        }
 
         // Check if data was passed from AiFragment (for editing)
         val bundle = arguments
@@ -78,5 +85,30 @@ class InputDataFragment : Fragment() {
                 Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun showDatePickerDialog() {
+        val calendar = Calendar.getInstance()
+
+        val datePickerDialog = DatePickerDialog(
+            requireContext(),
+            { _, year, month, dayOfMonth ->
+                // Set the date in DD/MM/YYYY format
+                val formattedDate = formatDate(dayOfMonth, month + 1, year)
+                binding.datePicker.setText(formattedDate)
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
+
+        datePickerDialog.show()
+    }
+
+    private fun formatDate(day: Int, month: Int, year: Int): String {
+        // Ensure the day and month are always 2 digits
+        val dayFormatted = String.format("%02d", day)
+        val monthFormatted = String.format("%02d", month)
+        return "$dayFormatted/$monthFormatted/$year"
     }
 }

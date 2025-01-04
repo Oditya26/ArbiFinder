@@ -27,8 +27,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ai_icon"
-                android:scaleType="fitCenter" />
+                android:scaleType="fitCenter"
+                android:src="@drawable/ai_icon" />
         </LinearLayout>
 
         <ScrollView
@@ -38,40 +38,48 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="32dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp">
+                android:layout_marginTop="32dp"
+                android:layout_marginRight="16dp"
+                android:orientation="vertical">
 
                 <TextView
                     style="@style/DescriptionBoldTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
-                    android:textColor="@color/mercury"
-                    android:text="@string/date"/>
+                    android:text="@string/date"
+                    android:textColor="@color/mercury" />
+
                 <EditText
-                    style="@style/DescriptionRegularTextStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/datePicker"
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:textColor="@color/mercury"/>
+                    android:backgroundTint="@color/mercury"
+                    android:textColorHint="@color/mercury"
+                    android:clickable="true"
+                    android:focusable="false"
+                    android:hint="Select Date"
+                    android:textColor="@color/mercury" />
 
                 <TextView
                     style="@style/DescriptionBoldTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
-                    android:textColor="@color/mercury"
-                    android:text="@string/symbol"/>
+                    android:text="@string/symbol"
+                    android:textColor="@color/mercury" />
+
                 <EditText
-                    style="@style/DescriptionRegularTextStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/symbol"
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:textColor="@color/mercury"/>
+                    android:textColor="@color/mercury"
+                    android:backgroundTint="@color/mercury"/>
 
 
                 <TextView
@@ -79,83 +87,93 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
-                    android:textColor="@color/mercury"
-                    android:text="@string/buy_price_in_usdt"/>
+                    android:text="@string/buy_price_in_usdt"
+                    android:textColor="@color/mercury" />
+
                 <EditText
-                    style="@style/DescriptionRegularTextStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/buyPrice"
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
+                    android:inputType="numberDecimal"
                     android:textColor="@color/mercury"
-                    android:inputType="numberDecimal"/>
+                    android:backgroundTint="@color/mercury"/>
 
                 <TextView
                     style="@style/DescriptionBoldTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
-                    android:textColor="@color/mercury"
-                    android:text="@string/sell_price_in_usdt"/>
+                    android:text="@string/sell_price_in_usdt"
+                    android:textColor="@color/mercury" />
+
                 <EditText
-                    style="@style/DescriptionRegularTextStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/sellPrice"
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
+                    android:inputType="numberDecimal"
                     android:textColor="@color/mercury"
-                    android:inputType="numberDecimal"/>
+                    android:backgroundTint="@color/mercury"/>
 
                 <TextView
                     style="@style/DescriptionBoldTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
-                    android:textColor="@color/mercury"
-                    android:text="@string/amount_in_usdt"/>
+                    android:text="@string/amount_in_usdt"
+                    android:textColor="@color/mercury" />
+
                 <EditText
-                    style="@style/DescriptionRegularTextStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/amount"
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
+                    android:inputType="numberDecimal"
                     android:textColor="@color/mercury"
-                    android:inputType="numberDecimal"/>
+                    android:backgroundTint="@color/mercury"/>
 
                 <TextView
                     style="@style/DescriptionBoldTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
-                    android:textColor="@color/mercury"
-                    android:text="@string/pnl_profit_and_loss"/>
+                    android:text="@string/pnl_profit_and_loss"
+                    android:textColor="@color/mercury" />
+
                 <EditText
-                    style="@style/DescriptionRegularTextStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:id="@+id/pnl"
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
+                    android:inputType="numberDecimal"
                     android:textColor="@color/mercury"
-                    android:inputType="numberDecimal"/>
+                    android:backgroundTint="@color/mercury"/>
 
                 <TextView
                     style="@style/DescriptionBoldTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
-                    android:textColor="@color/mercury"
-                    android:text="@string/comment2"/>
+                    android:text="@string/comment2"
+                    android:textColor="@color/mercury" />
+
                 <EditText
+                    android:id="@+id/comment"
                     style="@style/DescriptionRegularTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/comment"
                     android:layout_marginBottom="16dp"
-                    android:textColor="@color/mercury"/>
+                    android:textColor="@color/mercury"
+                    android:backgroundTint="@color/mercury"/>
 
                 <Button
-                    style="@style/DescriptionBoldTextStyle"
                     android:id="@+id/btnSubmit"
+                    style="@style/DescriptionBoldTextStyle"
                     android:layout_width="100dp"
                     android:layout_height="0dp"
                     android:layout_gravity="center"
@@ -168,8 +186,8 @@
                     android:paddingRight="4dp"
                     android:paddingBottom="12dp"
                     android:text="@string/submit"
-                    android:textColor="@color/dark_jungle_green"
-                    />
+                    android:textColor="@color/dark_jungle_green" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="500dp" />
