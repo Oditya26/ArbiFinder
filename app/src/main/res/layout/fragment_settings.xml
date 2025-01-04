@@ -117,7 +117,9 @@
                         android:spinnerMode="dropdown"
                         android:background="@drawable/rounded_corners"
                         android:entries="@array/user_profile_risk_options"
+                        android:popupTheme="@style/SpinnerItemStyle"
                         android:drawableEnd="@drawable/baseline_keyboard_arrow_down_17"/>
+
 
                     <TextView
                         style="@style/DescriptionRegularTextStyle"

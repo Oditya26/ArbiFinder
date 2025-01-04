@@ -1,23 +1,24 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Arbitrade" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="Base.Theme.Arbitrade" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your AppCompat theme here -->
-        <item name="colorPrimary">@color/bright_sun</item>
+        <item name="colorPrimary">@color/mercury</item>
         <item name="colorOnPrimary">@color/mercury</item>
-        <item name="colorSecondary">@color/dark_jungle_green</item>
+        <item name="colorSecondary">@color/mercury</item>
         <item name="colorOnSecondary">@color/mercury</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
     </style>
 
     <style name="HeaderTextStyle">
         <item name="android:fontFamily">@font/montserrat_semibold</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">56sp</item> <!-- Sesuaikan ukuran -->
+        <item name="android:textSize">40sp</item> <!-- Sesuaikan ukuran -->
     </style>
 
     <!-- Title Style (Montserrat Medium) -->
     <style name="TitleTextStyle">
         <item name="android:fontFamily">@font/montserrat_medium</item>
-        <item name="android:textSize">28sp</item> <!-- Sesuaikan ukuran -->
+        <item name="android:textSize">20sp</item> <!-- Sesuaikan ukuran -->
     </style>
 
     <!-- Description Bold (Montserrat Semibold) -->

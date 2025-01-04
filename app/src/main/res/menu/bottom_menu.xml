@@ -12,5 +12,8 @@
         android:id="@+id/bottom_about"
         android:icon="@drawable/baseline_info_24"
         android:title=""/>
-
+    <item
+        android:id="@+id/bottom_ai"
+        android:icon="@drawable/ai_icon"
+        android:title=""/>
 </menu>

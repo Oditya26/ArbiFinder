@@ -15,18 +15,24 @@ material = "1.12.0"
 activity = "1.8.0"
 constraintlayout = "2.1.4"
 fragment = "1.8.4"
+navigationFragmentKtxVersion = "2.8.5"
+navigationSafeArgsGradlePlugin = "2.8.5"
 navigationUiKtx = "2.8.3"
 navigationFragmentKtx = "2.8.3"
 googleServices = "4.4.2"
 firebaseDatabase = "21.0.0"
 firebaseFirestore = "25.1.1"
+navigationUiKtxVersion = "2.8.5"
 okhttp = "4.9.3"
 retrofit = "2.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-navigation-fragment-ktx-v285 = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtxVersion" }
+androidx-navigation-safe-args-gradle-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigationSafeArgsGradlePlugin" }
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationUiKtx" }
 androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
+androidx-navigation-ui-ktx-v285 = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationUiKtxVersion" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }

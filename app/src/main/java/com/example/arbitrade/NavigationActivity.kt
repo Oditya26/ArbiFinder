@@ -34,13 +34,34 @@ class NavigationActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
             insets
         }
 
-        binding.bottomNavigationView.selectedItemId = R.id.bottom_home
-        // Set listener for navigation item selection
-        binding.bottomNavigationView.setOnItemSelectedListener(this)
+        // Ambil fragment terakhir yang dikunjungi
+        currentItemId = getLastVisitedFragment()
+        binding.bottomNavigationView.selectedItemId = currentItemId
 
-        // Load the home fragment initially
-        loadFragment(HomeFragment(), true)
+        // Muat fragment terakhir
+        val selectedFragment: Fragment = when (currentItemId) {
+            R.id.bottom_home -> HomeFragment()
+            R.id.bottom_settings -> SettingsFragment()
+            R.id.bottom_about -> AboutFragment()
+            R.id.bottom_ai -> AiFragment()
+            else -> HomeFragment()
+        }
+        loadFragment(selectedFragment, true)
+
+        // Set listener untuk navigasi item
+        binding.bottomNavigationView.setOnItemSelectedListener(this)
     }
+
+    private fun saveLastVisitedFragment(itemId: Int) {
+        val preferences = getSharedPreferences("NavigationPreferences", MODE_PRIVATE)
+        preferences.edit().putInt("lastVisitedFragment", itemId).apply()
+    }
+
+    private fun getLastVisitedFragment(): Int {
+        val preferences = getSharedPreferences("NavigationPreferences", MODE_PRIVATE)
+        return preferences.getInt("lastVisitedFragment", R.id.bottom_home) // Default ke Home
+    }
+
 
     override fun onClick(v: View?) {
         when (v?.id) {
@@ -57,6 +78,11 @@ class NavigationActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
             R.id.bottom_about -> {
                 if (currentItemId != R.id.bottom_about) {
                     startActivityWithAnimation(AboutFragment::class.java, currentItemId)
+                }
+            }
+            R.id.bottom_ai -> {
+                if (currentItemId != R.id.bottom_ai) {
+                    startActivityWithAnimation(AiFragment::class.java, currentItemId)
                 }
             }
         }
@@ -81,6 +107,13 @@ class NavigationActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
                 }
             }
             R.id.bottom_about -> {
+                if (targetActivity == AiFragment::class.java) {
+                    R.anim.slide_in_right to R.anim.slide_out_left
+                } else {
+                    R.anim.slide_in_left to R.anim.slide_out_right
+                }
+            }
+            R.id.bottom_ai -> {
                 // About ke halaman lain: Animasi dari kiri ke kanan
                 R.anim.slide_in_left to R.anim.slide_out_right
             }
@@ -103,18 +136,23 @@ class NavigationActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         if (item.itemId == currentItemId) return true
 
-        // Select the animation based on current and new fragment
         val selectedFragment: Fragment = when (item.itemId) {
             R.id.bottom_home -> HomeFragment()
             R.id.bottom_settings -> SettingsFragment()
             R.id.bottom_about -> AboutFragment()
+            R.id.bottom_ai -> AiFragment()
             else -> return false
         }
 
         loadFragment(selectedFragment, false)
         currentItemId = item.itemId
+
+        // Simpan fragment terakhir yang dikunjungi
+        saveLastVisitedFragment(currentItemId)
+
         return true
     }
+
 
     private fun loadFragment(fragment: Fragment, isInitial: Boolean) {
         val enterAnim: Int
@@ -136,6 +174,15 @@ class NavigationActivity : AppCompatActivity(), NavigationBarView.OnItemSelected
                 }
             }
             R.id.bottom_about -> {
+                if (fragment is AiFragment) {
+                    enterAnim = R.anim.slide_in_right
+                    exitAnim = R.anim.slide_out_left
+                } else {
+                    enterAnim = R.anim.slide_in_left
+                    exitAnim = R.anim.slide_out_right
+                }
+            }
+            R.id.bottom_ai -> {
                 enterAnim = R.anim.slide_in_left
                 exitAnim = R.anim.slide_out_right
             }

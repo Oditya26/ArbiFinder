@@ -95,7 +95,7 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
-    
+
     <string name="profile_risk">Profile Risk</string>
     <string name="user_profile_risk">User Profile Risk</string>
     <string name="user_profile_risk_desc">Choose Your Profile Risk</string>
@@ -110,6 +110,30 @@
     </string-array>
 
 
+    <string name="ai_advice_for_you">AI advice for you :</string>
+    <string name="ai_advice_content">Be grateful for everything you have today.</string>
+    <string name="date">Date</string>
+    <string name="symbol">Symbol</string>
+    <string name="buy_price">Buy Price</string>
+    <string name="sell_price">Sell Price</string>
+    <string name="amount">Amount</string>
+    <string name="pnl">PnL</string>
+    <string name="buy_price_in_usdt">Buy Price (in USDT)</string>
+    <string name="sell_price_in_usdt">Sell Price (in USDT)</string>
+    <string name="amount_in_usdt">Amount (in USDT)</string>
+    <string name="pnl_profit_and_loss">PnL (Profit and Loss)</string>
+
+    <string name="date_calendar">11/12/2024</string>
+    <string name="btcusdt">BTCUSDT</string>
+    <string name="buy_price_value">500</string>
+    <string name="sell_price_value">550</string>
+    <string name="amount_value">480</string>
+    <string name="pnl_value">0.20</string>
+
+    <string name="comment">Comment : </string>
+    <string name="comment2">Comment</string>
+    <string name="submit">Submit</string>
+    <string name="comment_content">"Perfect timing to buy."</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

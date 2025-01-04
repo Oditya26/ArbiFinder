@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("kotlin-parcelize")
     id("com.google.gms.google-services")
+    id ("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -63,4 +64,6 @@ dependencies {
     implementation (libs.converter.gson)
     implementation (libs.logging.interceptor)
     implementation (libs.okhttp)
+    implementation (libs.androidx.navigation.fragment.ktx.v285)
+    implementation (libs.androidx.navigation.ui.ktx.v285)
 }

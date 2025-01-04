@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/inputDataFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_jungle_green"
+    tools:context=".InputDataFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:background="@drawable/rounded_corners"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            tools:ignore="RtlHardcoded">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ai_icon"
+                android:scaleType="fitCenter" />
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="32dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp">
+
+                <TextView
+                    style="@style/DescriptionBoldTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:textColor="@color/mercury"
+                    android:text="@string/date"/>
+                <EditText
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/datePicker"
+                    android:layout_marginBottom="16dp"
+                    android:textColor="@color/mercury"/>
+
+                <TextView
+                    style="@style/DescriptionBoldTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:textColor="@color/mercury"
+                    android:text="@string/symbol"/>
+                <EditText
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/symbol"
+                    android:layout_marginBottom="16dp"
+                    android:textColor="@color/mercury"/>
+
+
+                <TextView
+                    style="@style/DescriptionBoldTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:textColor="@color/mercury"
+                    android:text="@string/buy_price_in_usdt"/>
+                <EditText
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/buyPrice"
+                    android:layout_marginBottom="16dp"
+                    android:textColor="@color/mercury"
+                    android:inputType="numberDecimal"/>
+
+                <TextView
+                    style="@style/DescriptionBoldTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:textColor="@color/mercury"
+                    android:text="@string/sell_price_in_usdt"/>
+                <EditText
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/sellPrice"
+                    android:layout_marginBottom="16dp"
+                    android:textColor="@color/mercury"
+                    android:inputType="numberDecimal"/>
+
+                <TextView
+                    style="@style/DescriptionBoldTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:textColor="@color/mercury"
+                    android:text="@string/amount_in_usdt"/>
+                <EditText
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/amount"
+                    android:layout_marginBottom="16dp"
+                    android:textColor="@color/mercury"
+                    android:inputType="numberDecimal"/>
+
+                <TextView
+                    style="@style/DescriptionBoldTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:textColor="@color/mercury"
+                    android:text="@string/pnl_profit_and_loss"/>
+                <EditText
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/pnl"
+                    android:layout_marginBottom="16dp"
+                    android:textColor="@color/mercury"
+                    android:inputType="numberDecimal"/>
+
+                <TextView
+                    style="@style/DescriptionBoldTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:textColor="@color/mercury"
+                    android:text="@string/comment2"/>
+                <EditText
+                    style="@style/DescriptionRegularTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/comment"
+                    android:layout_marginBottom="16dp"
+                    android:textColor="@color/mercury"/>
+
+                <Button
+                    style="@style/DescriptionBoldTextStyle"
+                    android:id="@+id/btnSubmit"
+                    android:layout_width="100dp"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_corners"
+                    android:backgroundTint="@color/bright_sun"
+                    android:gravity="center"
+                    android:paddingLeft="4dp"
+                    android:paddingTop="12dp"
+                    android:paddingRight="4dp"
+                    android:paddingBottom="12dp"
+                    android:text="@string/submit"
+                    android:textColor="@color/dark_jungle_green"
+                    />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp" />
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+</RelativeLayout>

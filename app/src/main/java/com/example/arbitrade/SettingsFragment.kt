@@ -37,13 +37,24 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        loadSettings()
+
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(0, 0, 0, 0)
             insets
         }
+
+        // Data untuk spinner
+        val riskOptions = resources.getStringArray(R.array.user_profile_risk_options).toList()
+
+        // Custom adapter untuk spinner
+        val customAdapter = CustomSpinnerAdapter(
+            requireContext(),
+            R.layout.spinner_item,
+            riskOptions
+        )
+        binding.userProfileRiskSpinner.adapter = customAdapter
 
         // Add listener for the risk profile spinner
         binding.userProfileRiskSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -71,6 +82,8 @@ class SettingsFragment : Fragment() {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
+
+        loadSettings()
 
         // Monitor changes in settings
         monitorSettingChanges()
