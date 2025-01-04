@@ -8,16 +8,10 @@ import com.example.arbitrade.databinding.ItemRowDataTradesBinding
 
 // TradeAdapter.kt
 class TradeAdapter(
-    var tradeList: List<TradeData>, // Use immutable List
+    var tradeList: MutableList<TradeData>, // Make this mutable to update the list
     private val onDelete: (TradeData) -> Unit,
     private val onEdit: (TradeData) -> Unit
 ) : RecyclerView.Adapter<TradeAdapter.TradeViewHolder>() {
-
-    // Called to update the list in the adapter
-    fun updateData(newList: List<TradeData>) {
-        tradeList = newList
-        notifyDataSetChanged() // Notify RecyclerView that the data has changed
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TradeViewHolder {
         val binding = ItemRowDataTradesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -40,11 +34,11 @@ class TradeAdapter(
             binding.tvSellPrice.text = trade.sellPrice.toString()
             binding.tvAmount.text = trade.amount.toString()
             binding.tvPnl.text = trade.pnl.toString()
-            binding.tvCommentContent.text = trade.comment // Correct binding for comment
+            binding.tvCommentContent.text = trade.comment
 
             // Handle Delete button click
             binding.btnDelete.setOnClickListener {
-                onDelete(trade)
+                onDelete(trade) // Delete the trade immediately
             }
 
             // Handle Edit button click
@@ -54,4 +48,3 @@ class TradeAdapter(
         }
     }
 }
-

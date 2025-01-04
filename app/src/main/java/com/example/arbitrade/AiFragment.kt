@@ -1,8 +1,5 @@
 package com.example.arbitrade
 
-import TradeViewModel
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,24 +20,24 @@ class AiFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentAiBinding.inflate(inflater, container, false)
-        tradeViewModel = ViewModelProvider(requireActivity()).get(TradeViewModel::class.java)
+        tradeViewModel = ViewModelProvider(requireActivity())[TradeViewModel::class.java]
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Initialize ViewModel with SharedPreferences context
+        tradeViewModel.initSharedPreferences(requireContext())
+
         // Set up RecyclerView
         tradeAdapter = TradeAdapter(
             tradeList = mutableListOf(), // Empty list initially
             onDelete = { trade ->
-                tradeViewModel.deleteTrade(trade)
+                tradeViewModel.deleteTrade(trade) // Delete the trade immediately
             },
             onEdit = { trade ->
-                // Get position from the view model's tradeList
                 val tradeList = tradeViewModel.tradeList.value ?: emptyList()
-
-                // Find the position of the trade item
                 val position = tradeList.indexOf(trade)
 
                 val bundle = Bundle().apply {
@@ -51,7 +48,7 @@ class AiFragment : Fragment() {
                     putFloat("amount", trade.amount ?: 0f)
                     putFloat("pnl", trade.pnl ?: 0f)
                     putString("comment", trade.comment)
-                    putInt("editPosition", position) // Passing the index as edit position
+                    putInt("editPosition", position)
                 }
 
                 val inputDataFragment = InputDataFragment().apply {
@@ -73,7 +70,7 @@ class AiFragment : Fragment() {
         // Observe the tradeList LiveData for changes
         tradeViewModel.tradeList.observe(viewLifecycleOwner) { updatedList ->
             tradeAdapter.tradeList = updatedList
-            tradeAdapter.notifyDataSetChanged()
+            tradeAdapter.notifyDataSetChanged() // Notify the adapter to refresh the list
         }
 
         // Add new trade on button click

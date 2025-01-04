@@ -1,8 +1,5 @@
 package com.example.arbitrade
 
-import TradeViewModel
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +20,7 @@ class InputDataFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentInputDataBinding.inflate(inflater, container, false)
-        tradeViewModel = ViewModelProvider(requireActivity()).get(TradeViewModel::class.java)
+        tradeViewModel = ViewModelProvider(requireActivity())[TradeViewModel::class.java]
         return binding.root
     }
 
