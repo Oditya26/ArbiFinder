@@ -1,6 +1,7 @@
 package com.example.arbitrade
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.arbitrade.databinding.FragmentAiBinding
+import com.example.arbitrade.gemini.Content
+import com.example.arbitrade.gemini.GeminiRequest
+import com.example.arbitrade.gemini.GeminiResponse
+import com.example.arbitrade.gemini.RetrofitClient
+import retrofit2.Call
+import com.example.arbitrade.gemini.Part
+import retrofit2.Callback
+import retrofit2.Response
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
@@ -22,7 +31,6 @@ class AiFragment : Fragment() {
 
     private val tradeList: List<TradeData>
         get() = tradeViewModel.tradeList.value ?: emptyList()
-
 
     private lateinit var binding: FragmentAiBinding
     private lateinit var tradeViewModel: TradeViewModel
@@ -39,6 +47,10 @@ class AiFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Set the loading animation visible and TextView hidden initially
+        binding.loadingDataAnim.visibility = View.VISIBLE
+        binding.tvAiAdvice.visibility = View.GONE
 
         currentSortColumn = SortColumn.DATE // Default column
         isAscendingSort = false // Default descending order
@@ -115,7 +127,72 @@ class AiFragment : Fragment() {
             0
         )
 
+        // Example: Get advice for the trade with the latest date
+        val latestTrade = tradeList
+            .mapNotNull { parseDate(it.date)?.let { date -> it to date } } // Only consider trades with valid dates
+            .maxByOrNull { it.second } // Get the trade with the latest date
+
+        latestTrade?.let { (trade, _) ->
+            val date = trade.date
+            val pnl = trade.pnl
+            val comment = trade.comment
+
+            val promptText = """
+            Date: $date
+            PnL (Profit and Loss): $pnl
+            Comment: $comment
+            Give advice 8-15 words
+        """.trimIndent()
+
+            // Log the prompt text to Logcat
+            Log.d("AiFragment", "Prompt Text: $promptText")
+
+            val apiKey = "AIzaSyB1ZvyJDYSeWEmqlmOfXD8gqjEDPZyQSXU"
+            generateContent(apiKey, promptText)
+        }
+
     }
+    fun generateContent(apiKey: String, text: String) {
+        // Show the loading animation
+        binding.loadingDataAnim.visibility = View.VISIBLE
+        binding.tvAiAdvice.visibility = View.GONE // Hide the TextView initially
+
+        val request = GeminiRequest(
+            contents = listOf(Content(parts = listOf(Part(text = text))))
+        )
+
+        RetrofitClient.geminiApiService.generateContent(apiKey, request).enqueue(object : Callback<GeminiResponse> {
+            override fun onResponse(call: Call<GeminiResponse>, response: Response<GeminiResponse>) {
+                // Hide the loading animation
+                binding.loadingDataAnim.visibility = View.GONE
+
+                if (response.isSuccessful) {
+                    val geminiResponse = response.body()
+                    geminiResponse?.let {
+                        // Set the generated content into the TextView
+                        val aiAdviceText = it.candidates.firstOrNull()?.content?.parts?.firstOrNull()?.text
+                        binding.tvAiAdvice.text = aiAdviceText ?: "No advice generated"
+                    }
+                } else {
+                    // Handle API error
+                    binding.tvAiAdvice.text = "API error: ${response.errorBody()?.string()}"
+                }
+
+                // Make the TextView visible after loading
+                binding.tvAiAdvice.visibility = View.VISIBLE
+            }
+
+            override fun onFailure(call: Call<GeminiResponse>, t: Throwable) {
+                // Hide the loading animation on failure
+                binding.loadingDataAnim.visibility = View.GONE
+                binding.tvAiAdvice.text = "Request failed: ${t.message}"
+
+                // Make the TextView visible after loading
+                binding.tvAiAdvice.visibility = View.VISIBLE
+            }
+        })
+    }
+
 
     private fun sortAndUpdateAdapter() {
         val sortedList = when (currentSortColumn) {

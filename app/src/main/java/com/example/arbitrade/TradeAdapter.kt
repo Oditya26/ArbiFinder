@@ -1,7 +1,7 @@
 package com.example.arbitrade
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
@@ -26,7 +26,7 @@ class TradeAdapter(
 
         // Apply slide-in-left animation only if the item is being displayed for the first time
         if (holder.itemView.animation == null) {
-            val animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.slide_in_left)
+            val animation = AnimationUtils.loadAnimation(holder.itemView.context, R.anim.slide_in_right)
             holder.itemView.startAnimation(animation)
         }
     }
@@ -37,11 +37,14 @@ class TradeAdapter(
 
     inner class TradeViewHolder(private val binding: ItemRowDataTradesBinding) : RecyclerView.ViewHolder(binding.root) {
 
+        @SuppressLint("SetTextI18n")
         fun bind(trade: TradeData) {
             binding.tvDate.text = trade.date
             binding.tvSymbol.text = trade.symbol
-            binding.tvBuyPrice.text = String.format("%.4f", trade.buyPrice) // Format buyPrice
-            binding.tvSellPrice.text = String.format("%.4f", trade.sellPrice) // Format sellPrice
+            binding.tvBuyPrice.text = formatPrice(trade.buyPrice)
+            binding.tvSellPrice.text = formatPrice(trade.sellPrice)
+
+
             binding.tvAmount.text = trade.amount.toString()
 
             val pnl = trade.pnl
@@ -60,7 +63,7 @@ class TradeAdapter(
                 }
             }
 
-            binding.tvCommentContent.text = trade.comment
+            binding.tvCommentContent.text = "\"${trade.comment}\""
 
             // Handle Delete button click
             binding.btnDelete.setOnClickListener {
@@ -74,10 +77,26 @@ class TradeAdapter(
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateData(newData: List<TradeData>) {
         this.tradeList.clear()
         this.tradeList.addAll(newData)
         notifyDataSetChanged()
     }
 
+    // Fungsi untuk memformat harga
+
+    // Fungsi untuk memformat harga
+    private fun formatPrice(price: Float?): String {
+        return if (price != null) {
+            val formattedPrice = String.format("%.4f", price) // Format 4 desimal
+            if (formattedPrice.endsWith(",0000")) {
+                formattedPrice.substringBefore(",") // Ambil hanya bagian sebelum titik
+            } else {
+                formattedPrice.trimEnd('0').trimEnd(',') // Hilangkan trailing zeros
+            }
+        } else {
+            "N/A" // Tampilkan nilai default jika null
+        }
+    }
 }

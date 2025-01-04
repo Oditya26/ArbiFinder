@@ -134,7 +134,5 @@
     <string name="comment2">Comment</string>
     <string name="submit">Submit</string>
     <string name="comment_content">"Perfect timing to buy."</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
