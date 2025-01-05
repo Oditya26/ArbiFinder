@@ -67,13 +67,19 @@ class AiFragment : Fragment() {
             onDelete = { trade ->
                 tradeViewModel.deleteTrade(trade)
 
-                // Cari data dengan tanggal paling baru
-                val latestTrade = tradeViewModel.tradeList.value
-                    ?.mapNotNull { parseDate(it.date)?.let { date -> it to date } }
-                    ?.maxByOrNull { it.second }
+                // Jika tradeList kosong setelah penghapusan, tampilkan animasi loading
+                if (tradeViewModel.tradeList.value.isNullOrEmpty()) {
+                    binding.loadingDataAnim.visibility = View.VISIBLE
+                    binding.tvAiAdvice.visibility = View.GONE
+                } else {
+                    // Cari data dengan tanggal paling baru
+                    val latestTrade = tradeViewModel.tradeList.value
+                        ?.mapNotNull { parseDate(it.date)?.let { date -> it to date } }
+                        ?.maxByOrNull { it.second }
 
-                latestTrade?.let { (latestTradeData, _) ->
-                    generatePromptForLatestTrade(latestTradeData)
+                    latestTrade?.let { (latestTradeData, _) ->
+                        generatePromptForLatestTrade(latestTradeData)
+                    }
                 }
             },
             onEdit = { trade ->

@@ -79,7 +79,6 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:gravity="center"
-                    android:text="@string/ai_advice_content"
                     android:textColor="@color/mercury" />
 
                 <ImageView
