@@ -7,5 +7,6 @@
     <color name="bright_sun">#FED32C</color>
     <color name="green">#43E327</color>
     <color name="red">#D62626</color>
+    <color name="transparent">#00000000</color>
 
 </resources>
