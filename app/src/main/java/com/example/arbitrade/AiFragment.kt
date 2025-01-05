@@ -1,5 +1,6 @@
 package com.example.arbitrade
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -36,6 +37,8 @@ class AiFragment : Fragment() {
     private lateinit var tradeViewModel: TradeViewModel
     private lateinit var tradeAdapter: TradeAdapter
 
+    private val apiKey = "AIzaSyB1ZvyJDYSeWEmqlmOfXD8gqjEDPZyQSXU"
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -62,7 +65,16 @@ class AiFragment : Fragment() {
         tradeAdapter = TradeAdapter(
             tradeList = mutableListOf(), // Empty list initially
             onDelete = { trade ->
-                tradeViewModel.deleteTrade(trade) // Delete the trade immediately
+                tradeViewModel.deleteTrade(trade)
+
+                // Cari data dengan tanggal paling baru
+                val latestTrade = tradeViewModel.tradeList.value
+                    ?.mapNotNull { parseDate(it.date)?.let { date -> it to date } }
+                    ?.maxByOrNull { it.second }
+
+                latestTrade?.let { (latestTradeData, _) ->
+                    generatePromptForLatestTrade(latestTradeData)
+                }
             },
             onEdit = { trade ->
                 val tradeList = tradeViewModel.tradeList.value ?: emptyList()
@@ -147,12 +159,30 @@ class AiFragment : Fragment() {
             // Log the prompt text to Logcat
             Log.d("AiFragment", "Prompt Text: $promptText")
 
-            val apiKey = "AIzaSyB1ZvyJDYSeWEmqlmOfXD8gqjEDPZyQSXU"
+
             generateContent(apiKey, promptText)
         }
 
     }
-    fun generateContent(apiKey: String, text: String) {
+
+    private fun generatePromptForLatestTrade(trade: TradeData) {
+        val date = trade.date
+        val pnl = trade.pnl
+        val comment = trade.comment
+
+        val promptText = """
+        Date: $date
+        PnL (Profit and Loss): $pnl
+        Comment: $comment
+        Give advice 8-15 words
+    """.trimIndent()
+
+        Log.d("AiFragment", "Generated Prompt: $promptText")
+
+        generateContent(apiKey, promptText)
+    }
+
+    private fun generateContent(apiKey: String, text: String) {
         // Show the loading animation
         binding.loadingDataAnim.visibility = View.VISIBLE
         binding.tvAiAdvice.visibility = View.GONE // Hide the TextView initially
@@ -162,6 +192,7 @@ class AiFragment : Fragment() {
         )
 
         RetrofitClient.geminiApiService.generateContent(apiKey, request).enqueue(object : Callback<GeminiResponse> {
+            @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call<GeminiResponse>, response: Response<GeminiResponse>) {
                 // Hide the loading animation
                 binding.loadingDataAnim.visibility = View.GONE
@@ -182,6 +213,7 @@ class AiFragment : Fragment() {
                 binding.tvAiAdvice.visibility = View.VISIBLE
             }
 
+            @SuppressLint("SetTextI18n")
             override fun onFailure(call: Call<GeminiResponse>, t: Throwable) {
                 // Hide the loading animation on failure
                 binding.loadingDataAnim.visibility = View.GONE
