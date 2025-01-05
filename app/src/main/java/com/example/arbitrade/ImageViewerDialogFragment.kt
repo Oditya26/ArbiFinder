@@ -1,7 +1,9 @@
 package com.example.arbitrade
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -14,7 +16,8 @@ class ImageViewerDialogFragment : DialogFragment() {
     private lateinit var binding: FragmentImageViewerDialogBinding
     private val imageResources = listOf(
         R.drawable.tutor1,
-        R.drawable.tutor2
+        R.drawable.tutor2,
+        R.drawable.tutor3
     )
     private var currentIndex = 0
 
@@ -26,11 +29,12 @@ class ImageViewerDialogFragment : DialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentImageViewerDialogBinding.inflate(inflater, container, false)
         return binding.root
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -42,15 +46,17 @@ class ImageViewerDialogFragment : DialogFragment() {
             dismiss()
         }
 
-        // Image click navigation
-        binding.imageView.setOnClickListener {
-            val halfWidth = binding.imageView.width / 2
-            val clickX = it.x
-            if (clickX < halfWidth) {
-                navigateToPrevious()
-            } else {
-                navigateToNext()
+        // Image touch navigation
+        binding.imageView.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_UP) {
+                val halfWidth = binding.imageView.width / 2
+                if (event.x < halfWidth) {
+                    navigateToPrevious()
+                } else {
+                    navigateToNext()
+                }
             }
+            true
         }
     }
 
@@ -91,12 +97,10 @@ class ImageViewerDialogFragment : DialogFragment() {
         }
     }
 
-
     private fun updateIndicators() {
         binding.indicatorContainer.children.forEachIndexed { index, view ->
             val drawable = if (index == currentIndex) R.drawable.indicator_active else R.drawable.indicator_inactive
             (view as ImageView).setImageResource(drawable)
         }
     }
-
 }
