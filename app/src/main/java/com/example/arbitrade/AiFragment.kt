@@ -53,6 +53,7 @@ class AiFragment : Fragment() {
 
         // Set the loading animation visible and TextView hidden initially
         binding.loadingDataAnim.visibility = View.VISIBLE
+        binding.noSignalAnim.visibility = View.GONE
         binding.tvAiAdvice.visibility = View.GONE
 
         currentSortColumn = SortColumn.DATE // Default column
@@ -191,6 +192,7 @@ class AiFragment : Fragment() {
     private fun generateContent(apiKey: String, text: String) {
         // Show the loading animation
         binding.loadingDataAnim.visibility = View.VISIBLE
+        binding.noSignalAnim.visibility = View.GONE
         binding.tvAiAdvice.visibility = View.GONE // Hide the TextView initially
 
         val request = GeminiRequest(
@@ -200,9 +202,8 @@ class AiFragment : Fragment() {
         RetrofitClient.geminiApiService.generateContent(apiKey, request).enqueue(object : Callback<GeminiResponse> {
             @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call<GeminiResponse>, response: Response<GeminiResponse>) {
-                // Hide the loading animation
                 binding.loadingDataAnim.visibility = View.GONE
-
+                binding.noSignalAnim.visibility = View.GONE
                 if (response.isSuccessful) {
                     val geminiResponse = response.body()
                     geminiResponse?.let {
@@ -223,11 +224,18 @@ class AiFragment : Fragment() {
             override fun onFailure(call: Call<GeminiResponse>, t: Throwable) {
                 // Hide the loading animation on failure
                 binding.loadingDataAnim.visibility = View.GONE
-                binding.tvAiAdvice.text = "Request failed: ${t.message}"
 
-                // Make the TextView visible after loading
-                binding.tvAiAdvice.visibility = View.VISIBLE
+                if (t.message?.contains("Unable to resolve host") == true) {
+                    // Tampilkan animasi no_signal_anim jika tidak ada koneksi
+                    binding.noSignalAnim.visibility = View.VISIBLE
+                    binding.tvAiAdvice.visibility = View.GONE
+                } else {
+                    // Tampilkan pesan kesalahan lainnya
+                    binding.tvAiAdvice.text = "Request failed: ${t.message}"
+                    binding.tvAiAdvice.visibility = View.VISIBLE
+                }
             }
+
         })
     }
 
