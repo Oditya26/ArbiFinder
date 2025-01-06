@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import android.view.LayoutInflater
@@ -18,7 +17,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.arbitrade.databinding.FragmentSettingsBinding
 
-@Suppress("DEPRECATION")
 class SettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding
@@ -59,29 +57,32 @@ class SettingsFragment : Fragment() {
         // Add listener for the risk profile spinner
         binding.userProfileRiskSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (isManualChange) {
-                    isManualChange = false
-                    return
-                }
                 when (position) {
-                    1 -> {
-                        applyRiskSettings("low") // Low Risk
-                        saveSettings("riskProfile", "low")  // Simpan pilihan
+                    0 -> { // Custom
+                        isManualChange = true
+                        applyRiskSettings("custom")
+                        saveSettings("riskProfile", "custom")
                     }
-                    2 -> {
-                        applyRiskSettings("high") // High Risk
-                        saveSettings("riskProfile", "high")  // Simpan pilihan
+                    1 -> { // Low Risk
+                        if (isManualChange) {
+                            isManualChange = false
+                        }
+                        applyRiskSettings("low")
+                        saveSettings("riskProfile", "low")
                     }
-                    else -> {
-                        applyRiskSettings("custom") // Custom
-                        saveSettings("riskProfile", "custom")  // Simpan pilihan
+                    2 -> { // High Risk
+                        if (isManualChange) {
+                            isManualChange = false
+                        }
+                        applyRiskSettings("high")
+                        saveSettings("riskProfile", "high")
                     }
                 }
             }
 
-
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
+
 
         loadSettings()
 
@@ -93,6 +94,7 @@ class SettingsFragment : Fragment() {
                 val volumeValue = progress * 50.0f
                 binding.volumeValue.text = String.format("%.1f", volumeValue).replace(',', '.')
                 saveSettings("volume", volumeValue)
+                if (fromUser) setSpinnerToCustom()
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
@@ -104,6 +106,7 @@ class SettingsFragment : Fragment() {
                 val autoRefreshValue = 10 + (progress * 5)
                 binding.autoRefreshValue.text = "$autoRefreshValue s"
                 saveSettings("autoRefresh", autoRefreshValue)
+                if (fromUser) setSpinnerToCustom()
             }
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
@@ -113,15 +116,24 @@ class SettingsFragment : Fragment() {
             binding.autoRefreshSeekbar.visibility = if (isChecked) View.VISIBLE else View.GONE
             binding.autoRefreshValue.visibility = if (isChecked) View.VISIBLE else View.GONE
             saveSettings("autoRefreshSwitch", isChecked)
+            setSpinnerToCustom() // Set spinner to custom when manual change occurs
         }
 
         binding.lowVolumeSwitch.setOnCheckedChangeListener { _, isChecked ->
             updateLowVolumeDescription(isChecked)
             saveSettings("lowVolumeSwitch", isChecked)
+            setSpinnerToCustom() // Set spinner to custom when manual change occurs
         }
 
-        binding.disableTradesSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("disableTradesSwitch", isChecked) }
-        binding.unknownStatusSwitch.setOnCheckedChangeListener { _, isChecked -> saveSettings("unknownStatusSwitch", isChecked) }
+        binding.disableTradesSwitch.setOnCheckedChangeListener { _, isChecked ->
+            saveSettings("disableTradesSwitch", isChecked)
+            setSpinnerToCustom() // Set spinner to custom when manual change occurs
+        }
+
+        binding.unknownStatusSwitch.setOnCheckedChangeListener { _, isChecked ->
+            saveSettings("unknownStatusSwitch", isChecked)
+            setSpinnerToCustom() // Set spinner to custom when manual change occurs
+        }
 
         updateLowVolumeDescription(binding.lowVolumeSwitch.isChecked)
         binding.autoRefreshSeekbar.visibility = if (binding.autoRefreshSwitch.isChecked) View.VISIBLE else View.GONE
@@ -203,6 +215,9 @@ class SettingsFragment : Fragment() {
             isManualChange = true
             binding.userProfileRiskSpinner.setSelection(0) // Custom
         }
+
+        saveSettings("riskProfile", "custom")
+        loadSettings() // Update UI with these settings
     }
 
     @SuppressLint("SetTextI18n")
@@ -252,11 +267,8 @@ class SettingsFragment : Fragment() {
         } else {
             "<u><b>Hide</b></u> Low Volume Trades if volume is less than :"
         }
-        binding.lowVolumeDesc.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        binding.lowVolumeDesc.text =
             Html.fromHtml(description, Html.FROM_HTML_MODE_COMPACT)
-        } else {
-            Html.fromHtml(description)
-        }
     }
 
     private fun showResetSettingsDialog() {
