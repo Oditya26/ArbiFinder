@@ -99,7 +99,7 @@
 
                     <Button
                         style="@style/DescriptionBoldTextStyle"
-                        android:textSize="11sp"
+                        android:textSize="10sp"
                         android:id="@+id/btnDate"
                         android:layout_width="10dp"
                         android:layout_height="60dp"
@@ -120,7 +120,7 @@
 
                     <Button
                         style="@style/DescriptionBoldTextStyle"
-                        android:textSize="11sp"
+                        android:textSize="10sp"
                         android:id="@+id/btnSymbol"
                         android:layout_width="10dp"
                         android:layout_height="60dp"
@@ -141,7 +141,7 @@
 
                     <Button
                         style="@style/DescriptionBoldTextStyle"
-                        android:textSize="11sp"
+                        android:textSize="10sp"
                         android:id="@+id/btnBuyPrice"
                         android:layout_width="10dp"
                         android:layout_height="60dp"
@@ -161,7 +161,7 @@
                         />
                     <Button
                         style="@style/DescriptionBoldTextStyle"
-                        android:textSize="11sp"
+                        android:textSize="10sp"
                         android:id="@+id/btnSellPrice"
                         android:layout_width="10dp"
                         android:layout_height="60dp"
@@ -181,7 +181,7 @@
                         />
                     <Button
                         style="@style/DescriptionBoldTextStyle"
-                        android:textSize="11sp"
+                        android:textSize="10sp"
                         android:id="@+id/btnAmount"
                         android:layout_width="10dp"
                         android:layout_height="60dp"
@@ -201,7 +201,7 @@
                         />
                     <Button
                         style="@style/DescriptionBoldTextStyle"
-                        android:textSize="11sp"
+                        android:textSize="10sp"
                         android:id="@+id/btnPnl"
                         android:layout_width="10dp"
                         android:layout_height="60dp"
