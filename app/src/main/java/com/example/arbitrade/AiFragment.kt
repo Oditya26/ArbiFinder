@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.arbitrade.databinding.FragmentAiBinding
 import com.example.arbitrade.gemini.Content
@@ -16,6 +17,8 @@ import com.example.arbitrade.gemini.GeminiResponse
 import com.example.arbitrade.gemini.RetrofitClient
 import retrofit2.Call
 import com.example.arbitrade.gemini.Part
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import retrofit2.Callback
 import retrofit2.Response
 import java.time.LocalDate
@@ -189,54 +192,89 @@ class AiFragment : Fragment() {
         generateContent(apiKey, promptText)
     }
 
+    private fun retryAfterDelay(delayMillis: Long, action: () -> Unit) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            delay(delayMillis) // Tunggu sesuai delay
+            action() // Eksekusi ulang aksi
+        }
+    }
+
     private fun generateContent(apiKey: String, text: String) {
+        val maxRetryCount = 3 // Jumlah maksimum percobaan
+        var currentRetry = 0
         // Show the loading animation
-        binding.loadingDataAnim.visibility = View.VISIBLE
-        binding.noSignalAnim.visibility = View.GONE
-        binding.tvAiAdvice.visibility = View.GONE // Hide the TextView initially
+        fun attemptRequest() {
+            binding.loadingDataAnim.visibility = View.VISIBLE
+            binding.noSignalAnim.visibility = View.GONE
+            binding.tvAiAdvice.visibility = View.GONE // Hide the TextView initially
 
-        val request = GeminiRequest(
-            contents = listOf(Content(parts = listOf(Part(text = text))))
-        )
+            val request = GeminiRequest(
+                contents = listOf(Content(parts = listOf(Part(text = text))))
+            )
 
-        RetrofitClient.geminiApiService.generateContent(apiKey, request).enqueue(object : Callback<GeminiResponse> {
-            @SuppressLint("SetTextI18n")
-            override fun onResponse(call: Call<GeminiResponse>, response: Response<GeminiResponse>) {
-                binding.loadingDataAnim.visibility = View.GONE
-                binding.noSignalAnim.visibility = View.GONE
-                if (response.isSuccessful) {
-                    val geminiResponse = response.body()
-                    geminiResponse?.let {
-                        // Set the generated content into the TextView
-                        val aiAdviceText = it.candidates.firstOrNull()?.content?.parts?.firstOrNull()?.text
-                        binding.tvAiAdvice.text = aiAdviceText ?: "No advice generated"
+            RetrofitClient.geminiApiService.generateContent(apiKey, request)
+                .enqueue(object : Callback<GeminiResponse> {
+                    @SuppressLint("SetTextI18n")
+                    override fun onResponse(
+                        call: Call<GeminiResponse>,
+                        response: Response<GeminiResponse>
+                    ) {
+                        binding.loadingDataAnim.visibility = View.GONE
+                        binding.noSignalAnim.visibility = View.GONE
+                        if (response.isSuccessful) {
+                            val geminiResponse = response.body()
+                            geminiResponse?.let {
+                                // Set the generated content into the TextView
+                                val aiAdviceText =
+                                    it.candidates.firstOrNull()?.content?.parts?.firstOrNull()?.text
+                                binding.tvAiAdvice.text = aiAdviceText ?: "No advice generated"
+                            }
+                        } else {
+                            // Handle API error
+                            binding.tvAiAdvice.text = "API error: ${response.errorBody()?.string()}"
+                        }
+
+                        // Make the TextView visible after loading
+                        binding.tvAiAdvice.visibility = View.VISIBLE
                     }
-                } else {
-                    // Handle API error
-                    binding.tvAiAdvice.text = "API error: ${response.errorBody()?.string()}"
-                }
 
-                // Make the TextView visible after loading
-                binding.tvAiAdvice.visibility = View.VISIBLE
-            }
+                    @SuppressLint("SetTextI18n")
+                    override fun onFailure(call: Call<GeminiResponse>, t: Throwable) {
+                        // Hide the loading animation on failure
+                        binding.loadingDataAnim.visibility = View.GONE
 
-            @SuppressLint("SetTextI18n")
-            override fun onFailure(call: Call<GeminiResponse>, t: Throwable) {
-                // Hide the loading animation on failure
-                binding.loadingDataAnim.visibility = View.GONE
+                        if (t.message?.contains("Unable to resolve host") == true) {
+                            // Tampilkan animasi no_signal_anim jika tidak ada koneksi
+                            binding.noSignalAnim.visibility = View.VISIBLE
+                            binding.tvAiAdvice.visibility = View.GONE
+                            // Retry jika masih ada kesempatan
+                            if (currentRetry < maxRetryCount) {
+                                currentRetry++
+                                Log.w(
+                                    "AiFragment",
+                                    "Request failed, retrying... ($currentRetry/$maxRetryCount)"
+                                )
 
-                if (t.message?.contains("Unable to resolve host") == true) {
-                    // Tampilkan animasi no_signal_anim jika tidak ada koneksi
-                    binding.noSignalAnim.visibility = View.VISIBLE
-                    binding.tvAiAdvice.visibility = View.GONE
-                } else {
-                    // Tampilkan pesan kesalahan lainnya
-                    binding.tvAiAdvice.text = "Request failed: ${t.message}"
-                    binding.tvAiAdvice.visibility = View.VISIBLE
-                }
-            }
+                                // Jalankan ulang dengan jeda 10 detik
+                                retryAfterDelay(10_000L) {
+                                    attemptRequest()
+                                }
+                            } else {
+                                binding.tvAiAdvice.text =
+                                    "No Signal!"
+                                binding.tvAiAdvice.visibility = View.VISIBLE
+                                binding.noSignalAnim.visibility = View.VISIBLE
+                            }
+                        } else {
+                            // Tampilkan pesan kesalahan lainnya
+                            binding.tvAiAdvice.text = "Request failed: ${t.message}"
+                            binding.tvAiAdvice.visibility = View.VISIBLE
+                        }
+                    }
 
-        })
+                })
+        }
+        attemptRequest() // Mulai request pertama
     }
 
 
