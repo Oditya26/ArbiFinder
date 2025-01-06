@@ -62,12 +62,12 @@
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/loading_data_anim"
-                    android:layout_width="150dp"
-                    android:layout_height="75dp"
+                    android:layout_width="115dp"
+                    android:layout_height="54dp"
                     android:layout_gravity="center"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/loading_anim"/>
+                    app:lottie_rawRes="@raw/loading_anim" />
 
                 <TextView
                     android:id="@+id/tvAiAdvice"
@@ -99,7 +99,7 @@
 
                     <Button
                         style="@style/DescriptionBoldTextStyle"
-                        android:textSize="10sp"
+                        android:textSize="11sp"
                         android:id="@+id/btnDate"
                         android:layout_width="10dp"
                         android:layout_height="60dp"
@@ -120,7 +120,7 @@
 
                     <Button
                         style="@style/DescriptionBoldTextStyle"
-                        android:textSize="10sp"
+                        android:textSize="11sp"
                         android:id="@+id/btnSymbol"
                         android:layout_width="10dp"
                         android:layout_height="60dp"
@@ -141,7 +141,7 @@
 
                     <Button
                         style="@style/DescriptionBoldTextStyle"
-                        android:textSize="10sp"
+                        android:textSize="11sp"
                         android:id="@+id/btnBuyPrice"
                         android:layout_width="10dp"
                         android:layout_height="60dp"
@@ -161,7 +161,7 @@
                         />
                     <Button
                         style="@style/DescriptionBoldTextStyle"
-                        android:textSize="10sp"
+                        android:textSize="11sp"
                         android:id="@+id/btnSellPrice"
                         android:layout_width="10dp"
                         android:layout_height="60dp"
@@ -181,7 +181,7 @@
                         />
                     <Button
                         style="@style/DescriptionBoldTextStyle"
-                        android:textSize="10sp"
+                        android:textSize="11sp"
                         android:id="@+id/btnAmount"
                         android:layout_width="10dp"
                         android:layout_height="60dp"
@@ -201,7 +201,7 @@
                         />
                     <Button
                         style="@style/DescriptionBoldTextStyle"
-                        android:textSize="10sp"
+                        android:textSize="11sp"
                         android:id="@+id/btnPnl"
                         android:layout_width="10dp"
                         android:layout_height="60dp"
