@@ -110,7 +110,7 @@
     </string-array>
 
 
-    <string name="ai_advice_for_you">AI advice for you :</string>
+    <string name="ai_advice_for_you">Gemini AI advice for you :</string>
     <string name="ai_advice_content">Be grateful for everything you have today.</string>
     <string name="date">Date</string>
     <string name="symbol">Symbol</string>
@@ -134,5 +134,6 @@
     <string name="comment2">Comment</string>
     <string name="submit">Submit</string>
     <string name="comment_content">"Perfect timing to buy."</string>
+    <string name="trading_journal">Trading Journal</string>
 
 </resources>

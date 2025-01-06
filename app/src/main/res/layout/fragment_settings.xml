@@ -94,15 +94,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:layout_marginStart="16dp"
                         android:layout_marginLeft="16dp"
                         android:layout_marginRight="16dp"
-                        android:layout_marginBottom="4dp"
-                        android:drawablePadding="9dp"
+                        android:layout_marginBottom="8dp"
+                        android:drawablePadding="16dp"
                         android:paddingTop="16dp"
                         android:text="@string/user_profile_risk"
                         android:textColor="@color/mercury"
-                        app:drawableStartCompat="@drawable/baseline_manage_accounts_24" />
+                        app:drawableStartCompat="@drawable/profile_icon" />
 
                     <Spinner
                         style="@style/DescriptionRegularTextStyle"

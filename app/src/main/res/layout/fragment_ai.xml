@@ -16,19 +16,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:layout_gravity="center"
             android:layout_margin="8dp"
             android:background="@drawable/rounded_corners"
             android:orientation="horizontal"
             android:padding="16dp"
             tools:ignore="RtlHardcoded">
 
-            <ImageView
+            <TextView
+                style="@style/TitleTextStyle"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/ai_icon"
-                android:scaleType="fitCenter" />
+                android:gravity="center"
+                android:text="@string/trading_journal"
+                android:textColor="@color/mercury" />
         </LinearLayout>
 
         <ScrollView
@@ -40,13 +41,22 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <ImageView
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="32dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ai_icon"
+                    tools:ignore="ContentDescription" />
+
                 <TextView
                     style="@style/DescriptionBoldTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="32dp"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginBottom="24dp"
                     android:gravity="center"
