@@ -154,8 +154,8 @@
 
 
                 <Button
-                    style="@style/DescriptionBoldTextStyle"
                     android:id="@+id/tutorialBtn"
+                    style="@style/DescriptionBoldTextStyle"
                     android:layout_width="135dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -169,7 +169,202 @@
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
                     android:text="@string/tutorial"
-                    android:textColor="@color/mercury"/>
+                    android:textColor="@color/mercury" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginBottom="32dp"
+                    android:background="@color/gunmetal" />
+
+                <TextView
+                    style="@style/DescriptionBoldTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center"
+                    android:text="@string/team_member"
+                    android:textColor="@color/mercury" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- Baris 1 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginBottom="24dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_weight="1"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:layout_marginBottom="16dp"
+                                android:src="@drawable/profile_hafidz" />
+
+                            <TextView
+                                style="@style/DescriptionBoldTextStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/nama_hafidz"
+                                android:textColor="@color/mercury" />
+
+                            <TextView
+                                style="@style/DescriptionRegularTextStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/nim_hafidz"
+                                android:textColor="@color/mercury" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_weight="1"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:layout_marginBottom="16dp"
+                                android:src="@drawable/profile_brian" />
+
+                            <TextView
+                                style="@style/DescriptionBoldTextStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/nama_brian"
+                                android:textColor="@color/mercury" />
+
+                            <TextView
+                                style="@style/DescriptionRegularTextStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/nim_brian"
+                                android:textColor="@color/mercury" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Baris 2 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginBottom="24dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_weight="1"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:layout_marginBottom="16dp"
+                                android:src="@drawable/profile_raihan" />
+
+                            <TextView
+                                style="@style/DescriptionBoldTextStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/nama_raihan"
+                                android:textColor="@color/mercury" />
+
+                            <TextView
+                                style="@style/DescriptionRegularTextStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/nim_raihan"
+                                android:textColor="@color/mercury" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:layout_marginBottom="16dp"
+                                android:src="@drawable/profile_hilmi" />
+
+                            <TextView
+                                style="@style/DescriptionBoldTextStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/nama_hilmi"
+                                android:textColor="@color/mercury" />
+
+                            <TextView
+                                style="@style/DescriptionRegularTextStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/nim_hilmi"
+                                android:textColor="@color/mercury" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Baris 3 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:layout_marginBottom="24dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:layout_marginBottom="16dp"
+                                android:src="@drawable/profile_odit" />
+
+                            <TextView
+                                style="@style/DescriptionBoldTextStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/nama_odit"
+                                android:textColor="@color/mercury" />
+
+                            <TextView
+                                style="@style/DescriptionRegularTextStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/nim_odit"
+                                android:textColor="@color/mercury" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
 
 
                 <TextView

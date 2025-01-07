@@ -136,4 +136,21 @@
     <string name="comment_content">"Perfect timing to buy."</string>
     <string name="trading_journal">Trading Journal</string>
 
+    <string name="team_member">Team Members</string>
+
+    <string name="nama_hafidz">Ahmad Hafidz</string>
+    <string name="nim_hafidz">2602185721</string>
+
+    <string name="nama_brian">Brian Marcellino</string>
+    <string name="nim_brian">2602185684</string>
+
+    <string name="nama_raihan">Muh. Hafizh Raihan</string>
+    <string name="nim_raihan">2602183426</string>
+
+    <string name="nama_hilmi">Nasywa Hilmi C.</string>
+    <string name="nim_hilmi">2602185690</string>
+
+    <string name="nama_odit">Oditya Ridho D.</string>
+    <string name="nim_odit">2602217225</string>
+
 </resources>
