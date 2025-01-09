@@ -210,7 +210,6 @@ class AiFragment : Fragment() {
 
         val apiKey = getRandomApiKey()
         generateContent(apiKey, promptText)
-        generateContent(apiKey, promptText)
     }
 
     private fun retryAfterDelay(delayMillis: Long, action: () -> Unit) {
