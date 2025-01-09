@@ -24,6 +24,7 @@ import retrofit2.Response
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
+import kotlin.random.Random
 
 class AiFragment : Fragment() {
 
@@ -40,7 +41,25 @@ class AiFragment : Fragment() {
     private lateinit var tradeViewModel: TradeViewModel
     private lateinit var tradeAdapter: TradeAdapter
 
-    private val apiKey = "AIzaSyB1ZvyJDYSeWEmqlmOfXD8gqjEDPZyQSXU"
+    // Daftar API key
+    private val apiKeys = listOf(
+        "AIzaSyCjAa5aOei9NvNQ6BPRmqrAdRJqnXYe3MQ",
+        "AIzaSyAbApsGWOvyQnHoWdyamSXfImL4rDf9Q_E",
+        "AIzaSyC6LtgelKxa4KgSBd3IcmIte3S6VmJaKjo",
+        "AIzaSyAJ3oqG0j-VpKzihKAhpJ8SH7eqzFcx0Zk",
+        "AIzaSyBxZT72tkwpfZLEQFWAtCkQIfrjgSWPsWc",
+        "AIzaSyBrDeBaQ8i2z4FhiR5lt6fozFrr9uW2jbY",
+        "AIzaSyBFzi9TJulowuHFTeZDpZBZrio5vKyj_gw",
+        "AIzaSyAh_PPJrQHeOUzlQauO817xJG2gMu0sQd4",
+        "AIzaSyDQqJIzhEoSAO7qf50x4h-JF4oBEK6w9q4",
+        "AIzaSyAa6-c6BGNZrsaqO42CemXTrawqCBTIzaI",
+        "AIzaSyDexz3GucxalLUddiS5duHEPiQ6ixgpOsc"
+    )
+
+    // Fungsi untuk memilih API key secara acak
+    private fun getRandomApiKey(): String {
+        return apiKeys[Random.nextInt(apiKeys.size)]
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -169,7 +188,7 @@ class AiFragment : Fragment() {
             // Log the prompt text to Logcat
             Log.d("AiFragment", "Prompt Text: $promptText")
 
-
+            val apiKey = getRandomApiKey()
             generateContent(apiKey, promptText)
         }
 
@@ -189,6 +208,8 @@ class AiFragment : Fragment() {
 
         Log.d("AiFragment", "Generated Prompt: $promptText")
 
+        val apiKey = getRandomApiKey()
+        generateContent(apiKey, promptText)
         generateContent(apiKey, promptText)
     }
 
